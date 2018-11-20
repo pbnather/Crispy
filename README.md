@@ -1,0 +1,4 @@
+# ITSMAP Fall 2018 Aarhus University
+# Crispy – Cookbook & Meal Planner
+
+Crispy is an app to make storing recipes, planning meals and doing groceries, for the whole family, as easy as possible. An intuitive UI will allow users to quickly pick up a day, choose a recipe, and decide who is going to prepare it with just a few clicks. This app will make deciding about which meal should the family eat the next day – as well as who should take the actual responsibility of preparing it – smooth and efficient. Moreover it will enable users to have all of their families tasty recipes always in their pocket. Another useful feature will be  automatically created shopping list that contains all the necessary ingredients for the meals planned for the next few days. 
