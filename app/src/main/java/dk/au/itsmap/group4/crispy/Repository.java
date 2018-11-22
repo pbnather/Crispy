@@ -58,7 +58,11 @@ public class Repository {
     }
 
     public LiveData<Recipe> getRecipe(int id) {
-        return mRecipeDao.getRecipeById(id);
+        MutableLiveData data = new MutableLiveData<Recipe>();
+        data.setValue(new Recipe(1, "title", "description"));
+        return data;
+
+        // TODO: return mRecipeDao.getRecipeById(id);
     }
 
     public void insertRecipe (Recipe recipe) {

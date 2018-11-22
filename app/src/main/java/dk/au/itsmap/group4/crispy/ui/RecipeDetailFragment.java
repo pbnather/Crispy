@@ -4,20 +4,16 @@ import android.app.Activity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.Repository;
 import dk.au.itsmap.group4.crispy.database.entity.Recipe;
-import dk.au.itsmap.group4.crispy.viewmodel.RecipeDetailViewModel;
+import dk.au.itsmap.group4.crispy.viewmodel.RecipeViewModel;
 
 /**
  * A fragment representing a single Recipe detail screen.
@@ -27,8 +23,12 @@ import dk.au.itsmap.group4.crispy.viewmodel.RecipeDetailViewModel;
  */
 public class RecipeDetailFragment extends Fragment {
 
+    public static final String ARG_RECIPE_ID = "ARG_RECIPE_ID";
+
     private Recipe mRecipe;
-    private RecipeDetailViewModel mModel;
+    private RecipeViewModel mModel;
+
+    private int mRecipeId;
 
     public RecipeDetailFragment() {
     }
@@ -37,13 +37,23 @@ public class RecipeDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Observer<Recipe> recipeObserver = recipe -> {
-//            TODO: Update UI on Recipe onchange() method
-        };
+        mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
 
-        mModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
-//        TODO: Add MockRepository and send Recipe.id in the Intent
-//        mModel.getRecipe(1).observe(this, recipeObserver);
+        mRecipeId = getArguments().getInt(ARG_RECIPE_ID, 0);
+
+
+    }
+
+    private void updateView(Activity activity, View rootView, Recipe recipe) {
+        if(activity != null) {
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
+            if (appBarLayout != null) {
+                appBarLayout.setTitle(recipe.getTitle());
+            }
+        }
+
+        ((TextView) rootView.findViewById(R.id.recipe_detail)).setText(recipe.getDescription());
+        ((TextView) rootView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
     }
 
     @Override
@@ -52,16 +62,16 @@ public class RecipeDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.recipe_detail, container, false);
 
         Activity activity = this.getActivity();
-        CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
-            appBarLayout.setTitle("Test Title");
-        }
 
-        ((TextView) rootView.findViewById(R.id.recipe_detail)).setText("test \n test \n test  \n test" +
-                "test \n test \n test  \n test \n" +
-                "test \n test \n test  \n test \n" +
-                "test \n test \n test  \n test \n");
-        ((TextView) rootView.findViewById(R.id.recipe_description)).setText("ASFFSAFSAFaFSAFASFASFASF");
+        mModel.getRecipe(mRecipeId).observe(this, (recipe) -> {
+            updateView(activity, rootView, recipe);
+        });
+
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }
