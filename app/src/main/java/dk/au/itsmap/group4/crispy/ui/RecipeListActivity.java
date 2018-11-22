@@ -13,7 +13,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.entity.Recipe;
-import dk.au.itsmap.group4.crispy.viewmodel.RecipeListViewModel;
+import dk.au.itsmap.group4.crispy.viewmodel.RecipeViewModel;
+
+import static dk.au.itsmap.group4.crispy.ui.RecipeDetailFragment.ARG_RECIPE_ID;
 
 /**
  * An activity representing a list of Recipes. This activity
@@ -25,13 +27,15 @@ import dk.au.itsmap.group4.crispy.viewmodel.RecipeListViewModel;
  */
 public class RecipeListActivity extends AppCompatActivity implements RecipesRecyclerViewAdapter.OnRecipeClickListener {
 
+    public static final String EXTRA_RECIPE_ID = "EXTRA_RECIPE_ID";
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
 
-    private RecipeListViewModel mModel;
+    private RecipeViewModel mModel;
 
     private RecipesRecyclerViewAdapter mAdapter;
 
@@ -49,7 +53,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
         }
 
         // get view model
-        mModel = ViewModelProviders.of(this).get(RecipeListViewModel.class);
+        mModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
 
         // setup list adapters
         mAdapter = new RecipesRecyclerViewAdapter(this, this);
@@ -81,8 +85,10 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
 
     @Override
     public void onRecipeClicked(Recipe recipe) {
+        mModel.setSelectedRecipe(recipe);
         if (mTwoPane) {
             Bundle arguments = new Bundle();
+            arguments.putInt(ARG_RECIPE_ID, recipe.getId());
             RecipeDetailFragment fragment = new RecipeDetailFragment();
             fragment.setArguments(arguments);
             this.getSupportFragmentManager().beginTransaction()
@@ -90,6 +96,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
                     .commit();
         } else {
             Intent intent = new Intent(this, RecipeDetailActivity.class);
+            intent.putExtra("RECIPE_ID", recipe.getId());
             this.startActivity(intent);
         }
     }
