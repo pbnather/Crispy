@@ -3,9 +3,14 @@ package dk.au.itsmap.group4.crispy;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import dk.au.itsmap.group4.crispy.database.CrispyDatabase;
 import dk.au.itsmap.group4.crispy.database.dao.IngredientDao;
 import dk.au.itsmap.group4.crispy.database.dao.ProductDao;
@@ -39,7 +44,17 @@ public class Repository {
     }
 
     public LiveData<List<Recipe>> getRecipes() {
-        return mRecipeDao.getAll();
+
+        MutableLiveData data = new MutableLiveData<List<Recipe>>();
+        List<Recipe> list = new ArrayList<>();
+
+        list.add(new Recipe(1, "title", "description"));
+        list.add(new Recipe(2, "title 2", "gfds gg fdsgfdg fdg"));
+        list.add(new Recipe(3, "title 3", "descdsagfsdgription"));
+        data.setValue(list);
+        return data;
+
+        // TODO: return mRecipeDao.getAll();
     }
 
     public LiveData<Recipe> getRecipe(int id) {
