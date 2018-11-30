@@ -4,19 +4,17 @@ import android.app.Activity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.Repository;
-import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 import dk.au.itsmap.group4.crispy.viewmodel.RecipeDetailViewModel;
 
 /**
@@ -27,7 +25,6 @@ import dk.au.itsmap.group4.crispy.viewmodel.RecipeDetailViewModel;
  */
 public class RecipeDetailFragment extends Fragment {
 
-    private Recipe mRecipe;
     private RecipeDetailViewModel mModel;
 
     public RecipeDetailFragment() {
@@ -37,13 +34,11 @@ public class RecipeDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Observer<Recipe> recipeObserver = recipe -> {
-//            TODO: Update UI on Recipe onchange() method
-        };
-
         mModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
-//        TODO: Add MockRepository and send Recipe.id in the Intent
-//        mModel.getRecipe(1).observe(this, recipeObserver);
+        mModel.getRecipes().observe(getActivity(), recipes -> {
+            Toast.makeText(getActivity(), "SIZE: " + recipes.size(), Toast.LENGTH_SHORT).show();
+            Log.i("TOAST", "SIZE: " + recipes.size());
+        });
     }
 
     @Override

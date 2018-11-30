@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "306072768428",
+    "firebase_url": "https://itsmapcookbook.firebaseio.com",
+    "project_id": "itsmapcookbook",
+    "storage_bucket": "itsmapcookbook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306072768428:android:aff4705048b14fd5",
+        "android_client_info": {
+          "package_name": "dk.au.itsmap.group4.crispy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306072768428-6jhj7k61f9dcmih9m7t8t45ki43n9fm0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dk.au.itsmap.group4.crispy",
+            "certificate_hash": "acece48d6ccf94d17e452e3156a737b4de9b0ff2"
+          }
+        },
+        {
+          "client_id": "306072768428-16hcioafedroc67ekugnb0b85jurae1c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLhYhssJQIpg7aD-tfm0NsNBQOKFcDuXo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306072768428-16hcioafedroc67ekugnb0b85jurae1c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
