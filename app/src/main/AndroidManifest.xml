@@ -13,30 +13,30 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Crispy">
         <activity
             android:name=".ui.RecipeListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Crispy.NoActionBar">
 
         </activity>
         <activity
             android:name=".ui.RecipeDetailActivity"
             android:label="@string/title_recipe_detail"
             android:parentActivityName=".ui.RecipeListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/Crispy.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.au.itsmap.group4.crispy.ui.RecipeListActivity" />
         </activity>
-        <activity android:name=".ui.MealsPlan" >
+        <activity android:name=".ui.MealsPlan">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".ui.AddPlannedMeal" />
+        <activity android:name=".ui.AddPlannedMeal"/>
         <activity android:name=".ui.GroceryList" />
         <activity
             android:name=".ui.LoginActivity"

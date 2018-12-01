@@ -18,5 +18,12 @@
     <string name="cancel">CANCEL</string>
     <string name="all_recipies">ALL RECIPIES</string>
     <string name="prepares">Prepares:</string>
-    <string name="time">Time:</string>
+    <string name="time">Time</string>
+    <string name="mealName">Meal name</string>
+    <string name="mealDate">Choose the day</string>
+    <string name="mealTime">Choose the time</string>
+    <string name="person">Person:</string>
+    <string name="date">Date</string>
+    <string name="setDate">SET DATE</string>
+    <string name="setTime">SET TIME</string>
 </resources>

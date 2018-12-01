@@ -17,9 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.ui.AddPlannedMeal;
 import dk.au.itsmap.group4.crispy.ui.RecipeListActivity;
 
 
@@ -31,6 +34,7 @@ public class MealsPlanFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Activity mActivity;
     private Button btnRecipies;
+    private FloatingActionButton btnAddMeal;
     private View mView;
 
 
@@ -45,10 +49,18 @@ public class MealsPlanFragment extends Fragment {
         mView = inflater.inflate(R.layout.meals_plan_fragment, container, false);
         mActivity = this.getActivity();
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
+        btnAddMeal = mView.findViewById(R.id.btnAddMeal);
         btnRecipies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, RecipeListActivity.class);
+                mActivity.startActivity(intent);
+            }
+        });
+        btnAddMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, AddPlannedMeal.class);
                 mActivity.startActivity(intent);
             }
         });
@@ -81,7 +93,8 @@ public class MealsPlanFragment extends Fragment {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, RecipeListActivity.class);
+                //TODO: send meal id with the intent to be able to fill the form
+                Intent intent = new Intent(mActivity, AddPlannedMeal.class);
                 mActivity.startActivity(intent);
             }
         };
