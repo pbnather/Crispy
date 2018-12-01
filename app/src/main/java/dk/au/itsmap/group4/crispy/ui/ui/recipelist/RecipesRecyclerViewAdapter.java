@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui;
+package dk.au.itsmap.group4.crispy.ui.ui.recipelist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.database.entity.Recipe;
+import dk.au.itsmap.group4.crispy.model.IRecipe;
 
 
 // separating of OnClickListeners to Activity inspired by:
@@ -19,12 +19,12 @@ import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecyclerViewAdapter.ViewHolder> {
 
     public interface OnRecipeClickListener {
-        void onRecipeClicked(Recipe recipe);
+        void onRecipeClicked(IRecipe recipe);
     }
 
     private final Context mContext;
     private final OnRecipeClickListener mOnRecipeClickListener;
-    private List<Recipe> mValues;
+    private List<IRecipe> mValues;
 
 
     RecipesRecyclerViewAdapter(
@@ -36,7 +36,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         mValues = new ArrayList<>();
     }
 
-    public void setData(List<Recipe> newData) {
+    public void setData(List<IRecipe> newData) {
         this.mValues = newData;
         notifyDataSetChanged();
     }
@@ -69,7 +69,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 
-        void bind(final Recipe recipe) {
+        void bind(final IRecipe recipe) {
             if (recipe != null) {
                 mIdView.setText(recipe.getId());
                 mContentView.setText(recipe.getTitle());

@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.ui.ui.recipelist.RecipeListActivity;
 
 import android.view.MenuItem;
 

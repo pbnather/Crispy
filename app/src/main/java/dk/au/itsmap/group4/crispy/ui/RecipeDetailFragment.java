@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.ui.ui.recipelist.RecipeListActivity;
 import dk.au.itsmap.group4.crispy.viewmodel.RecipeDetailViewModel;
 
 /**

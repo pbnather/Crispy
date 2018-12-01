@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".ui.RecipeListActivity">
+    tools:context=".ui.ui.recipelist.RecipeListActivity">
 
     <!--
     This layout is a two-pane layout for the Recipes
@@ -27,7 +27,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="dk.au.itsmap.group4.crispy.ui.RecipeListActivity"
+        tools:context="dk.au.itsmap.group4.crispy.ui.ui.recipelist.RecipeListActivity"
         tools:listitem="@layout/recipe_list_content" />
 
     <FrameLayout

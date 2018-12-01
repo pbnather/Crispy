@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.viewmodel;
+package dk.au.itsmap.group4.crispy.ui.ui.recipelist;
 
 import android.app.Application;
 
@@ -9,7 +9,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
-import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.model.IRepository;
 
@@ -41,7 +40,7 @@ public class RecipeViewModel extends AndroidViewModel {
         return selectedRecipe;
     }
 
-    public void setSelectedRecipe(Recipe recipe) {
+    public void setSelectedRecipe(IRecipe recipe) {
         this.selectedRecipe.setValue(recipe);
     }
 }

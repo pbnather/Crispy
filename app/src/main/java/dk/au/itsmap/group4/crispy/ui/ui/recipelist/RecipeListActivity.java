@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui;
+package dk.au.itsmap.group4.crispy.ui.ui.recipelist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.database.entity.Recipe;
-import dk.au.itsmap.group4.crispy.viewmodel.RecipeViewModel;
+import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.ui.RecipeDetailActivity;
+import dk.au.itsmap.group4.crispy.ui.RecipeDetailFragment;
 
 
 /**
@@ -63,7 +64,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
         // observe for model changes
         mModel.getRecipes().observe(this, (recipeList) -> {
             if(mAdapter != null) {
-                // todo: mAdapter.setData(recipeList);
+                mAdapter.setData(recipeList);
             }
         });
 
@@ -84,7 +85,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
     }
 
     @Override
-    public void onRecipeClicked(Recipe recipe) {
+    public void onRecipeClicked(IRecipe recipe) {
         mModel.setSelectedRecipe(recipe);
         if (mTwoPane) {
             Bundle arguments = new Bundle();
