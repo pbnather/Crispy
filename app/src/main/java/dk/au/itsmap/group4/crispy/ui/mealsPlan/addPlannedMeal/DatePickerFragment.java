@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.addplannedmeal;
+package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

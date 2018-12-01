@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.account;
+package dk.au.itsmap.group4.crispy.ui.account;
 
 import androidx.lifecycle.ViewModelProviders;
 

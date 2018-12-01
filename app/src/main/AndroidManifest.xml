@@ -15,33 +15,33 @@
         android:supportsRtl="true"
         android:theme="@style/Crispy">
         <activity
-            android:name=".ui.ui.recipe.RecipeListActivity"
+            android:name=".ui.recipe.recipeList.RecipeListActivity"
             android:label="@string/app_name"
             android:theme="@style/Crispy.NoActionBar">
 
         </activity>
         <activity
-            android:name=".ui.ui.recipe.RecipeDetailActivity"
+            android:name=".ui.recipe.recipeDetail.RecipeDetailActivity"
             android:label="@string/title_recipe_detail"
-            android:parentActivityName=".ui.ui.recipe.RecipeListActivity"
+            android:parentActivityName=".ui.recipe.recipeList.RecipeListActivity"
             android:theme="@style/Crispy.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="dk.au.itsmap.group4.crispy.ui.ui.recipe.RecipeListActivity" />
+                android:value="dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity" />
         </activity>
-        <activity android:name=".ui.ui.mealsplan.MealsPlanActivity">
+        <activity android:name=".ui.mealsPlan.mealsList.MealsPlanActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".ui.AddPlannedMeal"/>
-        <activity android:name=".ui.GroceryList" />
+        <activity android:name=".ui.mealsPlan.addPlannedMeal.AddPlannedMealActivity"/>
+        <activity android:name=".ui.groceryList.GroceryListActivity" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.account.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".ui.Account"></activity>
+        <activity android:name=".ui.account.AccountActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.mealsplan;
+package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -21,9 +21,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
-import dk.au.itsmap.group4.crispy.ui.AddPlannedMeal;
+import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
+import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
+import dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal.AddPlannedMealActivity;
 import dk.au.itsmap.group4.crispy.ui.GenericRecyclerViewAdapter;
-import dk.au.itsmap.group4.crispy.ui.ui.recipe.RecipeListActivity;
 
 
 public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAdapter.OnRecyclerViewItemClickListener<IMeal> {
@@ -62,7 +63,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
         // add meal to plan button
         btnAddMeal.setOnClickListener(v -> {
-            Intent intent = new Intent(mActivity, AddPlannedMeal.class);
+            Intent intent = new Intent(mActivity, AddPlannedMealActivity.class);
             mActivity.startActivity(intent);
         });
 
@@ -94,7 +95,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
     @Override
     public void onItemClicked(IMeal meal) {
-        Intent intent = new Intent(mActivity, AddPlannedMeal.class);
+        Intent intent = new Intent(mActivity, AddPlannedMealActivity.class);
         mActivity.startActivity(intent);
     }
 

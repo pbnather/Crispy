@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.mealsplan;
+package dk.au.itsmap.group4.crispy.ui.mealsPlan;
 
 import java.util.List;
 
@@ -15,7 +15,6 @@ public class MealsPlanViewModel extends ViewModel {
 
     public MealsPlanViewModel() {
         mRepository = FSRepository.getInstance();
-
     }
 
     public LiveData<List<IMeal>> getAllMeals() {
@@ -27,6 +26,10 @@ public class MealsPlanViewModel extends ViewModel {
 
     public LiveData<IMeal> getMealById(String id) {
         return mRepository.getMealById(id);
+    }
+
+    public void saveMeal(IMeal meal) {
+        // mRepository.saveMeal(meal);
     }
 
 

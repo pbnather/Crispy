@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.mealsplan;
+package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.recipe;
+package dk.au.itsmap.group4.crispy.ui.recipe;
 
 import android.app.Application;
 

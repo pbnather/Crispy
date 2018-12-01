@@ -5,7 +5,7 @@
     android:id="@+id/addplannedmeal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ui.addplannedmeal.AddPlannedMealFragment">
+    tools:context=".ui.mealsPlan.addPlannedMeal.AddPlannedMealFragment">
 
     <EditText
         android:id="@+id/recipeName"
