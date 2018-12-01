@@ -1,5 +1,6 @@
 package dk.au.itsmap.group4.crispy.ui.ui.mealsplan;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +31,25 @@ public class MealsPlanRecyclerViewAdapter extends GenericRecyclerViewAdapter<IMe
 
     class ViewHolder extends AbstractViewHolder {
         final TextView mDay;
+        final TextView mTitle;
+        final TextView mHour;
+        final TextView mUsersCooking;
 
         ViewHolder(View view) {
             super(view);
             mDay = (TextView) view.findViewById(R.id.day_date);
+            mTitle = (TextView) view.findViewById(R.id.mealTitle);
+            mHour = (TextView) view.findViewById(R.id.mealHour);
+            mUsersCooking = (TextView) view.findViewById(R.id.usersCooking);
         }
 
+        @SuppressLint("DefaultLocale")
         protected void bind(final IMeal item) {
             if (item != null) {
-                mDay.setText("test");
+                mDay.setText(item.getDate() != null ? item.getDate().toString() : "---");
+                mTitle.setText(item.getTitle());
+                mHour.setText(String.format("%d:%d", item.getDateHours(), item.getDateMinutes()));
+                mUsersCooking.setText(item.getCookName());
 
                 itemView.setTag(item);
 

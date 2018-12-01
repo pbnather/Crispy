@@ -49,11 +49,14 @@ public class Meal extends Entity implements IMeal {
 
     @Override
     public Date getDate() {
-        return date.toDate();
+        return date != null ? date.toDate() : null;
     }
 
     @Override
     public int getDateHours() {
+        if(getDate() == null) {
+            return 0;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(getDate());
         return cal.get(Calendar.HOUR_OF_DAY);
@@ -61,6 +64,9 @@ public class Meal extends Entity implements IMeal {
 
     @Override
     public int getDateMinutes() {
+        if(getDate() == null) {
+            return 0;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(getDate());
         return cal.get(Calendar.MINUTE);
