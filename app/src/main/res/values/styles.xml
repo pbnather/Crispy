@@ -17,4 +17,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Crispy" parent="AppTheme" >
+        <item name="colorPrimary">@color/crispyGreen</item>
+        <item name="colorPrimaryDark">@color/crispyGreenDark</item>
+        <item name="colorAccent">@color/crispyAccent</item>
+    </style>
+
+    <style name="Crispy.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
