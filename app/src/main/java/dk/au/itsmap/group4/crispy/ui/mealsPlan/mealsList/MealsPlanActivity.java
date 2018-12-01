@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 
 public class MealsPlanActivity extends AppCompatActivity {
 

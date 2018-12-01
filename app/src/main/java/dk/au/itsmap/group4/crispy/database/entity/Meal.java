@@ -8,6 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Calendar;
 import java.util.Date;
 
+import androidx.annotation.NonNull;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 
@@ -29,7 +30,7 @@ public class Meal extends Entity implements IMeal {
         this.date = new Timestamp(date);
     }
 
-    public Meal(IRecipe recipe, String cookName, Date date) {
+    public Meal(@NonNull IRecipe recipe, String cookName, Date date) {
         this.title = recipe.getTitle();
         this.image_url = recipe.getImage_url();
         this.cookName = cookName;

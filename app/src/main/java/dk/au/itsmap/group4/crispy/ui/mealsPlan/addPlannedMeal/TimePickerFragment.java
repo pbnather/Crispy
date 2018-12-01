@@ -8,11 +8,22 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
+import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 
 //from: https://developer.android.com/guide/topics/ui/controls/pickers
-public class TimePickerFragment extends DialogFragment
-        implements TimePickerDialog.OnTimeSetListener {
+public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+    private MealsPlanViewModel mModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -27,7 +38,7 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // TODO: Do something with the time chosen by the user
-
+        mModel.getSelectedDate().set(Calendar.HOUR_OF_DAY, hourOfDay);
+        mModel.getSelectedDate().set(Calendar.MINUTE, minute);
     }
 }

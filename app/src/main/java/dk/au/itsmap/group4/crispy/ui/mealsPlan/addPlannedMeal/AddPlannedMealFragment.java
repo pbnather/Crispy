@@ -12,13 +12,19 @@ import androidx.fragment.app.Fragment;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.entity.Meal;
 import dk.au.itsmap.group4.crispy.model.IMeal;
+import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Date;
 
 public class AddPlannedMealFragment extends Fragment {
 
@@ -26,6 +32,8 @@ public class AddPlannedMealFragment extends Fragment {
 
     private Activity mActivity;
     private Button btnSave, btnCancel, btnDate, btnTime;
+    private TextView recipeName;
+    private Spinner recipeSpinner;
     private View mView;
 
 
@@ -37,7 +45,7 @@ public class AddPlannedMealFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mModel = ViewModelProviders.of(this).get(MealsPlanViewModel.class);
+        mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
     }
 
     @Nullable
@@ -51,6 +59,13 @@ public class AddPlannedMealFragment extends Fragment {
         btnSave = mView.findViewById(R.id.btnSave);
         btnDate = mView.findViewById(R.id.btnDate);
         btnTime = mView.findViewById(R.id.btnTime);
+
+        recipeName = mView.findViewById(R.id.recipeName);
+
+        // Todo: missing recipe spinner in view
+        // recipeSpinner = (Spinner) mView.findViewById(R.id.);
+        mModel.getRecipeById("4X5J3QNDEldBH8hGKaIs").observe(this, recipe -> mModel.setSelectedRecipe(recipe));
+
 
         btnDate.setOnClickListener(v -> showDatePickerDialog(v));
         btnTime.setOnClickListener(v -> showTimePickerDialog(v));
@@ -66,11 +81,7 @@ public class AddPlannedMealFragment extends Fragment {
     }
 
     private void savingHandler() {
-        IMeal meal = new Meal();
-
-        // TODO: put values from the form to IMeal object
-
-        mModel.saveMeal(meal);
+        mModel.createMeal();
         Toast.makeText(getActivity(), "Meal was saved!", Toast.LENGTH_LONG).show();
     }
 

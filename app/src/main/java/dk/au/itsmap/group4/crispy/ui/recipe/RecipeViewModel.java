@@ -27,7 +27,7 @@ public class RecipeViewModel extends AndroidViewModel {
 
     }
 
-    public LiveData<List<IRecipe>> getRecipes() {
+    public LiveData<List<IRecipe>> getAllRecipes() {
         if (mRecipes == null) {
             mRecipes = mRepository.getAllRecipes();
         }

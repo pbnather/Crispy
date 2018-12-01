@@ -63,7 +63,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
         recyclerView.setAdapter(mAdapter);
 
         // observe for model changes
-        mModel.getRecipes().observe(this, (recipeList) -> {
+        mModel.getAllRecipes().observe(this, (recipeList) -> {
             if(mAdapter != null) {
                 mAdapter.setData(recipeList);
             }
