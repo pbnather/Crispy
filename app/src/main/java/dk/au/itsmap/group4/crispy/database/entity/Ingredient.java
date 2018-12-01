@@ -1,5 +1,7 @@
 package dk.au.itsmap.group4.crispy.database.entity;
 
+import com.google.firebase.firestore.Exclude;
+
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 
 public class Ingredient extends Entity implements IIngredient {
@@ -10,7 +12,14 @@ public class Ingredient extends Entity implements IIngredient {
 
     public Ingredient() {}
 
+    public Ingredient(String name, String unit, double quantity) {
+        this.name = name;
+        this.unit = unit;
+        this.quantity = quantity;
+    }
+
     @Override
+    @Exclude
     public String getId() {
         return id;
     }

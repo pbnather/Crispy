@@ -27,8 +27,7 @@ public class RecipeDetailFragment extends Fragment {
 
     private RecipeDetailViewModel mModel;
 
-    public RecipeDetailFragment() {
-    }
+    public RecipeDetailFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,10 +37,11 @@ public class RecipeDetailFragment extends Fragment {
         mModel.getRecipes().observe(getActivity(), recipes -> {
             Toast.makeText(getActivity(), "RECIPES_SIZE: " + recipes.size(), Toast.LENGTH_SHORT).show();
             Log.i("TOAST", "RECIPES_SIZE: " + recipes.size());
-        });
-        mModel.getRecipe("1xK29YvQ1oG1wnK4IYDO").observe(getActivity(), recipe -> {
-            Toast.makeText(getActivity(), "RECIPE_TITLE: " + recipe.getTitle(), Toast.LENGTH_SHORT).show();
-            Log.i("TOAST", "RECIPE_TITLE: " + recipe.getTitle());
+            String id = recipes.get(1).getId();
+            mModel.getIngredientsForRecipeById(id).observe(getActivity(), ingredients -> {
+                ingredients.remove(0);
+                mModel.deleteIngredientsForRecipeById(id, ingredients);
+            });
         });
 
     }
