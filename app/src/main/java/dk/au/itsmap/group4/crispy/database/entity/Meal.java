@@ -69,17 +69,17 @@ public class Meal extends Entity implements IMeal {
 
     @Override
     public Date getDate() {
-        return date.toDate();
+        return date != null ? date.toDate() : null;
     }
 
     @Override
     public int getDateHours() {
-        return time(Calendar.HOUR_OF_DAY);
+        return date == null ? 0 : time(Calendar.HOUR_OF_DAY);
     }
 
     @Override
     public int getDateMinutes() {
-        return time(Calendar.MINUTE);
+        return date == null ? 0 : time(Calendar.MINUTE);
     }
 
     private int time(int time) {
