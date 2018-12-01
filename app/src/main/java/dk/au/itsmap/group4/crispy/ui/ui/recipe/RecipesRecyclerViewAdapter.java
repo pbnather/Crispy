@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.recipelist;
+package dk.au.itsmap.group4.crispy.ui.ui.recipe;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.recipelist;
+package dk.au.itsmap.group4.crispy.ui.ui.recipe;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
-import dk.au.itsmap.group4.crispy.ui.RecipeDetailActivity;
-import dk.au.itsmap.group4.crispy.ui.RecipeDetailFragment;
 
 
 /**
@@ -86,18 +84,20 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
 
     @Override
     public void onRecipeClicked(IRecipe recipe) {
-        mModel.setSelectedRecipe(recipe);
+
+        mModel.setSelectedRecipe(recipe.getId());
+
         if (mTwoPane) {
-            Bundle arguments = new Bundle();
-            // todo: arguments.putString(ARG_RECIPE_ID, recipe.getId());
+            // show only fragment
+            // TODO: check, if the fragment has to be replaced
             RecipeDetailFragment fragment = new RecipeDetailFragment();
-            fragment.setArguments(arguments);
             this.getSupportFragmentManager().beginTransaction()
                     .replace(R.id.recipe_detail_container, fragment)
                     .commit();
         } else {
+            // go to another activity
             Intent intent = new Intent(this, RecipeDetailActivity.class);
-            intent.putExtra("RECIPE_ID", recipe.getId());
+            intent.putExtra(EXTRA_RECIPE_ID, recipe.getId());
             this.startActivity(intent);
         }
     }

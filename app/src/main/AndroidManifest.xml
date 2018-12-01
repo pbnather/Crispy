@@ -15,19 +15,19 @@
         android:supportsRtl="true"
         android:theme="@style/Crispy">
         <activity
-            android:name=".ui.ui.recipelist.RecipeListActivity"
+            android:name=".ui.ui.recipe.RecipeListActivity"
             android:label="@string/app_name"
             android:theme="@style/Crispy.NoActionBar">
 
         </activity>
         <activity
-            android:name=".ui.RecipeDetailActivity"
+            android:name=".ui.ui.recipe.RecipeDetailActivity"
             android:label="@string/title_recipe_detail"
-            android:parentActivityName=".ui.ui.recipelist.RecipeListActivity"
+            android:parentActivityName=".ui.ui.recipe.RecipeListActivity"
             android:theme="@style/Crispy.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="dk.au.itsmap.group4.crispy.ui.ui.recipelist.RecipeListActivity" />
+                android:value="dk.au.itsmap.group4.crispy.ui.ui.recipe.RecipeListActivity" />
         </activity>
         <activity android:name=".ui.MealsPlan">
         <intent-filter>

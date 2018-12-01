@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.recipelist;
+package dk.au.itsmap.group4.crispy.ui.ui.recipe;
 
 import android.app.Application;
 
@@ -7,16 +7,18 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.model.IRepository;
 
+/**
+ * ViewModel shared between RecipeList and RecipeDetail Activity
+ */
 public class RecipeViewModel extends AndroidViewModel {
 
     private IRepository mRepository;
     private LiveData<List<IRecipe>> mRecipes;
-    private MutableLiveData<IRecipe> selectedRecipe = new MutableLiveData<>();
+    private LiveData<IRecipe> selectedRecipe;
 
     public RecipeViewModel(@NonNull Application application) {
         super(application);
@@ -32,7 +34,7 @@ public class RecipeViewModel extends AndroidViewModel {
         return mRecipes;
     }
 
-    public LiveData<IRecipe> getRecipe(String id) {
+    public LiveData<IRecipe> getRecipeById(String id) {
         return mRepository.getRecipeById(id);
     }
 
@@ -40,7 +42,7 @@ public class RecipeViewModel extends AndroidViewModel {
         return selectedRecipe;
     }
 
-    public void setSelectedRecipe(IRecipe recipe) {
-        this.selectedRecipe.setValue(recipe);
+    public void setSelectedRecipe(String recipeId) {
+        this.selectedRecipe = mRepository.getRecipeById(recipeId);
     }
 }

@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui;
+package dk.au.itsmap.group4.crispy.ui.ui.recipe;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
+import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.ui.ui.recipelist.RecipeListActivity;
 
 import android.view.MenuItem;
 
@@ -21,10 +21,17 @@ import android.view.MenuItem;
  */
 public class RecipeDetailActivity extends AppCompatActivity {
 
+    private RecipeViewModel mModel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
+
+        // get view model
+        mModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -54,11 +61,12 @@ public class RecipeDetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            int recipeId  = getIntent().getIntExtra(RecipeListActivity.EXTRA_RECIPE_ID, 0);
-            // todo: arguments.putInt(ARG_RECIPE_ID, recipeId);
+
+            String recipeId = getIntent().getStringExtra(RecipeListActivity.EXTRA_RECIPE_ID);
+
+            mModel.setSelectedRecipe(recipeId);
+
             RecipeDetailFragment fragment = new RecipeDetailFragment();
-            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();

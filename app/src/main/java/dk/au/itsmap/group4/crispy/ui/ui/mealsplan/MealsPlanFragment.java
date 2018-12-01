@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.ui.AddPlannedMeal;
-import dk.au.itsmap.group4.crispy.ui.ui.recipelist.RecipeListActivity;
+import dk.au.itsmap.group4.crispy.ui.ui.recipe.RecipeListActivity;
 
 
 public class MealsPlanFragment extends Fragment {
