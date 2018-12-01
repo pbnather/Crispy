@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui;
+package dk.au.itsmap.group4.crispy.ui.ui.mealsplan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,7 @@ import android.os.Bundle;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.ui.ui.mealsplan.MealsPlanFragment;
 
-public class MealsPlan extends AppCompatActivity {
+public class MealsPlanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class MealsPlan extends AppCompatActivity {
         setContentView(R.layout.meals_plan_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, MealsPlanFragment.newInstance())
+                    .replace(R.id.container, new MealsPlanFragment())
                     .commitNow();
         }
     }

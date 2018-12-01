@@ -29,7 +29,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.au.itsmap.group4.crispy.ui.ui.recipe.RecipeListActivity" />
         </activity>
-        <activity android:name=".ui.MealsPlan">
+        <activity android:name=".ui.ui.mealsplan.MealsPlanActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
