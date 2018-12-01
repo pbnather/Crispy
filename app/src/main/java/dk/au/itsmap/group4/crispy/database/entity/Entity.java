@@ -9,10 +9,10 @@ import androidx.annotation.NonNull;
 @IgnoreExtraProperties
 public abstract class Entity {
 
-    @Exclude
-    protected String id;
+    @Exclude protected String id;
 
     public void setId(@NonNull String id) {
         this.id = id;
     }
+
 }
