@@ -1,16 +1,32 @@
 package dk.au.itsmap.group4.crispy.database.entity;
 
-public class Ingredient {
+import dk.au.itsmap.group4.crispy.model.IIngredient;
+
+public class Ingredient extends Entity implements IIngredient {
 
     private String name;
-    private String unit; // TODO: Try to map to enum
+    private String unit;
     private double quantity;
 
     public Ingredient() {}
 
-    public Ingredient(String name, String unit, double quantity) {
-        this.name = name;
-        this.unit = unit;
-        this.quantity = quantity;
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getUnit() {
+        return unit;
+    }
+
+    @Override
+    public double getQuantity() {
+        return quantity;
     }
 }

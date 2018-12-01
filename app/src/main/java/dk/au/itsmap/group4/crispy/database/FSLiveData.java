@@ -8,16 +8,17 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import javax.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import dk.au.itsmap.group4.crispy.database.entity.Entity;
 
 /* Inspired by https://stackoverflow.com/a/50109176 */
-public class FSLiveData<T> extends LiveData<T> {
+public class FSLiveData<T extends U, U> extends LiveData<U> {
 
     private ListenerRegistration mListenerRegistration;
     private final DocumentSnapshotListener mListener = new DocumentSnapshotListener();
     private final Class<T> mClassType;
     private final DocumentReference mDocumentRef;
 
-    public FSLiveData(DocumentReference documentRef, Class<T> classType) {
+    FSLiveData(DocumentReference documentRef, Class<T> classType) {
         mDocumentRef = documentRef;
         mClassType = classType;
     }
@@ -46,6 +47,8 @@ public class FSLiveData<T> extends LiveData<T> {
             }
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 T document = documentSnapshot.toObject(mClassType);
+                if(document != null && Entity.class.isAssignableFrom(mClassType))
+                    ((Entity) document).setId(documentSnapshot.getId());
                 setValue(document);
             }
 

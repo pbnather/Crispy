@@ -12,16 +12,17 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import dk.au.itsmap.group4.crispy.database.entity.Entity;
 
 /* Inspired by https://stackoverflow.com/a/50109176 */
-public class FSLiveDataList<T> extends LiveData<List<T>> {
+public class FSLiveDataList<T extends U, U> extends LiveData<List<U>> {
 
     private ListenerRegistration mListenerRegistration;
     private final QuerySnapshotListener mListener = new QuerySnapshotListener();
     private final Class<T> mClassType;
     private final Query mQuery;
 
-    public FSLiveDataList(Query query, Class<T> classType) {
+    FSLiveDataList(Query query, Class<T> classType) {
         mQuery = query;
         mClassType = classType;
     }
@@ -49,9 +50,11 @@ public class FSLiveDataList<T> extends LiveData<List<T>> {
                 return;
             }
             if (queryDocumentSnapshots != null) {
-                List<T> documents = new ArrayList<>();
+                List<U> documents = new ArrayList<>();
                 for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                     T fetchedDocument = doc.toObject(mClassType);
+                    if(Entity.class.isAssignableFrom(mClassType))
+                        ((Entity) fetchedDocument).setId(doc.getId());
                     documents.add(fetchedDocument);
                 }
                 setValue(documents);

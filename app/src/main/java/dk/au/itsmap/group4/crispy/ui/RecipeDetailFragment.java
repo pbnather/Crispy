@@ -36,9 +36,14 @@ public class RecipeDetailFragment extends Fragment {
 
         mModel = ViewModelProviders.of(getActivity()).get(RecipeDetailViewModel.class);
         mModel.getRecipes().observe(getActivity(), recipes -> {
-            Toast.makeText(getActivity(), "SIZE: " + recipes.size(), Toast.LENGTH_SHORT).show();
-            Log.i("TOAST", "SIZE: " + recipes.size());
+            Toast.makeText(getActivity(), "RECIPES_SIZE: " + recipes.size(), Toast.LENGTH_SHORT).show();
+            Log.i("TOAST", "RECIPES_SIZE: " + recipes.size());
         });
+        mModel.getRecipe("1xK29YvQ1oG1wnK4IYDO").observe(getActivity(), recipe -> {
+            Toast.makeText(getActivity(), "RECIPE_TITLE: " + recipe.getTitle(), Toast.LENGTH_SHORT).show();
+            Log.i("TOAST", "RECIPE_TITLE: " + recipe.getTitle());
+        });
+
     }
 
     @Override
