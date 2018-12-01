@@ -1,44 +1,40 @@
 package dk.au.itsmap.group4.crispy.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import dk.au.itsmap.group4.crispy.Repository;
-import dk.au.itsmap.group4.crispy.database.entity.Ingredient;
-import dk.au.itsmap.group4.crispy.database.entity.Product;
-import dk.au.itsmap.group4.crispy.database.entity.Recipe;
-import dk.au.itsmap.group4.crispy.database.entity.Unit;
+import dk.au.itsmap.group4.crispy.database.FSRepository;
+import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.model.IRepository;
 
 public class RecipeDetailViewModel extends AndroidViewModel {
 
-    private Repository mRepository;
-    private LiveData<List<Recipe>> mRecipes;
+    private IRepository mRepository;
+    private LiveData<List<IRecipe>> mRecipes;
+    private LiveData<IRecipe> mRecipe;
 
     public RecipeDetailViewModel(@NonNull Application application) {
         super(application);
 
-        mRepository = Repository.getInstance(application);
-
-        //Mock Data
-        Recipe recipe = new Recipe(0, "Test Title", "Short very short desc",
-                Arrays.asList(new Ingredient(0, new Product(0, "Pepper"), 1.0, Unit.piece),
-                              new Ingredient(0, new Product(0, "Bread"), 2.0, Unit.piece)));
-        mRepository.insertRecipe(recipe);
-        mRecipes = mRepository.getRecipes();
-        // TODO: getting recipes doesn't work, use Food API for ingredients
-
+        mRepository = FSRepository.getInstance();
     }
 
-    public LiveData<List<Recipe>> getRecipes(int id) {
+    public LiveData<List<IRecipe>> getRecipes() {
         if (mRecipes == null) {
-            mRecipes = mRepository.getRecipes();
+            mRecipes = mRepository.getAllRecipes();
         }
         return mRecipes;
     }
+
+    public LiveData<IRecipe> getRecipe(String id) {
+        if (mRecipe == null) {
+            mRecipe = mRepository.getRecipeById(id);
+        }
+        return mRecipe;
+    }
+
 }

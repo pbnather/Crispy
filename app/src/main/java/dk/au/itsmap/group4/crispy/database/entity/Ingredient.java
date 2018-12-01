@@ -1,53 +1,32 @@
 package dk.au.itsmap.group4.crispy.database.entity;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import dk.au.itsmap.group4.crispy.model.IIngredient;
 
-@Entity
-public class Ingredient {
+public class Ingredient extends Entity implements IIngredient {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    private Product product;
+    private String name;
+    private String unit;
     private double quantity;
-    private Unit unit;
 
-    public Ingredient(int id, Product product, double quantity, Unit unit) {
-        this.id = id;
-        this.product = product;
-        this. quantity = quantity;
-        this.unit = unit;
-    }
+    public Ingredient() {}
 
-    public int getId() {
+    @Override
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
-    }
-
-    public Unit getUnit() {
+    @Override
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    @Override
+    public double getQuantity() {
+        return quantity;
     }
 }
