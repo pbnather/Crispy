@@ -47,10 +47,14 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                 if(constraint != null) {
 
                     // Now assign the values and count to the FilterResults object
-                    mResults = mValues.stream()
-                            .map(IRecipe::getTitle)
-                            .filter(title -> title.toLowerCase().contains(constraint.toString().toLowerCase()))
-                            .collect(Collectors.toList());
+                    List<String> list = new ArrayList<>();
+                    for (IRecipe mValue : mValues) {
+                        String title = mValue.getTitle();
+                        if (title.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            list.add(title);
+                        }
+                    }
+                    mResults = list;
 
                     filterResults.values = mResults;
                     filterResults.count = mResults.size();
