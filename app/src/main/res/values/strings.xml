@@ -26,5 +26,9 @@
     <string name="date">Date</string>
     <string name="setDate">SET DATE</string>
     <string name="setTime">SET TIME</string>
+    <string name="who_cooks">Who cooks?</string>
+    <string name="meal_time">Meal time:</string>
+    <string name="assign_to">Assign to:</string>
+    <string name="change">change</string>
     <string name="list">List</string>
 </resources>
