@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,10 +26,11 @@ public class AddPlannedMealFragment extends Fragment {
 
     private Activity mActivity;
     private Button btnSave, btnCancel, btnDate, btnTime;
-    private TextView recipeName;
-    private Spinner recipeSpinner;
+    private Spinner whoCooksSpinner;
     private View mView;
 
+    private AutoCompleteAdapter mRecipesAutoCompleteAdapter;
+    private AutoCompleteTextView recipeName;
 
     public static AddPlannedMealFragment newInstance() {
         return new AddPlannedMealFragment();
@@ -55,10 +57,22 @@ public class AddPlannedMealFragment extends Fragment {
 
         recipeName = mView.findViewById(R.id.recipeName);
 
-        // Todo: missing recipe spinner in view
-        // recipeSpinner = (Spinner) mView.findViewById(R.id.);
-        mModel.getRecipeById("4X5J3QNDEldBH8hGKaIs").observe(this, recipe -> mModel.setSelectedRecipe(recipe));
 
+        // select recipe
+        mModel.getAllRecipes().observe(this, recipes -> mRecipesAutoCompleteAdapter.setData(recipes));
+
+        mRecipesAutoCompleteAdapter = new AutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line, recipeName);
+        recipeName.setAdapter(mRecipesAutoCompleteAdapter);
+
+        whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
+        whoCooksSpinner.setAdapter(mRecipesAutoCompleteAdapter);
+
+        recipeName.setOnFocusChangeListener((View v, boolean b) -> {
+            if(!b) {
+                // put selected recipe to VM
+                mModel.setSelectedRecipe(((TextView)v).getText().toString());
+            }
+        });
 
         btnDate.setOnClickListener(v -> showDatePickerDialog(v));
         btnTime.setOnClickListener(v -> showTimePickerDialog(v));
@@ -68,8 +82,6 @@ public class AddPlannedMealFragment extends Fragment {
 
             Navigation.findNavController(mView).navigateUp();
 
-            // ((MealsPlanActivity)mActivity).goBackToList();
-            // mActivity.finish();
         });
 
         btnCancel.setOnClickListener(v -> Navigation.findNavController(mView).navigateUp());

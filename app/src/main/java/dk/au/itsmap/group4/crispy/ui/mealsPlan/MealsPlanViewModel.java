@@ -14,7 +14,7 @@ import dk.au.itsmap.group4.crispy.model.IRepository;
 public class MealsPlanViewModel extends ViewModel {
 
     private Calendar selectedDate = Calendar.getInstance();
-    private IRecipe selectedRecipe;
+    private String selectedRecipeName;
 
     private IRepository mRepository;
     private LiveData<List<IMeal>> mMeals;
@@ -51,18 +51,20 @@ public class MealsPlanViewModel extends ViewModel {
         return selectedDate;
     }
 
-    public IRecipe getSelectedRecipe() {
-        return selectedRecipe;
+    public String getSelectedRecipe() {
+        return selectedRecipeName;
     }
 
-    public void setSelectedRecipe(IRecipe selectedRecipe) {
-        this.selectedRecipe = selectedRecipe;
+    public void setSelectedRecipe(String selectedRecipe) {
+        this.selectedRecipeName = selectedRecipe;
     }
 
     public void createMeal() {
         Meal meal = new Meal(
-                selectedRecipe,
+                selectedRecipeName,
+                "",
                 "Vojta",
+                "",
                 selectedDate.getTime()
         );
         mRepository.saveMeal(meal);

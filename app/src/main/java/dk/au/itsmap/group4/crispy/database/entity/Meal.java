@@ -26,7 +26,7 @@ public class Meal extends Entity implements IMeal {
         this.title = title;
         this.image_url = image_url;
         this.cookName = cookName;
-        this.recipe = FirebaseFirestore.getInstance().collection("meals").document(recipeId);
+        this.recipe = recipeId.equals("") ? null : FirebaseFirestore.getInstance().collection("meals").document(recipeId);
         this.date = new Timestamp(date);
     }
 
