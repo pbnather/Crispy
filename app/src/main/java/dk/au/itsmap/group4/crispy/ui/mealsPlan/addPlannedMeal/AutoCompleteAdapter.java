@@ -2,7 +2,6 @@ package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -10,18 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import androidx.annotation.NonNull;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 
 public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
     private List<IRecipe> mValues;
     private List<String> mResults;
-    private Context mContext;
 
-    public AutoCompleteAdapter(Context context, int textViewResourceId) {
+    AutoCompleteAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
         mValues = new ArrayList<>();
         mResults = new ArrayList<>();
-        mContext = context;
     }
 
     @Override
@@ -39,9 +37,10 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
     public Filter getFilter() {
-        Filter myFilter = new Filter() {
+        return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
@@ -60,7 +59,7 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
             }
 
             @Override
-            protected void publishResults(CharSequence contraint, FilterResults results) {
+            protected void publishResults(CharSequence constraint, FilterResults results) {
                 if(results != null && results.count > 0) {
                     notifyDataSetChanged();
                 }
@@ -69,6 +68,5 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
                 }
             }
         };
-        return myFilter;
     }
 }
