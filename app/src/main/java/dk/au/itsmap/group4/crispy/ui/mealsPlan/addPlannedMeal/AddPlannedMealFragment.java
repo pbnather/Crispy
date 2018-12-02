@@ -82,6 +82,8 @@ public class AddPlannedMealFragment extends Fragment {
             mealDate.setText(sdf.format(meal.getDate()));
 
             mealTime.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(meal.getDate())));
+
+            recipeName.setText(meal.getTitle());
         });
 
         // select recipe

@@ -42,7 +42,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = ViewModelProviders.of(this).get(MealsPlanViewModel.class);
+        mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
 
     }
 
@@ -96,7 +96,8 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
     @Override
     public void onItemClicked(IMeal meal) {
-        // do nothing
+        mModel.getSelectedMeal().setValue(meal);
+        Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
     }
 
 }
