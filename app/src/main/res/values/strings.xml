@@ -26,4 +26,5 @@
     <string name="date">Date</string>
     <string name="setDate">SET DATE</string>
     <string name="setTime">SET TIME</string>
+    <string name="list">List</string>
 </resources>
