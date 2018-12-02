@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
-import dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList.MealsPlanActivity;
 
 public class AddPlannedMealFragment extends Fragment {
 

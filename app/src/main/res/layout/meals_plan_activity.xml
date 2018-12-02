@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mealsPlan.mealsList.MealsPlanActivity" >
+    tools:context=".ui.mealsPlan.MealsPlanActivity" >
 
     <fragment
         android:id="@+id/navigation_fragment"
