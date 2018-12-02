@@ -1,15 +1,22 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 
 public class AddPlannedMealFragment extends Fragment {
@@ -26,10 +34,12 @@ public class AddPlannedMealFragment extends Fragment {
 
     private Activity mActivity;
     private Button btnSave, btnCancel, btnDate, btnTime;
+    private TextView mealDate, mealTime;
     private Spinner whoCooksSpinner;
     private View mView;
 
     private AutoCompleteAdapter mRecipesAutoCompleteAdapter;
+    private ArrayAdapter<String> mUsersSpinnerAdapter;
     private AutoCompleteTextView recipeName;
 
     public static AddPlannedMealFragment newInstance() {
@@ -43,6 +53,7 @@ public class AddPlannedMealFragment extends Fragment {
         mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
     }
 
+    @SuppressLint("DefaultLocale")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -57,23 +68,57 @@ public class AddPlannedMealFragment extends Fragment {
 
         recipeName = mView.findViewById(R.id.recipeName);
 
+        mealDate = mView.findViewById(R.id.mealDate);
+        mealTime = mView.findViewById(R.id.mealTime);
+
+        mModel.getSelectedMeal().observe(this, meal -> {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMM");
+
+            mealDate.setText(sdf.format(meal.getDate()));
+
+            mealTime.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(meal.getDate())));
+        });
 
         // select recipe
-        mModel.getAllRecipes().observe(this, recipes -> mRecipesAutoCompleteAdapter.setData(recipes));
-
         mRecipesAutoCompleteAdapter = new AutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
         recipeName.setAdapter(mRecipesAutoCompleteAdapter);
-
-        whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
-        whoCooksSpinner.setAdapter(mRecipesAutoCompleteAdapter);
+        mModel.getAllRecipes().observe(this,
+                recipes -> mRecipesAutoCompleteAdapter.setData(recipes)
+        );
 
         recipeName.setOnFocusChangeListener((View v, boolean b) -> {
             if(!b) {
                 // put selected recipe to VM
-                mModel.setSelectedRecipe(((TextView)v).getText().toString());
+                IMeal meal = mModel.getSelectedMeal().getValue();
+                if(meal != null) {
+                    meal.setTitle(((TextView) v).getText().toString());
+                    mModel.getSelectedMeal().setValue(meal);
+                }
             }
         });
 
+        // assign to user
+        mUsersSpinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, mModel.getPossibleCooks());
+        whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
+        whoCooksSpinner.setAdapter(mUsersSpinnerAdapter);
+        whoCooksSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                IMeal meal = mModel.getSelectedMeal().getValue();
+                if(meal != null) {
+                    meal.setCookName(parent.getItemAtPosition(position).toString());
+                    mModel.getSelectedMeal().setValue(meal);
+                }
+            } // to close the onItemSelected
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
+
+        // click handlers
         btnDate.setOnClickListener(v -> showDatePickerDialog(v));
         btnTime.setOnClickListener(v -> showTimePickerDialog(v));
 
@@ -98,7 +143,6 @@ public class AddPlannedMealFragment extends Fragment {
     private void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(),"timePicker");
-        newFragment.onDetach();
     }
 
     private void showDatePickerDialog(View v) {
