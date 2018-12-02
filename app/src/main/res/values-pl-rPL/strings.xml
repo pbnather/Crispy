@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crispy</string>
+    <string name="title_activity_login">Zaloguj się</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Hasło</string>
+    <string name="action_sign_in">Zaloguj się lub zarejestruj</string>
+    <string name="action_sign_in_short">Zaloguj się</string>
+    <string name="error_invalid_email">Adres e-mail jest nieprawidłowy</string>
+    <string name="error_invalid_password">Hasło jest zbyt krótkie</string>
+    <string name="error_incorrect_password">Nieprawidłowe hasło</string>
+    <string name="error_field_required">To pole jest obowiązkowe</string>
+    <string name="permission_rationale">Zezwolenie na dostęp do kontaktów jest konieczne do korzystania z email</string>
+    <string name="save">ZAPISZ</string>
+    <string name="cancel">COFNIJ</string>
+    <string name="all_recipies">WSZYSTKIE PRZEPISY</string>
+    <string name="prepares">Przygotowuje:</string>
+    <string name="time">Czas:</string>
+    <string name="mealName">Nazwa posiłku</string>
+    <string name="mealDate">Wybierz dzień</string>
+    <string name="mealTime">Wybierz czas</string>
+    <string name="person">Osoba:</string>
+    <string name="date">Data</string>
+    <string name="setDate">USTAW DATĘ</string>
+    <string name="setTime">USTAW CZAS</string>
+    <string name="list">Lista</string>
+    <string name="title_recipe_detail">Szczegóły przepisu</string>
+</resources>
