@@ -2,6 +2,8 @@ package dk.au.itsmap.group4.crispy.ui.recipe.recipeList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,9 +72,10 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
         });
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.mainToolbar);
+        toolbar.setTitle(R.string.recipies);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +105,26 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
             Intent intent = new Intent(this, RecipeDetailActivity.class);
             intent.putExtra(EXTRA_RECIPE_ID, recipe.getId());
             this.startActivity(intent);
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    //From: https://developer.android.com/training/appbar/actions
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btnGroceryList:
+                //TODO: navigate to grocery list
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
     }
 }

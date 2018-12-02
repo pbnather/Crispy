@@ -10,25 +10,25 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/daysList"
         android:layout_width="0dp"
-        android:layout_height="524dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAllRecipies"
         tools:listitem="@layout/meals_plan_meal_content" />
 
     <Button
         android:id="@+id/btnAllRecipies"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
         android:text="@string/all_recipies"
         app:layout_constraintBottom_toTopOf="@+id/daysList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddMeal"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@mipmap/plus_white"
         app:backgroundTint="@color/crispyAccent"
@@ -46,12 +46,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.976"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.04" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

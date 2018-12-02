@@ -20,6 +20,7 @@ public class MealsPlanActivity extends AppCompatActivity {
 
 
         mToolbar = (Toolbar) findViewById(R.id.mainToolbar);
+        mToolbar.setTitle(R.string.crispy_planner);
         setSupportActionBar(mToolbar);
 
 
