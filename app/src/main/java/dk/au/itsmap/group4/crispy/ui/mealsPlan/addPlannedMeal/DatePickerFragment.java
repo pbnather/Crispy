@@ -28,7 +28,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
-        final Calendar c = mModel.getSelectedDate();
+        final Calendar c = mModel.getSelectedDate().getValue();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
@@ -38,8 +38,12 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        mModel.getSelectedDate().set(Calendar.YEAR, year);
-        mModel.getSelectedDate().set(Calendar.MONTH, month);
-        mModel.getSelectedDate().set(Calendar.DAY_OF_MONTH, day);
+        Calendar cal = mModel.getSelectedDate().getValue();
+        if(cal != null) {
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month);
+            cal.set(Calendar.DAY_OF_MONTH, day);
+        }
+        mModel.getSelectedDate().setValue(cal);
     }
 }

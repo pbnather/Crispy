@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.database.entity.Meal;
@@ -13,7 +14,7 @@ import dk.au.itsmap.group4.crispy.model.IRepository;
 
 public class MealsPlanViewModel extends ViewModel {
 
-    private Calendar selectedDate = Calendar.getInstance();
+    private MutableLiveData<Calendar> selectedDate;
     private String selectedRecipeName;
 
     private IRepository mRepository;
@@ -22,6 +23,8 @@ public class MealsPlanViewModel extends ViewModel {
 
     public MealsPlanViewModel() {
         mRepository = FSRepository.getInstance();
+        selectedDate = new MutableLiveData<>();
+        selectedDate.setValue(Calendar.getInstance());
     }
 
     public LiveData<List<IMeal>> getAllMeals() {
@@ -47,7 +50,7 @@ public class MealsPlanViewModel extends ViewModel {
         return mRecipes;
     }
 
-    public Calendar getSelectedDate() {
+    public MutableLiveData<Calendar> getSelectedDate() {
         return selectedDate;
     }
 
@@ -65,7 +68,7 @@ public class MealsPlanViewModel extends ViewModel {
                 "",
                 "Vojta",
                 null,
-                selectedDate.getTime()
+                selectedDate.getValue().getTime()
         );
         mRepository.saveMeal(meal);
     }

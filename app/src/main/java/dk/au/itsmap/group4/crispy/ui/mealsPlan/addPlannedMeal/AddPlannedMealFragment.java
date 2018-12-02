@@ -1,6 +1,9 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +31,7 @@ public class AddPlannedMealFragment extends Fragment {
 
     private Activity mActivity;
     private Button btnSave, btnCancel, btnDate, btnTime;
+    private TextView mealDate, mealTime;
     private Spinner whoCooksSpinner;
     private View mView;
 
@@ -43,6 +49,7 @@ public class AddPlannedMealFragment extends Fragment {
         mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
     }
 
+    @SuppressLint("DefaultLocale")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -57,6 +64,18 @@ public class AddPlannedMealFragment extends Fragment {
 
         recipeName = mView.findViewById(R.id.recipeName);
 
+        mealDate = mView.findViewById(R.id.mealDate);
+        mealTime = mView.findViewById(R.id.mealTime);
+
+        mModel.getSelectedDate().observe(this, calendar -> {
+            mealDate.setText(calendar.getTime().toString());
+
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMM");
+
+            mealDate.setText(sdf.format(calendar.getTime()));
+
+            mealTime.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime())));
+        });
 
         // select recipe
         mModel.getAllRecipes().observe(this, recipes -> mRecipesAutoCompleteAdapter.setData(recipes));
@@ -98,7 +117,6 @@ public class AddPlannedMealFragment extends Fragment {
     private void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(),"timePicker");
-        newFragment.onDetach();
     }
 
     private void showDatePickerDialog(View v) {
