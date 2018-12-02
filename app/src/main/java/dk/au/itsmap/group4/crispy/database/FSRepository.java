@@ -2,12 +2,14 @@ package dk.au.itsmap.group4.crispy.database;
 
 import android.util.Log;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.WriteBatch;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -73,7 +75,7 @@ public class FSRepository implements IRepository {
 
     @Override
     public LiveData<List<IMeal>> getAllMeals() {
-        return new FSLiveDataList<>(mMeals, Meal.class);
+        return new FSLiveDataList<>(mMeals.whereGreaterThan("date", Timestamp.now()), Meal.class);
     }
 
     @Override

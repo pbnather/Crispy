@@ -64,7 +64,7 @@ public class MealsPlanViewModel extends ViewModel {
                 selectedRecipeName,
                 "",
                 "Vojta",
-                "",
+                null,
                 selectedDate.getTime()
         );
         mRepository.saveMeal(meal);
