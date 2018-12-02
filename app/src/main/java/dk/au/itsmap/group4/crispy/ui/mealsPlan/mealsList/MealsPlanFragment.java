@@ -24,7 +24,6 @@ import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
-import dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal.AddPlannedMealActivity;
 import dk.au.itsmap.group4.crispy.ui.GenericRecyclerViewAdapter;
 
 
@@ -68,9 +67,6 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
             // use navigation to go to the next screen
             Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
 
-            // ((MealsPlanActivity)mActivity).showAddToPlan();
-            // Intent intent = new Intent(mActivity, AddPlannedMealActivity.class);
-            // mActivity.startActivity(intent);
         });
 
         // setup list view
@@ -100,8 +96,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
     @Override
     public void onItemClicked(IMeal meal) {
-        Intent intent = new Intent(mActivity, AddPlannedMealActivity.class);
-        mActivity.startActivity(intent);
+        // do nothing
     }
 
 }

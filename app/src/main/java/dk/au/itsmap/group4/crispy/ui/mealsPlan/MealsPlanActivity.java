@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
+package dk.au.itsmap.group4.crispy.ui.mealsPlan;
 
 import androidx.appcompat.app.AppCompatActivity;
 
