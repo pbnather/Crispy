@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
@@ -63,8 +64,13 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
         // add meal to plan button
         btnAddMeal.setOnClickListener(v -> {
-            Intent intent = new Intent(mActivity, AddPlannedMealActivity.class);
-            mActivity.startActivity(intent);
+
+            // use navigation to go to the next screen
+            Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
+
+            // ((MealsPlanActivity)mActivity).showAddToPlan();
+            // Intent intent = new Intent(mActivity, AddPlannedMealActivity.class);
+            // mActivity.startActivity(intent);
         });
 
         // setup list view
@@ -82,10 +88,6 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
         return mView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     private void setupRecyclerView() {
 

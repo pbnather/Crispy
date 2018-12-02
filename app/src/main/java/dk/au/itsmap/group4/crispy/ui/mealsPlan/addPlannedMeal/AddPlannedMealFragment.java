@@ -1,30 +1,24 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.Activity;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.database.entity.Meal;
-import dk.au.itsmap.group4.crispy.model.IMeal;
-import dk.au.itsmap.group4.crispy.model.IRecipe;
-import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Date;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
+import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
+import dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList.MealsPlanActivity;
 
 public class AddPlannedMealFragment extends Fragment {
 
@@ -72,10 +66,14 @@ public class AddPlannedMealFragment extends Fragment {
 
         btnSave.setOnClickListener(v -> {
             savingHandler();
-            mActivity.finish();
+
+            Navigation.findNavController(mView).navigateUp();
+
+            // ((MealsPlanActivity)mActivity).goBackToList();
+            // mActivity.finish();
         });
 
-        btnCancel.setOnClickListener(v -> mActivity.finish());
+        btnCancel.setOnClickListener(v -> Navigation.findNavController(mView).navigateUp());
 
         return mView;
     }

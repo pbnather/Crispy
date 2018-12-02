@@ -28,7 +28,7 @@ public class MealsPlanViewModel extends ViewModel {
         if (mMeals == null) {
             mMeals = mRepository.getAllMeals();
         }
-        return mMeals;
+        return mRepository.getAllMeals();
     }
 
     public LiveData<IMeal> getMealById(String id) {
