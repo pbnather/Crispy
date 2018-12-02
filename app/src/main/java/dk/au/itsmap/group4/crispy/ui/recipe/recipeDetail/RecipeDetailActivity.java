@@ -68,7 +68,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
             mModel.setSelectedRecipe(recipeId);
 
-            RecipeDetailFragment fragment = new RecipeDetailFragment();
+//            RecipeDetailFragment fragment = new RecipeDetailFragment();
+            RecipeEditFragment fragment = new RecipeEditFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();
