@@ -25,4 +25,10 @@
     <string name="setTime">USTAW CZAS</string>
     <string name="list">Lista</string>
     <string name="title_recipe_detail">Szczegóły przepisu</string>
+    <string name="who_cooks">Kto gotuje?</string>
+    <string name="meal_time">Czas posiłku:</string>
+    <string name="assign_to">Przypisz do:</string>
+    <string name="change">zmień</string>
+    <string name="recipies">Przepisy</string>
+    <string name="add_meal">Dodaj posiłek</string>
 </resources>

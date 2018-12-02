@@ -1,5 +1,6 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
@@ -54,6 +55,8 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
         mActivity = this.getActivity();
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
         btnAddMeal = mView.findViewById(R.id.btnAddMeal);
+        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
+        toolbar.setTitle(R.string.crispy_planner);
 
         // all recipes button
         btnRecipies.setOnClickListener(v -> {

@@ -20,6 +20,7 @@ import java.util.Calendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -70,6 +71,9 @@ public class AddPlannedMealFragment extends Fragment {
 
         mealDate = mView.findViewById(R.id.mealDate);
         mealTime = mView.findViewById(R.id.mealTime);
+
+        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
+        toolbar.setTitle(R.string.add_meal);
 
         mModel.getSelectedMeal().observe(this, meal -> {
 

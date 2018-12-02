@@ -31,4 +31,7 @@
     <string name="assign_to">Assign to:</string>
     <string name="change">change</string>
     <string name="list">List</string>
+    <string name="crispy_planner" translatable="false">Crispy Planner</string>
+    <string name="recipies">Recipies</string>
+    <string name="add_meal">Add meal</string>
 </resources>
