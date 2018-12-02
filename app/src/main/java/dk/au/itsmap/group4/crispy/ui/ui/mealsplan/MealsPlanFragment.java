@@ -1,5 +1,6 @@
 package dk.au.itsmap.group4.crispy.ui.ui.mealsplan;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
@@ -45,8 +46,11 @@ public class MealsPlanFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         mView = inflater.inflate(R.layout.meals_plan_fragment, container, false);
         mActivity = this.getActivity();
+
+
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
         btnAddMeal = mView.findViewById(R.id.btnAddMeal);
         btnRecipies.setOnClickListener(new View.OnClickListener() {
