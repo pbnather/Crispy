@@ -26,7 +26,7 @@ public class Meal extends Entity implements IMeal {
         this.title = title;
         this.image_url = image_url;
         this.cookName = cookName;
-        this.recipe = FirebaseFirestore.getInstance().collection("meals").document(recipeId);
+        this.recipe = recipeId == null ? null : FirebaseFirestore.getInstance().collection("recipes").document(recipeId);
         this.date = new Timestamp(date);
     }
 
@@ -34,7 +34,7 @@ public class Meal extends Entity implements IMeal {
         this.title = recipe.getTitle();
         this.image_url = recipe.getImage_url();
         this.cookName = cookName;
-        this.recipe = FirebaseFirestore.getInstance().collection("meals").document(recipe.getId());
+        this.recipe =  recipe.getId() == null ? null : FirebaseFirestore.getInstance().collection("recipes").document(recipe.getId());
         this.date = new Timestamp(date);
     }
 
@@ -64,6 +64,7 @@ public class Meal extends Entity implements IMeal {
     }
 
     @Override
+    @Exclude
     public String getRecipeId() {
         return recipe.getId();
     }
