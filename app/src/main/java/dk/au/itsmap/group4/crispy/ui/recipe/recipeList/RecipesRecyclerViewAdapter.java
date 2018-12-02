@@ -60,18 +60,17 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final TextView mIdView;
         final TextView mContentView;
 
         ViewHolder(View view) {
             super(view);
-            mIdView = (TextView) view.findViewById(R.id.id_text);
+
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 
         void bind(final IRecipe recipe) {
             if (recipe != null) {
-                mIdView.setText(recipe.getId());
+
                 mContentView.setText(recipe.getTitle());
 
                 itemView.setTag(recipe);
