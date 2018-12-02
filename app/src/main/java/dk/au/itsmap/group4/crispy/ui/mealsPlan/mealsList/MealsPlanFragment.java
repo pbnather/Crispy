@@ -66,10 +66,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
         // add meal to plan button
         btnAddMeal.setOnClickListener(v -> {
-
-            // use navigation to go to the next screen
             Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
-
         });
 
         // setup list view

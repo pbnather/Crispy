@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -17,7 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
@@ -32,11 +30,11 @@ import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.utils.Helpers;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
-
 public class AddPlannedMealFragment extends Fragment {
 
     private MealsPlanViewModel mModel;
+    private boolean mIsEditMode = false;
+    private IMeal mMeal;
 
     private Activity mActivity;
     private Button btnSave, btnDate, btnTime;
@@ -57,6 +55,10 @@ public class AddPlannedMealFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
+
+        if(mModel.getSelectedMeal().getValue() != null) {
+            mIsEditMode = true;
+        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -80,14 +82,8 @@ public class AddPlannedMealFragment extends Fragment {
         toolbar.setTitle(R.string.add_meal);
 
         mModel.getSelectedMeal().observe(this, meal -> {
-
-            SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMM");
-
-            mealDate.setText(sdf.format(meal.getDate()));
-
-            mealTime.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(meal.getDate())));
-
-            recipeName.setText(meal.getTitle());
+            mMeal = meal;
+            updateView(meal);
         });
 
         // select recipe
@@ -101,11 +97,8 @@ public class AddPlannedMealFragment extends Fragment {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                IMeal meal = mModel.getSelectedMeal().getValue();
-                if(meal != null) {
-                    meal.setTitle(parent.getItemAtPosition(position).toString());
-                    mModel.getSelectedMeal().setValue(meal);
-                }
+                mMeal.setTitle(parent.getItemAtPosition(position).toString());
+                mModel.getSelectedMeal().setValue(mMeal);
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -115,12 +108,8 @@ public class AddPlannedMealFragment extends Fragment {
         // has selected by clicking outside
         recipeName.setOnFocusChangeListener((View v, boolean b) -> {
             if(!b) {
-                // put selected recipe to VM
-                IMeal meal = mModel.getSelectedMeal().getValue();
-                if(meal != null) {
-                    meal.setTitle(((TextView) v).getText().toString());
-                    mModel.getSelectedMeal().setValue(meal);
-                }
+                mMeal.setTitle(((TextView) v).getText().toString());
+                mModel.getSelectedMeal().setValue(mMeal);
             }
         });
 
@@ -132,11 +121,8 @@ public class AddPlannedMealFragment extends Fragment {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                IMeal meal = mModel.getSelectedMeal().getValue();
-                if(meal != null) {
-                    meal.setCookName(parent.getItemAtPosition(position).toString());
-                    mModel.getSelectedMeal().setValue(meal);
-                }
+                mMeal.setCookName(parent.getItemAtPosition(position).toString());
+                mModel.getSelectedMeal().setValue(mMeal);
             } // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
             {
@@ -160,19 +146,17 @@ public class AddPlannedMealFragment extends Fragment {
         Helpers.hideKeyboard(mActivity);
 
         // save the meal
-        IMeal meal = mModel.getSelectedMeal().getValue();
-        if(meal != null) {
-            meal.setTitle((recipeName).getText().toString());
-            mModel.getSelectedMeal().setValue(meal);
+        mMeal.setTitle((recipeName).getText().toString());
+        mModel.getSelectedMeal().setValue(mMeal);
 
-            if (meal.getDate().compareTo(new Date()) < 0) {
-                Toast.makeText(getActivity(), "Focus more on future, not on the past!\nChange the time of meal.", Toast.LENGTH_LONG).show();
-            } else {
-                mModel.createMeal();
-                Toast.makeText(getActivity(), "Meal was saved!", Toast.LENGTH_LONG).show();
-                Navigation.findNavController(mView).navigateUp();
-            }
+        if (mMeal.getDate().compareTo(new Date()) < 0) {
+            Toast.makeText(getActivity(), R.string.add_meal_is_in_past_error, Toast.LENGTH_LONG).show();
+        } else {
+            mModel.createMeal();
+            Toast.makeText(getActivity(), mIsEditMode ? getString(R.string.add_meal_update_success) : getString(R.string.add_meal_save_success), Toast.LENGTH_LONG).show();
+            Navigation.findNavController(mView).navigateUp();
         }
+
     }
 
 
@@ -184,6 +168,16 @@ public class AddPlannedMealFragment extends Fragment {
     private void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
+    }
+
+    private void updateView(IMeal meal) {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMM");
+
+        mealDate.setText(sdf.format(meal.getDate()));
+
+        mealTime.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(meal.getDate())));
+
+        recipeName.setText(meal.getTitle());
     }
 
 }
