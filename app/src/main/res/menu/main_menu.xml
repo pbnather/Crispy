@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/btnGroceryList"
+        android:icon="?attr/actionModePasteDrawable"
+        android:title="@string/list"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/btnAccount"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Account"
+        android:visible="true"
+        app:showAsAction="always" />
+</menu>
