@@ -16,14 +16,12 @@ public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filtera
     private List<IRecipe> mValues;
     private List<String> mResults;
     private Context mContext;
-    private AutoCompleteTextView mTextView;
 
-    public AutoCompleteAdapter(Context context, int textViewResourceId, AutoCompleteTextView textView) {
+    public AutoCompleteAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
         mValues = new ArrayList<>();
         mResults = new ArrayList<>();
         mContext = context;
-        mTextView = textView;
     }
 
     @Override

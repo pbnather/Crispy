@@ -61,7 +61,7 @@ public class AddPlannedMealFragment extends Fragment {
         // select recipe
         mModel.getAllRecipes().observe(this, recipes -> mRecipesAutoCompleteAdapter.setData(recipes));
 
-        mRecipesAutoCompleteAdapter = new AutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line, recipeName);
+        mRecipesAutoCompleteAdapter = new AutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
         recipeName.setAdapter(mRecipesAutoCompleteAdapter);
 
         whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
@@ -98,6 +98,7 @@ public class AddPlannedMealFragment extends Fragment {
     private void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(),"timePicker");
+        newFragment.onDetach();
     }
 
     private void showDatePickerDialog(View v) {
