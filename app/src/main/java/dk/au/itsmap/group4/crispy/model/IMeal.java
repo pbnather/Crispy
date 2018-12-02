@@ -1,6 +1,8 @@
 package dk.au.itsmap.group4.crispy.model;
 
 import java.util.Date;
+import com.google.firebase.Timestamp;
+
 
 public interface IMeal {
 
@@ -19,5 +21,11 @@ public interface IMeal {
     int getDateHours();
 
     int getDateMinutes();
+
+    void setTitle(String title);
+
+    void setCookName(String cookName);
+
+    void setDate(Timestamp date);
 
 }

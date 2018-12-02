@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
+import com.google.firebase.Timestamp;
+
 import java.util.Calendar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProviders;
+import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 
 //from: https://developer.android.com/guide/topics/ui/controls/pickers
@@ -28,7 +31,11 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
-        final Calendar c = mModel.getSelectedDate().getValue();
+        // final Calendar c = mModel.getSelectedDate().getValue();
+
+        Calendar c = Calendar.getInstance();
+        c.setTime(mModel.getSelectedMeal().getValue().getDate());
+
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
@@ -38,12 +45,23 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Calendar cal = mModel.getSelectedDate().getValue();
-        if(cal != null) {
-            cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            cal.set(Calendar.MINUTE, minute);
-        }
-        mModel.getSelectedDate().setValue(cal);
+//        Calendar cal = mModel.getSelectedDate().getValue();
+//        if(cal != null) {
+//            cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+//            cal.set(Calendar.MINUTE, minute);
+//        }
+//        mModel.getSelectedDate().setValue(cal);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(mModel.getSelectedMeal().getValue().getDate());
+
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+
+        IMeal meal = mModel.getSelectedMeal().getValue();
+        meal.setDate(new Timestamp(cal.getTime()));
+
+        mModel.getSelectedMeal().setValue(meal);
     }
 
 }

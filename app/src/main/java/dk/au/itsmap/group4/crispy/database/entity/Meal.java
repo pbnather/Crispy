@@ -20,7 +20,9 @@ public class Meal extends Entity implements IMeal {
     private DocumentReference recipe;
     private Timestamp date;
 
-    public Meal() {}
+    public Meal() {
+        this.date = new Timestamp(new Date());
+    }
 
     public Meal(String title, String image_url, String cookName, String recipeId, Date date) {
         this.title = title;
@@ -90,4 +92,15 @@ public class Meal extends Entity implements IMeal {
         return cal.get(time);
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCookName(String cookName) {
+        this.cookName = cookName;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
 }

@@ -1,6 +1,7 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -14,8 +15,8 @@ import dk.au.itsmap.group4.crispy.model.IRepository;
 
 public class MealsPlanViewModel extends ViewModel {
 
-    private MutableLiveData<Calendar> selectedDate;
-    private String selectedRecipeName;
+    // meal to be created
+    private MutableLiveData<IMeal> selectedMeal;
 
     private IRepository mRepository;
     private LiveData<List<IMeal>> mMeals;
@@ -23,8 +24,9 @@ public class MealsPlanViewModel extends ViewModel {
 
     public MealsPlanViewModel() {
         mRepository = FSRepository.getInstance();
-        selectedDate = new MutableLiveData<>();
-        selectedDate.setValue(Calendar.getInstance());
+
+        selectedMeal = new MutableLiveData<>();
+        selectedMeal.setValue(new Meal());
     }
 
     public LiveData<List<IMeal>> getAllMeals() {
@@ -38,7 +40,6 @@ public class MealsPlanViewModel extends ViewModel {
         return mRepository.getMealById(id);
     }
 
-
     public LiveData<IRecipe> getRecipeById(String id) {
         return mRepository.getRecipeById(id);
     }
@@ -50,26 +51,20 @@ public class MealsPlanViewModel extends ViewModel {
         return mRecipes;
     }
 
-    public MutableLiveData<Calendar> getSelectedDate() {
-        return selectedDate;
-    }
-
-    public String getSelectedRecipe() {
-        return selectedRecipeName;
-    }
-
-    public void setSelectedRecipe(String selectedRecipe) {
-        this.selectedRecipeName = selectedRecipe;
+    public MutableLiveData<IMeal> getSelectedMeal() {
+        return selectedMeal;
     }
 
     public void createMeal() {
-        Meal meal = new Meal(
-                selectedRecipeName,
-                "",
+        mRepository.saveMeal(selectedMeal.getValue());
+        selectedMeal.setValue(new Meal());
+    }
+
+    public String[] getPossibleCooks() {
+        return new String[] {
                 "Vojta",
-                null,
-                selectedDate.getValue().getTime()
-        );
-        mRepository.saveMeal(meal);
+                "Pawel",
+                "Ala"
+        };
     }
 }
