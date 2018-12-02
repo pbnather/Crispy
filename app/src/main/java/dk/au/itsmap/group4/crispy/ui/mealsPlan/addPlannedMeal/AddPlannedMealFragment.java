@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,13 +29,16 @@ import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
+import dk.au.itsmap.group4.crispy.utils.Helpers;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class AddPlannedMealFragment extends Fragment {
 
     private MealsPlanViewModel mModel;
 
     private Activity mActivity;
-    private Button btnSave, btnCancel, btnDate, btnTime;
+    private Button btnSave, btnDate, btnTime;
     private TextView mealDate, mealTime;
     private Spinner whoCooksSpinner;
     private View mView;
@@ -61,7 +66,6 @@ public class AddPlannedMealFragment extends Fragment {
         mActivity = this.getActivity();
         mView = inflater.inflate(R.layout.add_planned_meal_fragment, container, false);
 
-        btnCancel = mView.findViewById(R.id.btnCancel);
         btnSave = mView.findViewById(R.id.btnSave);
         btnDate = mView.findViewById(R.id.btnDate);
         btnTime = mView.findViewById(R.id.btnTime);
@@ -86,7 +90,23 @@ public class AddPlannedMealFragment extends Fragment {
         mModel.getAllRecipes().observe(this,
                 recipes -> mRecipesAutoCompleteAdapter.setData(recipes)
         );
+        // has selected recipe from autocomplete
+        recipeName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                IMeal meal = mModel.getSelectedMeal().getValue();
+                if(meal != null) {
+                    meal.setTitle(parent.getItemAtPosition(position).toString());
+                    mModel.getSelectedMeal().setValue(meal);
+                }
+            } // to close the onItemSelected
+            public void onNothingSelected(AdapterView<?> parent)
+            {
 
+            }
+        });
+        // has selected by clicking outside
         recipeName.setOnFocusChangeListener((View v, boolean b) -> {
             if(!b) {
                 // put selected recipe to VM
@@ -99,7 +119,7 @@ public class AddPlannedMealFragment extends Fragment {
         });
 
         // assign to user
-        mUsersSpinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, mModel.getPossibleCooks());
+        mUsersSpinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mModel.getPossibleCooks());
         whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
         whoCooksSpinner.setAdapter(mUsersSpinnerAdapter);
         whoCooksSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -124,19 +144,29 @@ public class AddPlannedMealFragment extends Fragment {
 
         btnSave.setOnClickListener(v -> {
             savingHandler();
-
-            Navigation.findNavController(mView).navigateUp();
-
         });
-
-        btnCancel.setOnClickListener(v -> Navigation.findNavController(mView).navigateUp());
 
         return mView;
     }
 
     private void savingHandler() {
-        mModel.createMeal();
-        Toast.makeText(getActivity(), "Meal was saved!", Toast.LENGTH_LONG).show();
+        // close the keyboard
+        Helpers.hideKeyboard(mActivity);
+
+        // save the meal
+        IMeal meal = mModel.getSelectedMeal().getValue();
+        if(meal != null) {
+            meal.setTitle((recipeName).getText().toString());
+            mModel.getSelectedMeal().setValue(meal);
+
+            if (meal.getDate().compareTo(new Date()) < 0) {
+                Toast.makeText(getActivity(), "Focus more on future, not on the past!\nChange the time of meal.", Toast.LENGTH_LONG).show();
+            } else {
+                mModel.createMeal();
+                Toast.makeText(getActivity(), "Meal was saved!", Toast.LENGTH_LONG).show();
+                Navigation.findNavController(mView).navigateUp();
+            }
+        }
     }
 
 

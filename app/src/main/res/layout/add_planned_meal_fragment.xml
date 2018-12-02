@@ -45,14 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel"
-        app:layout_constraintBottom_toTopOf="@+id/btnSave"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Spinner
         android:id="@+id/whoPrepares"
         android:layout_width="150dp"
