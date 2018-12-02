@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.recipe;
+package dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
+import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 import android.view.MenuItem;
 

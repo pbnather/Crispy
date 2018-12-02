@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.recipe;
+package dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail;
 
 import android.app.Activity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
+import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 /**
  * A fragment representing a single Recipe detail screen.

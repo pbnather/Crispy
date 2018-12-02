@@ -5,7 +5,7 @@
     android:id="@+id/mealsplan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ui.mealsplan.MealsPlanFragment">
+    tools:context=".ui.mealsPlan.mealsList.MealsPlanFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/crispyToolbar"

@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.grocerylist;
+package dk.au.itsmap.group4.crispy.ui.groceryList;
 
 import androidx.lifecycle.ViewModelProviders;
 

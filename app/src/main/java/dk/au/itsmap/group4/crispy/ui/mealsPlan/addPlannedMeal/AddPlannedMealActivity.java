@@ -1,21 +1,20 @@
-package dk.au.itsmap.group4.crispy.ui;
+package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.ui.ui.account.AccountFragment;
 
-public class Account extends AppCompatActivity {
+public class AddPlannedMealActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_activity);
+        setContentView(R.layout.add_planned_meal_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, AccountFragment.newInstance())
+                    .replace(R.id.container, AddPlannedMealFragment.newInstance())
                     .commitNow();
         }
     }

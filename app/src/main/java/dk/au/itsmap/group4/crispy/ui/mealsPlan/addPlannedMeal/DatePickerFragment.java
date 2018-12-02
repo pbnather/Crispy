@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.ui.addplannedmeal;
+package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -6,12 +6,24 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProviders;
+import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 
 //from: https://developer.android.com/guide/topics/ui/controls/pickers
-public class DatePickerFragment extends DialogFragment
-        implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+    private MealsPlanViewModel mModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,6 +38,8 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // TODO: Do something with the date chosen by the user
+        mModel.getSelectedDate().set(Calendar.YEAR, year);
+        mModel.getSelectedDate().set(Calendar.MONTH, month);
+        mModel.getSelectedDate().set(Calendar.DAY_OF_MONTH, day);
     }
 }

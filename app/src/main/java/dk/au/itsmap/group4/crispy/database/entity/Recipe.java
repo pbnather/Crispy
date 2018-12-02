@@ -1,5 +1,7 @@
 package dk.au.itsmap.group4.crispy.database.entity;
 
+import com.google.firebase.firestore.Exclude;
+
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 
 public class Recipe extends Entity implements IRecipe {
@@ -10,7 +12,14 @@ public class Recipe extends Entity implements IRecipe {
 
     public Recipe() {}
 
+    public Recipe(String title, String image_url, String description) {
+        this.title = title;
+        this.image_url = image_url;
+        this.description = description;
+    }
+
     @Override
+    @Exclude
     public String getId() {
         return id;
     }
