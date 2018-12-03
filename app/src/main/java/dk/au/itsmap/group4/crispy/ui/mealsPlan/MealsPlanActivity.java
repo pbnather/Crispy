@@ -1,9 +1,14 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.service.NotificationAlarm;
 import dk.au.itsmap.group4.crispy.ui.CrispyAuthenticatedActivity;
 import dk.au.itsmap.group4.crispy.service.notifications.NotificationAlarm;
 
