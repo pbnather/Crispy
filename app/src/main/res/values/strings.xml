@@ -19,7 +19,6 @@
     <string name="all_recipies">ALL RECIPIES</string>
     <string name="prepares">Prepares:</string>
     <string name="time">Time:</string>
-    <string name="mealName">Meal name</string>
     <string name="mealDate">Choose the day</string>
     <string name="mealTime">Choose the time</string>
     <string name="person">Person:</string>
@@ -34,7 +33,8 @@
     <string name="crispy_planner" translatable="false">Crispy Planner</string>
     <string name="recipies">Recipies</string>
     <string name="add_meal">Add meal</string>
-    <string name="add_meal_is_in_past_error">Focus more on future, not on the past! Change the time of meal.</string>
+    <string name="add_meal_is_in_past_error">Focus on future, not the past! Change the time of a meal.</string>
     <string name="add_meal_save_success">Meal was saved!</string>
     <string name="add_meal_update_success">Meal was updated!</string>
+    <string name="meal_name">Choose recipy:</string>
 </resources>
