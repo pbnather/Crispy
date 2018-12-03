@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.service;
+package dk.au.itsmap.group4.crispy.service.notifications;
 
 
 import android.app.NotificationChannel;
@@ -19,12 +19,12 @@ import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanActivity;
 /**
  * Class for creating notifications
  */
-public class NotificationHelper
+public class NotificationFactory
 {
     private String CHANNEL_ID = "crispy_app_channel";
     private Context mContext;
 
-    public NotificationHelper(Context context) {
+    public NotificationFactory(Context context) {
 
         this.mContext = context;
 

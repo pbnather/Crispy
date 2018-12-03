@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.service.NotificationAlarm;
+import dk.au.itsmap.group4.crispy.service.notifications.NotificationAlarm;
 
 public class MealsPlanActivity extends AppCompatActivity {
 

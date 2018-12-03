@@ -1,20 +1,13 @@
-package dk.au.itsmap.group4.crispy.service;
+package dk.au.itsmap.group4.crispy.service.notifications;
 
 import android.app.IntentService;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.List;
-
-import dk.au.itsmap.group4.crispy.database.FSRepository;
-import dk.au.itsmap.group4.crispy.model.IMeal;
-import dk.au.itsmap.group4.crispy.model.IRepository;
-
 public class NotificationIntentService extends IntentService {
 
-    NotificationHelper mNotificationHelper;
+    NotificationFactory mNotificationHelper;
 
     public NotificationIntentService() {
         super("NotificationIntentService");
@@ -23,15 +16,15 @@ public class NotificationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent workIntent) {
 
-        mNotificationHelper = new NotificationHelper(this);
+        mNotificationHelper = new NotificationFactory(this);
 
         (new NotifyTodaysMealAsyncTask()).execute(mNotificationHelper);
 
     }
 
-    public static class NotifyTodaysMealAsyncTask extends AsyncTask<NotificationHelper, Void, Void> {
+    public static class NotifyTodaysMealAsyncTask extends AsyncTask<NotificationFactory, Void, Void> {
         @Override
-        protected Void doInBackground(NotificationHelper... helpers) {
+        protected Void doInBackground(NotificationFactory... helpers) {
             // todo
             Log.d("NOTIFICATION", "Alarm clock fired");
 
