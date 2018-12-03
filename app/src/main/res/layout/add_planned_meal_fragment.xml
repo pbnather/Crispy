@@ -27,7 +27,6 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="@string/mealName"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/whoPrepares"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,10 +50,13 @@
         android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="32dp"
+        android:scrollbarSize="16dp"
         app:layout_constraintBottom_toTopOf="@+id/btnDate"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/recipeName" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeName"
+        tools:scrollbarSize="16dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -62,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="@string/assign_to"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/whoPrepares"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/whoPrepares"
@@ -71,8 +74,9 @@
         android:id="@+id/mealDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
         android:text="@string/date"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnDate"
         app:layout_constraintEnd_toStartOf="@+id/btnDate"
         app:layout_constraintHorizontal_bias="0.5"
@@ -83,9 +87,9 @@
     <TextView
         android:id="@+id/mealTime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="23dp"
         android:text="@string/time"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnTime"
         app:layout_constraintEnd_toStartOf="@+id/btnTime"
         app:layout_constraintHorizontal_bias="0.5"
@@ -94,6 +98,7 @@
 
     <Button
         android:id="@+id/btnDate"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
@@ -105,6 +110,7 @@
 
     <Button
         android:id="@+id/btnTime"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -128,13 +134,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeName" />
 
-    <Button
-        android:id="@+id/btnDelete"
+    <TextView
+        android:id="@+id/mealName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/delete"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btnSave"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/meal_name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recipeName"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

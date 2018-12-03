@@ -16,7 +16,6 @@
     <string name="all_recipies">WSZYSTKIE PRZEPISY</string>
     <string name="prepares">Przygotowuje:</string>
     <string name="time">Czas:</string>
-    <string name="mealName">Nazwa posiłku</string>
     <string name="mealDate">Wybierz dzień</string>
     <string name="mealTime">Wybierz czas</string>
     <string name="person">Osoba:</string>
@@ -32,4 +31,8 @@
     <string name="recipies">Przepisy</string>
     <string name="add_meal">Dodaj posiłek</string>
     <string name="fui_name_hint">Twoje imię</string>
+    <string name="meal_name">Wybierz przepis:</string>
+    <string name="add_meal_save_success">Zapisano posiłek!</string>
+    <string name="add_meal_update_success">Zaktualizowano posiłek!</string>
+    <string name="add_meal_is_in_past_error">Skup się na przyszłości, a nie na tym co już minęło! Zmień czas posiłku.</string>
 </resources>
