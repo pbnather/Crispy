@@ -84,7 +84,20 @@ public class MealsPlanViewModel extends ViewModel {
         return mMode;
     }
 
-    public void setMode(Mode mode) {
-        mMode = mode;
+    /**
+     * Prepare View model for editing
+     * @param toEdit IMeal
+     */
+    public void switchToEditMode(IMeal toEdit) {
+        mMode = Mode.EDIT;
+        mSelectedMeal.setValue(toEdit);
+    }
+
+    /**
+     * Prepare View model for creating new Meals
+     */
+    public void switchToAddMode() {
+        mMode = Mode.ADD;
+        mSelectedMeal.setValue(new Meal());
     }
 }
