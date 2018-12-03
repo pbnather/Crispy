@@ -46,25 +46,25 @@ public class RecipeEditFragment extends Fragment {
 
         Activity activity = getActivity();
         ingredientsTable = rootView.findViewById(R.id.ingredientsTable);
-
+        mAutoAdapter = new IngredientAutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
         mModel.getSelectedRecipe().observe(this, recipe -> updateView(activity, rootView, recipe));
         mModel.getIngredientsForSelectedRecipe().observe(this, ingredients -> {
             ingredientsTable.removeAllViews();
             for(IIngredient ingredient : ingredients) {
+                // add array of views
                 View ingredientRowLayout = inflater.inflate(R.layout.edit_ingredient_row, container, false);
                 AutoCompleteTextView ingredientName = ingredientRowLayout.findViewById(R.id.ingredientNameEditText);
                 EditText ingredientQuantity = ingredientRowLayout.findViewById(R.id.quantityEditText);
                 Spinner unitPicker = ingredientRowLayout.findViewById(R.id.unitPicker);
                 Button deleteRowBtn = ingredientRowLayout.findViewById(R.id.deleteRowBtn);
 
+                ingredientName.setAdapter(mAutoAdapter);
+
                 ingredientName.setText(ingredient.getName());
                 ingredientQuantity.setText(String.valueOf(ingredient.getQuantity()));
                 ingredientsTable.addView(ingredientRowLayout);
             }
         });
-
-//        mAutoAdapter = new IngredientAutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
-//        autoCompleteIngredient.setAdapter(mAutoAdapter);
 
         return rootView;
     }
