@@ -69,6 +69,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
         // add meal to plan button
         btnAddMeal.setOnClickListener(v -> {
+            mModel.setMode(MealsPlanViewModel.Mode.ADD);
             Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
         });
 
@@ -100,6 +101,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
     @Override
     public void onItemClicked(IMeal meal) {
         mModel.getSelectedMeal().setValue(meal);
+        mModel.setMode(MealsPlanViewModel.Mode.EDIT);
         Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
     }
 

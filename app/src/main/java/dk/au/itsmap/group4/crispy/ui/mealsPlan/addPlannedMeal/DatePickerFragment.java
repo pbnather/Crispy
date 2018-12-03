@@ -8,7 +8,6 @@ import android.widget.DatePicker;
 import com.google.firebase.Timestamp;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -30,11 +29,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker
-        // final Calendar c = mModel.getSelectedDate().getValue();
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(mModel.getSelectedMeal().getValue().getDate());
+        Calendar c = mModel.getSelectedMeal().getValue().getCalendarInstance();
 
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -45,23 +40,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-//        Calendar cal = mModel.getSelectedDate().getValue();
-//        if(cal != null) {
-//            cal.set(Calendar.YEAR, year);
-//            cal.set(Calendar.MONTH, month);
-//            cal.set(Calendar.DAY_OF_MONTH, day);
-//        }
-//        mModel.getSelectedDate().setValue(cal);
+        Calendar c = mModel.getSelectedMeal().getValue().getCalendarInstance();
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(mModel.getSelectedMeal().getValue().getDate());
-
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DAY_OF_MONTH, day);
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, day);
 
         IMeal meal = mModel.getSelectedMeal().getValue();
-        meal.setDate(new Timestamp(cal.getTime()));
+        meal.setDate(new Timestamp(c.getTime()));
 
         mModel.getSelectedMeal().setValue(meal);
     }

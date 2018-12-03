@@ -1,7 +1,5 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -15,8 +13,16 @@ import dk.au.itsmap.group4.crispy.model.IRepository;
 
 public class MealsPlanViewModel extends ViewModel {
 
+    /**
+     * Mode of AddPlannedMealFragment
+     */
+    public enum Mode {
+        EDIT, ADD
+    }
+
     // meal to be created
-    private MutableLiveData<IMeal> selectedMeal;
+    private MutableLiveData<IMeal> mSelectedMeal;
+    private Mode mMode;
 
     private IRepository mRepository;
     private LiveData<List<IMeal>> mMeals;
@@ -25,8 +31,10 @@ public class MealsPlanViewModel extends ViewModel {
     public MealsPlanViewModel() {
         mRepository = FSRepository.getInstance();
 
-        selectedMeal = new MutableLiveData<>();
-        selectedMeal.setValue(new Meal());
+        mSelectedMeal = new MutableLiveData<>();
+        mSelectedMeal.setValue(new Meal());
+        mMode = Mode.ADD;
+
     }
 
     public LiveData<List<IMeal>> getAllMeals() {
@@ -52,12 +60,12 @@ public class MealsPlanViewModel extends ViewModel {
     }
 
     public MutableLiveData<IMeal> getSelectedMeal() {
-        return selectedMeal;
+        return mSelectedMeal;
     }
 
     public void createMeal() {
-        mRepository.saveMeal(selectedMeal.getValue());
-        selectedMeal.setValue(new Meal());
+        mRepository.saveMeal(mSelectedMeal.getValue());
+        mSelectedMeal.setValue(new Meal());
     }
 
     public String[] getPossibleCooks() {
@@ -69,6 +77,14 @@ public class MealsPlanViewModel extends ViewModel {
     }
 
     public void deleteSelectedMeal() {
-        mRepository.deleteMeal(selectedMeal.getValue());
+        mRepository.deleteMeal(mSelectedMeal.getValue());
+    }
+
+    public Mode getMode() {
+        return mMode;
+    }
+
+    public void setMode(Mode mode) {
+        mMode = mode;
     }
 }

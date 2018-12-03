@@ -1,7 +1,6 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
@@ -44,7 +43,7 @@ public class AddPlannedMealFragment extends Fragment {
     private Spinner whoCooksSpinner;
     private View mView;
 
-    private AutoCompleteAdapter mRecipesAutoCompleteAdapter;
+    private AutoCompleteRecipeAdapter mRecipesAutoCompleteAdapter;
     private ArrayAdapter<String> mUsersSpinnerAdapter;
     private AutoCompleteTextView recipeName;
 
@@ -58,9 +57,8 @@ public class AddPlannedMealFragment extends Fragment {
 
         mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
 
-        if(mModel.getSelectedMeal().getValue() != null) {
-            mIsEditMode = true;
-        }
+        mIsEditMode = mModel.getMode() == MealsPlanViewModel.Mode.EDIT;
+
     }
 
     @SuppressLint("DefaultLocale")
@@ -93,7 +91,7 @@ public class AddPlannedMealFragment extends Fragment {
         });
 
         // select recipe
-        mRecipesAutoCompleteAdapter = new AutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
+        mRecipesAutoCompleteAdapter = new AutoCompleteRecipeAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
         recipeName.setAdapter(mRecipesAutoCompleteAdapter);
         mModel.getAllRecipes().observe(this,
                 recipes -> mRecipesAutoCompleteAdapter.setData(recipes)

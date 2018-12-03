@@ -86,6 +86,12 @@ public class Meal extends Entity implements IMeal {
         return date == null ? 0 : time(Calendar.MINUTE);
     }
 
+    public Calendar getCalendarInstance() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date.toDate());
+        return c;
+    }
+
     private int time(int time) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(getDate());
