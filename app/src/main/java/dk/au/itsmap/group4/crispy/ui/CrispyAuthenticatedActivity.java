@@ -15,20 +15,14 @@ import com.google.firebase.auth.FirebaseUser;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.database.FSRepository;
-import dk.au.itsmap.group4.crispy.model.IUserGroup;
-import dk.au.itsmap.group4.crispy.ui.account.AccountActivity;
-import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
 
 public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
 
-    private static final String TAG = "AuthActivity";
+    private static final String TAG = "AuthenticatedActivity";
     private static final int RC_SIGN_IN = 451;
 
-    private FirebaseAuth mAuth;
-
     protected FirebaseUser mCurrentUser;
-    protected IUserGroup mUserGroup;
+    protected FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +48,16 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
 
     protected void signOut() {
         AuthUI.getInstance()
-                .signOut(this).addOnSuccessListener(task -> {
-                mCurrentUser = mAuth.getCurrentUser();
-                signIn();
-                });
+                .signOut(this).addOnSuccessListener(task -> signIn());
     }
 
-    private void registerUser(String userId, String username) {
-        FSRepository
-                .getInstance()
-                .createUserWithGroup(userId, username);
+    private void registerUser() {
+        // TODO: Add user to the database and to the group
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        menu.findItem(R.id.btnAccount).setIcon(R.drawable.common_google_signin_btn_icon_dark);
         return true;
     }
 
@@ -78,14 +66,10 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnGroceryList:
-                //TODO: navigate to grocery list instead of signing out :)
+                //TODO: navigate to grocery list
                 if (mCurrentUser != null) {
                     signOut();
                 }
-                return true;
-            case R.id.btnAccount:
-                Intent intent = new Intent(this, AccountActivity.class);
-                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -100,11 +84,10 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
-            mCurrentUser = mAuth.getCurrentUser();
             // Successfully signed in
             if (resultCode == RESULT_OK) {
                 if (response != null && response.isNewUser()) {
-                    registerUser(mCurrentUser.getUid(), mCurrentUser.getDisplayName());
+                    registerUser();
                 }
             } else {
                 // Sign in failed
