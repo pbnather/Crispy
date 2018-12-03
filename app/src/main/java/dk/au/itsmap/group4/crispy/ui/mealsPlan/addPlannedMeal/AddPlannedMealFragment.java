@@ -37,7 +37,7 @@ public class AddPlannedMealFragment extends Fragment {
     private IMeal mMeal;
 
     private Activity mActivity;
-    private Button btnSave, btnDate, btnTime;
+    private Button btnSave, btnDate, btnTime, btnDelete;
     private TextView mealDate, mealTime;
     private Spinner whoCooksSpinner;
     private View mView;
@@ -72,6 +72,8 @@ public class AddPlannedMealFragment extends Fragment {
         btnSave = mView.findViewById(R.id.btnSave);
         btnDate = mView.findViewById(R.id.btnDate);
         btnTime = mView.findViewById(R.id.btnTime);
+        btnDelete = mView.findViewById(R.id.btnDelete);
+
 
         recipeName = mView.findViewById(R.id.recipeName);
 
@@ -131,6 +133,11 @@ public class AddPlannedMealFragment extends Fragment {
         });
 
         // click handlers
+        if(mIsEditMode) {
+            btnDelete.setVisibility(View.VISIBLE);
+            btnDelete.setOnClickListener(v -> deletingHandler());
+        }
+
         btnDate.setOnClickListener(v -> showDatePickerDialog(v));
         btnTime.setOnClickListener(v -> showTimePickerDialog(v));
 
@@ -139,6 +146,15 @@ public class AddPlannedMealFragment extends Fragment {
         });
 
         return mView;
+    }
+
+    private void deletingHandler() {
+        // close the keyboard
+        Helpers.hideKeyboard(mActivity);
+
+        mModel.deleteSelectedMeal();
+        Toast.makeText(getActivity(), R.string.delete_meal_message, Toast.LENGTH_LONG).show();
+        Navigation.findNavController(mView).navigateUp();
     }
 
     private void savingHandler() {
@@ -153,7 +169,7 @@ public class AddPlannedMealFragment extends Fragment {
             Toast.makeText(getActivity(), R.string.add_meal_is_in_past_error, Toast.LENGTH_LONG).show();
         } else {
             mModel.createMeal();
-            Toast.makeText(getActivity(), mIsEditMode ? getString(R.string.add_meal_update_success) : getString(R.string.add_meal_save_success), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), mIsEditMode ? R.string.add_meal_update_success : R.string.add_meal_save_success, Toast.LENGTH_LONG).show();
             Navigation.findNavController(mView).navigateUp();
         }
 
