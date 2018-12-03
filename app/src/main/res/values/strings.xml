@@ -42,6 +42,7 @@
     <string name="add">Add</string>
     <string name="description">Description</string>
     <string name="add_description">Add your description</string>
+    <string name="meal_name">Choose recipy:</string>
     <string name="delete">Delete</string>
     <string name="delete_meal_message">Meal was deleted!</string>
     <string name="channel_name" translatable="false">Channel Name</string>
