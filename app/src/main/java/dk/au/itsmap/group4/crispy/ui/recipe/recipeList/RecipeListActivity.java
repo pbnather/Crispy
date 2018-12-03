@@ -91,7 +91,7 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
     @Override
     public void onRecipeClicked(IRecipe recipe) {
 
-        mModel.setSelectedRecipe(recipe.getId());
+        mModel.selectRecipe(recipe.getId());
 
         if (mTwoPane) {
             // show only fragment
