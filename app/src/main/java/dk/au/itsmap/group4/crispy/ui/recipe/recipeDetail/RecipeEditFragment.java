@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.TextView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -56,7 +55,7 @@ public class RecipeEditFragment extends Fragment {
                 AutoCompleteTextView ingredientName = ingredientRowLayout.findViewById(R.id.ingredientNameEditText);
                 EditText ingredientQuantity = ingredientRowLayout.findViewById(R.id.quantityEditText);
                 Spinner unitPicker = ingredientRowLayout.findViewById(R.id.unitPicker);
-                Button deleteRowBtn = ingredientRowLayout.findViewById(R.id.deleteRowBtn);
+                Button deleteRowBtn = ingredientRowLayout.findViewById(R.id.btnAddIngredient);
 
                 ingredientName.setAdapter(mAutoAdapter);
 
