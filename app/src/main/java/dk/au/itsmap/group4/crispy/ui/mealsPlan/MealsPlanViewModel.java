@@ -67,4 +67,8 @@ public class MealsPlanViewModel extends ViewModel {
                 "Ala"
         };
     }
+
+    public void deleteSelectedMeal() {
+        mRepository.deleteMeal(selectedMeal.getValue());
+    }
 }
