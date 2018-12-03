@@ -1,6 +1,7 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
 import android.annotation.SuppressLint;
+import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,8 @@ public class MealsPlanRecyclerViewAdapter extends GenericRecyclerViewAdapter<IMe
 
                 mDay.setText(item.getDate() != null ? sdf.format(item.getDate()) : "---");
                 mTitle.setText(item.getTitle());
-                mHour.setText(String.format("%d:%d", item.getDateHours(), item.getDateMinutes()));
+                mHour.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(item.getDate())));
+
                 mUsersCooking.setText(item.getCookName());
 
                 itemView.setTag(item);
