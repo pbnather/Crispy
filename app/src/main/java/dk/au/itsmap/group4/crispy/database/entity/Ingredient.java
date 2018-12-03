@@ -12,7 +12,8 @@ public class Ingredient extends Entity implements IIngredient {
 
     public Ingredient() {}
 
-    public Ingredient(String name, String unit, double quantity) {
+    public Ingredient(String id, String name, String unit, double quantity) {
+        this.id = id;
         this.name = name;
         this.unit = unit;
         this.quantity = quantity;

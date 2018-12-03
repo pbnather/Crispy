@@ -206,8 +206,10 @@ public class FSRepository implements IRepository {
         for(IIngredient ingredient : ingredients) {
             // Get ingredient reference and add it to the batch
             String id = ingredient.getId();
-            DocumentReference ingredientRef = ingredientsRef.document(id);
-            batch.delete(ingredientRef);
+            if(id != null) {
+                DocumentReference ingredientRef = ingredientsRef.document(id);
+                batch.delete(ingredientRef);
+            }
         }
         // Delete the ingredients in one batch
         batch.commit()

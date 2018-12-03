@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
+import dk.au.itsmap.group4.crispy.database.entity.Ingredient;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.model.IRepository;
@@ -56,5 +57,10 @@ public class RecipeViewModel extends AndroidViewModel {
             mSelectedRecipe = mRepository.getRecipeById(recipeId);
             mSelectedRecipeIngredients = mRepository.getIngredientsForRecipeById(recipeId);
         }
+    }
+
+    public void saveRecipe(IRecipe recipe, List<IIngredient> added, List<IIngredient> deleted){
+        mRepository.deleteIngredientsForRecipe(recipe, deleted);
+        mRepository.saveRecipeWithIngredients(recipe, added);
     }
 }
