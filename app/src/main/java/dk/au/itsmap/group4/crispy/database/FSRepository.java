@@ -9,8 +9,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.WriteBatch;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -29,6 +31,8 @@ public class FSRepository implements IRepository {
     private FirebaseFirestore mFirestore;
     private CollectionReference mRecipes;
     private CollectionReference mMeals;
+    private CollectionReference mUsers;
+    private CollectionReference mGroups;
 
     /* adapted from BasicSample demo */
     private static FSRepository sInstance;
@@ -54,6 +58,37 @@ public class FSRepository implements IRepository {
         // Get references to all relevant collections
         mRecipes = mFirestore.collection("recipes");
         mMeals = mFirestore.collection("meals");
+        mUsers = mFirestore.collection("users");
+        mGroups = mFirestore.collection("groups");
+    }
+
+    public void createUserWithGroup(@NonNull String userId, @NonNull String userName) {
+        DocumentReference userRef = mUsers.document(userId);
+        DocumentReference userGroupRef = mGroups.document();
+
+        // Create new user document
+        Map<String, Object> user = new HashMap<>();
+        user.put("group", userGroupRef);
+
+        // Add userId to groups userIds array
+        List<String> userIds = new ArrayList<>();
+        userIds.add(userId);
+
+        // Add username to groups users map
+        Map<String, Object> users = new HashMap<>();
+        users.put(userId, userName);
+
+        // Create new group documents
+        Map<String, Object> group = new HashMap<>();
+        group.put("name", "Your UserGroup");
+        group.put("owner", userId);
+        group.put("userIds", userIds);
+        group.put("users", users);
+
+        WriteBatch batch = mFirestore.batch();
+        userRef.set(user);
+        userGroupRef.set(group);
+        batch.commit();
     }
 
     @Override
