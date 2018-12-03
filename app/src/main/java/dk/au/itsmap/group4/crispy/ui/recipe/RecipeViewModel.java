@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
+import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.model.IRepository;
 
@@ -17,14 +18,15 @@ import dk.au.itsmap.group4.crispy.model.IRepository;
 public class RecipeViewModel extends AndroidViewModel {
 
     private IRepository mRepository;
+    private LiveData<List<IIngredient>> mSelectedRecipeIngredients;
     private LiveData<List<IRecipe>> mRecipes;
-    private LiveData<IRecipe> selectedRecipe;
+    private LiveData<IRecipe> mSelectedRecipe;
+    private String mSelectedRecipeId;
 
     public RecipeViewModel(@NonNull Application application) {
         super(application);
 
         mRepository = FSRepository.getInstance();
-
     }
 
     public LiveData<List<IRecipe>> getAllRecipes() {
@@ -34,15 +36,25 @@ public class RecipeViewModel extends AndroidViewModel {
         return mRecipes;
     }
 
-    public LiveData<IRecipe> getRecipeById(String id) {
-        return mRepository.getRecipeById(id);
+    public LiveData<List<IIngredient>> getIngredientsForSelectedRecipe() {
+        if (mSelectedRecipeIngredients == null) {
+            mSelectedRecipeIngredients = new LiveData<List<IIngredient>>() {};
+        }
+        return mSelectedRecipeIngredients;
     }
 
     public LiveData<IRecipe> getSelectedRecipe() {
-        return selectedRecipe;
+        if (mSelectedRecipe == null) {
+            mSelectedRecipe = new LiveData<IRecipe>() {};
+        }
+        return mSelectedRecipe;
     }
 
-    public void setSelectedRecipe(String recipeId) {
-        this.selectedRecipe = mRepository.getRecipeById(recipeId);
+    public void selectRecipe(String recipeId) {
+        if(mSelectedRecipeId == null || !mSelectedRecipeId.equals(recipeId)) {
+            mSelectedRecipeId = recipeId;
+            mSelectedRecipe = mRepository.getRecipeById(recipeId);
+            mSelectedRecipeIngredients = mRepository.getIngredientsForRecipeById(recipeId);
+        }
     }
 }

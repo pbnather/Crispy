@@ -1,35 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/editableLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/recipe_detail"
-            style="?android:attr/textAppearanceLarge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:text="t"
-            android:textIsSelectable="true"
-            tools:context=".ui.recipe.recipeDetail.RecipeDetailFragment" />
+        android:layout_height="wrap_content">
 
         <TextView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/recipe_description"
+            android:id="@+id/ingredientsText"
             style="?android:attr/textAppearanceLarge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textIsSelectable="true"
-            tools:context=".ui.recipe.recipeDetail.RecipeDetailFragment" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="0dp"
+            android:text="Ingredients"
+            android:textAlignment="viewStart"
+            android:textIsSelectable="false"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            app:layout_constraintBottom_toTopOf="@+id/ingredientsTable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:context=".ui.recipe.recipeDetail.RecipeEditFragment" />
 
-    </LinearLayout>
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ingredientsTable"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ingredientsText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/recipe_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start|top"
+        android:isScrollContainer="true"
+        android:lines="3"
+        android:minHeight="100dp"
+        android:minLines="3"
+        android:scrollbars="vertical" />
 
 </ScrollView>

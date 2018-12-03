@@ -21,6 +21,7 @@
 
         </activity>
         <activity
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:name=".ui.recipe.recipeDetail.RecipeDetailActivity"
             android:label="@string/title_recipe_detail"
             android:parentActivityName=".ui.recipe.recipeList.RecipeListActivity"

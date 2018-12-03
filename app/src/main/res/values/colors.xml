@@ -7,4 +7,5 @@
     <color name="crispyGreen">#53da99</color>
     <color name="crispyGreenDark">#3fa373</color>
     <color name="crispyAccent">#eb8852</color>
+    <color name="transparentButton">#00eb8852</color>
 </resources>

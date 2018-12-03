@@ -14,6 +14,8 @@ import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 import android.view.MenuItem;
 
+import static dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity.EXTRA_RECIPE_ID;
+
 
 /**
  * An activity representing a single RecipeDao detail screen. This
@@ -64,12 +66,15 @@ public class RecipeDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
 
-            String recipeId = getIntent().getStringExtra(RecipeListActivity.EXTRA_RECIPE_ID);
+            String recipeId = getIntent().getStringExtra(EXTRA_RECIPE_ID);
 
-            mModel.setSelectedRecipe(recipeId);
+            mModel.selectRecipe(recipeId);
 
 //            RecipeDetailFragment fragment = new RecipeDetailFragment();
             RecipeEditFragment fragment = new RecipeEditFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTRA_RECIPE_ID, recipeId);
+            fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.recipe_detail_container, fragment)
                     .commit();
