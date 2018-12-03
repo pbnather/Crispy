@@ -90,6 +90,12 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
+    }
+
+    @Override
     public void onRecipeClicked(IRecipe recipe) {
 
         mModel.selectRecipe(recipe.getId());

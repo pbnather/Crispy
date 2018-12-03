@@ -1,6 +1,7 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -82,6 +84,8 @@ public class AddPlannedMealFragment extends Fragment {
 
         Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
         toolbar.setTitle(R.string.add_meal);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mModel.getSelectedMeal().observe(this, meal -> {
             mMeal = meal;
