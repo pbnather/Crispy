@@ -1,17 +1,8 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +10,12 @@ import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,13 +23,12 @@ import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
-import dk.au.itsmap.group4.crispy.ui.GenericRecyclerViewAdapter;
 
 
-public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAdapter.OnRecyclerViewItemClickListener<IMeal> {
+public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
     private RecyclerView mRecyclerView;
-    private GenericRecyclerViewAdapter<IMeal> mAdapter;
+    private MealsPlanRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Activity mActivity;
     private Button btnRecipies;
