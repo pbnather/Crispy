@@ -5,6 +5,9 @@ import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public abstract class Helpers {
     /**
      * Hide the keyboard. Can be called from any activity or fragment.
@@ -21,4 +24,5 @@ public abstract class Helpers {
 
         inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
+
 }

@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 import androidx.annotation.NonNull;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 
-public class AutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
+public class AutoCompleteRecipeAdapter extends ArrayAdapter<String> implements Filterable {
     private List<IRecipe> mValues;
     private List<String> mResults;
 
-    AutoCompleteAdapter(Context context, int textViewResourceId) {
+    AutoCompleteRecipeAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
         mValues = new ArrayList<>();
         mResults = new ArrayList<>();

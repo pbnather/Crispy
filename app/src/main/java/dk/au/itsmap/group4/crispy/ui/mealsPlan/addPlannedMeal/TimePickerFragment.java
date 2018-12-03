@@ -30,11 +30,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current time as the default values for the picker
-        // final Calendar c = mModel.getSelectedDate().getValue();
-
-        Calendar c = Calendar.getInstance();
-        c.setTime(mModel.getSelectedMeal().getValue().getDate());
+        Calendar c = mModel.getSelectedMeal().getValue().getCalendarInstance();
 
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
@@ -45,21 +41,13 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//        Calendar cal = mModel.getSelectedDate().getValue();
-//        if(cal != null) {
-//            cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//            cal.set(Calendar.MINUTE, minute);
-//        }
-//        mModel.getSelectedDate().setValue(cal);
+        Calendar c = mModel.getSelectedMeal().getValue().getCalendarInstance();
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(mModel.getSelectedMeal().getValue().getDate());
-
-        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        cal.set(Calendar.MINUTE, minute);
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
 
         IMeal meal = mModel.getSelectedMeal().getValue();
-        meal.setDate(new Timestamp(cal.getTime()));
+        meal.setDate(new Timestamp(c.getTime()));
 
         mModel.getSelectedMeal().setValue(meal);
     }

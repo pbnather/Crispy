@@ -1,5 +1,6 @@
 package dk.au.itsmap.group4.crispy.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import com.google.firebase.Timestamp;
 
@@ -17,6 +18,8 @@ public interface IMeal {
     String getCookName();
 
     Date getDate();
+
+    Calendar getCalendarInstance();
 
     int getDateHours();
 
