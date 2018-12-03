@@ -1,17 +1,8 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +10,12 @@ import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,13 +23,12 @@ import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
-import dk.au.itsmap.group4.crispy.ui.GenericRecyclerViewAdapter;
 
 
-public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAdapter.OnRecyclerViewItemClickListener<IMeal> {
+public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
     private RecyclerView mRecyclerView;
-    private GenericRecyclerViewAdapter<IMeal> mAdapter;
+    private MealsPlanRecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Activity mActivity;
     private Button btnRecipies;
@@ -45,7 +41,6 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
-
     }
 
     @Nullable
@@ -69,7 +64,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
         // add meal to plan button
         btnAddMeal.setOnClickListener(v -> {
-            mModel.setMode(MealsPlanViewModel.Mode.ADD);
+            mModel.switchToAddMode();
             Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
         });
 
@@ -100,8 +95,7 @@ public class MealsPlanFragment extends Fragment implements GenericRecyclerViewAd
 
     @Override
     public void onItemClicked(IMeal meal) {
-        mModel.getSelectedMeal().setValue(meal);
-        mModel.setMode(MealsPlanViewModel.Mode.EDIT);
+        mModel.switchToEditMode(meal);
         Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
     }
 
