@@ -11,18 +11,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/ingredientsText"
+        <TextView
+            android:id="@+id/descriptionText"
             style="?android:attr/textAppearanceLarge"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:fontFamily="casual"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="0dp"
-            android:text="Ingredients"
+            android:text="@string/description"
+            android:textAlignment="viewStart"
+            android:textIsSelectable="false"
+            android:textSize="27sp"
+            android:textStyle="bold"
+            android:typeface="serif"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddIngredient"
+            tools:context=".ui.recipe.recipeDetail.RecipeEditFragment" />
+
+        <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/ingredientsText"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="casual"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="0dp"
+            android:text="@string/ingredients"
             android:textAlignment="viewStart"
             android:textIsSelectable="false"
             android:textSize="27sp"
@@ -30,7 +54,7 @@
             android:typeface="serif"
             app:layout_constraintBottom_toTopOf="@+id/ingredientsTable"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.109"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
@@ -47,14 +71,16 @@
             app:layout_constraintTop_toBottomOf="@+id/ingredientsText" />
 
         <Button
-            android:id="@+id/deleteRowBtn"
-            android:layout_width="match_parent"
+            android:id="@+id/btnAddIngredient"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="safasfsaf"
+            android:text="@string/add"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.06"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ingredientsTable" />
 
@@ -65,15 +91,19 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
+            android:fontFamily="casual"
             android:gravity="start|top"
+            android:hint="@string/add_description"
+            android:inputType="textMultiLine"
             android:isScrollContainer="true"
             android:lines="3"
             android:minHeight="100dp"
             android:minLines="3"
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deleteRowBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

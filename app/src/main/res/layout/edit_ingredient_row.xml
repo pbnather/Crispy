@@ -45,7 +45,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/quantityEditText"
-        app:layout_constraintEnd_toStartOf="@+id/deleteRowBtn"
+        app:layout_constraintEnd_toStartOf="@+id/btnAddIngredient"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent" />
 

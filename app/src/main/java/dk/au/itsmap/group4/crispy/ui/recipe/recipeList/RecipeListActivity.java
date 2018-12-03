@@ -75,7 +75,8 @@ public class RecipeListActivity extends AppCompatActivity implements RecipesRecy
         Toolbar toolbar = (Toolbar) findViewById(R.id.mainToolbar);
         toolbar.setTitle(R.string.recipies);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
