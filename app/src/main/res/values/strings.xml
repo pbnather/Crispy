@@ -43,4 +43,8 @@
     <string name="add_description">Add your description</string>
     <string name="delete">Delete</string>
     <string name="delete_meal_message">Meal was deleted!</string>
+    <string name="channel_name">Channel Name</string>
+    <string name="channel_description">Channel Description</string>
+    <string name="notification_title">Notification Title</string>
+    <string name="notification_text">Notification Text</string>
 </resources>

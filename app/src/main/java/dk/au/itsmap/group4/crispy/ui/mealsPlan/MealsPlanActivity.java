@@ -1,14 +1,14 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.service.NotificationAlarm;
 
 public class MealsPlanActivity extends AppCompatActivity {
 
@@ -23,6 +23,7 @@ public class MealsPlanActivity extends AppCompatActivity {
         mToolbar.setTitle(R.string.crispy_planner);
         setSupportActionBar(mToolbar);
 
+        NotificationAlarm.startAlarm(this);
     }
 
     @Override
