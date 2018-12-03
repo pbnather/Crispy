@@ -31,4 +31,5 @@
     <string name="change">zmień</string>
     <string name="recipies">Przepisy</string>
     <string name="add_meal">Dodaj posiłek</string>
+    <string name="fui_name_hint">Twoje imię</string>
 </resources>
