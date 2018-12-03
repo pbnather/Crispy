@@ -1,10 +1,8 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan;
 
 import android.os.Bundle;
-import android.view.Menu;
-
-
 import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.ui.CrispyAuthenticatedActivity;
 
@@ -24,9 +22,7 @@ public class MealsPlanActivity extends CrispyAuthenticatedActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
+    public boolean onSupportNavigateUp() {
+        return Navigation.findNavController(this, R.id.navigation_fragment).navigateUp();
     }
-
 }
