@@ -23,6 +23,7 @@ import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.model.IRepository;
+import dk.au.itsmap.group4.crispy.model.IUserGroup;
 
 public class FSRepository implements IRepository {
 
@@ -60,6 +61,11 @@ public class FSRepository implements IRepository {
         mMeals = mFirestore.collection("meals");
         mUsers = mFirestore.collection("users");
         mGroups = mFirestore.collection("groups");
+    }
+
+    public LiveData<IUserGroup> getUserGroup(@NonNull String userId) {
+        return new LiveData<IUserGroup>() {
+        };
     }
 
     public void createUserWithGroup(@NonNull String userId, @NonNull String userName) {
