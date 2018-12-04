@@ -59,7 +59,7 @@ public class RecipeEditFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.recipe_detail_inner_edit, container, false);
+        mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
         mActivity = getActivity();
 
         Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
