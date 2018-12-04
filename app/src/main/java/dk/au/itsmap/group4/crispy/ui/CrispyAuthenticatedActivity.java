@@ -58,6 +58,7 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        menu.findItem(R.id.btnAccount).setIcon(R.drawable.common_google_signin_btn_icon_dark);
         return true;
     }
 
