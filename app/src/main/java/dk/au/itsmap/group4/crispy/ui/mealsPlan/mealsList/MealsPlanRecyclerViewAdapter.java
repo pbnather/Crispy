@@ -27,7 +27,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
     private List<IMeal> mValues;
 
     MealsPlanRecyclerViewAdapter(
-        OnRecyclerViewItemClickListener clickListener
+            OnRecyclerViewItemClickListener clickListener
     ) {
         mClickListener = clickListener;
         mValues = new ArrayList<>();
@@ -45,7 +45,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.bind(mValues.get(position), position-1 >= 0 ? mValues.get(position-1) : null);
+        holder.bind(mValues.get(position), position - 1 >= 0 ? mValues.get(position - 1) : null);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
             if (item != null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMM");
                 // show date only if is this meal on different date then previous
-                if(!(prevItem != null && sdf.format(item.getDate()).equals(sdf.format(prevItem.getDate())))) {
+                if (!(prevItem != null && sdf.format(item.getDate()).equals(sdf.format(prevItem.getDate())))) {
                     mDay.setText(item.getDate() != null ? sdf.format(item.getDate()) : "---");
                 } else {
                     mDay.setVisibility(View.GONE);
