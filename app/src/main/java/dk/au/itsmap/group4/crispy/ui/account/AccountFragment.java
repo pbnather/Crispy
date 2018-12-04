@@ -11,28 +11,49 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseUser;
 
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.service.GlideApp;
 
 public class AccountFragment extends Fragment {
 
     private AccountViewModel mViewModel;
+    private FirebaseUser mCurrentUser;
 
     public static AccountFragment newInstance() {
         return new AccountFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.account_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.account_fragment, container, false);
+        ImageView profilePicture = rootView.findViewById(R.id.profilePicture);
+        mCurrentUser = mViewModel.getCurrentUser();
+        GlideApp.with(this)
+                .load(mCurrentUser != null ? mCurrentUser.getPhotoUrl() : null)
+                .placeholder(R.drawable.default_profile_picture_hd)
+                .into(profilePicture);
+        TextView accountNameText = rootView.findViewById(R.id.accountNameText);
+        accountNameText.setText(String.format("Hi %s", mCurrentUser.getDisplayName()));
+        return rootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
         // TODO: Use the ViewModel
     }
 

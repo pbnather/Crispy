@@ -30,7 +30,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity" />
         </activity>
-        <activity android:name=".ui.mealsPlan.MealsPlanActivity">
+        <activity
+            android:name=".ui.mealsPlan.MealsPlanActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
