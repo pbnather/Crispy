@@ -30,7 +30,6 @@
     <string name="change">zmień</string>
     <string name="recipies">Przepisy</string>
     <string name="add_meal">Dodaj posiłek</string>
-    <string name="fui_name_hint">Twoje imię</string>
     <string name="meal_name">Wybierz przepis:</string>
     <string name="add_meal_save_success">Zapisano posiłek!</string>
     <string name="add_meal_update_success">Zaktualizowano posiłek!</string>

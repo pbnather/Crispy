@@ -44,6 +44,4 @@
     <string name="add_description">Add your description</string>
     <string name="delete">Delete</string>
     <string name="delete_meal_message">Meal was deleted!</string>
-    <string name="delete">Delete</string>
-    <string name="delete_meal_message">Meal was deleted!</string>
 </resources>
