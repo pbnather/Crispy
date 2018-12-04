@@ -121,6 +121,7 @@ public class AddPlannedMealFragment extends Fragment {
         mUsersSpinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mModel.getPossibleCooks());
         whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
         whoCooksSpinner.setAdapter(mUsersSpinnerAdapter);
+        whoCooksSpinner.setSelection(mUsersSpinnerAdapter.getPosition(mModel.getSelectedMeal().getValue().getCookName()));
         whoCooksSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -196,6 +197,7 @@ public class AddPlannedMealFragment extends Fragment {
         mealTime.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(meal.getDate())));
 
         recipeName.setText(meal.getTitle());
+
     }
 
 }
