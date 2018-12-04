@@ -12,7 +12,8 @@ public class Recipe extends Entity implements IRecipe {
 
     public Recipe() {}
 
-    public Recipe(String title, String image_url, String description) {
+    public Recipe(String id, String title, String image_url, String description) {
+        this.id = id;
         this.title = title;
         this.image_url = image_url;
         this.description = description;

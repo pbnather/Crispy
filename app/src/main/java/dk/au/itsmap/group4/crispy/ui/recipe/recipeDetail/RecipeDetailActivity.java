@@ -70,8 +70,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
             mModel.selectRecipe(recipeId);
 
-//            RecipeDetailFragment fragment = new RecipeDetailFragment();
-            RecipeEditFragment fragment = new RecipeEditFragment();
+           RecipeDetailFragment fragment = new RecipeDetailFragment();
+           // RecipeEditFragment fragment = new RecipeEditFragment();
             Bundle bundle = new Bundle();
             bundle.putString(EXTRA_RECIPE_ID, recipeId);
             fragment.setArguments(bundle);

@@ -21,13 +21,13 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.entity.Ingredient;
+import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
@@ -44,6 +44,8 @@ public class RecipeEditFragment extends Fragment {
     private Activity mActivity;
     private View mView;
     private View.OnClickListener deleteRowListener;
+    private EditText mDescriptionEdit;
+    private IRecipe mRecipe;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,12 @@ public class RecipeEditFragment extends Fragment {
         deleted = new ArrayList<>();
         mView = inflater.inflate(R.layout.recipe_edit, container, false);
         mActivity = getActivity();
+
+        mModel.getSelectedRecipe().observe( this , (r) ->
+                {
+                    mRecipe = r;
+                }
+        );
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
         btnAddIngredient = mView.findViewById(R.id.btnAddIngredient);
@@ -79,10 +87,7 @@ public class RecipeEditFragment extends Fragment {
         btnDeleteRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveIngredients();
-                mModel.saveRecipe(mModel.getSelectedRecipe().getValue(), added, deleted);
-                added.clear();
-                deleted.clear();
+                saveRecipe();
             }
         });
 
@@ -107,7 +112,7 @@ public class RecipeEditFragment extends Fragment {
             }
         });
 
-        fillEditFields();
+        setDescription();
 
         return mView;
     }
@@ -135,12 +140,13 @@ public class RecipeEditFragment extends Fragment {
     }
 
 
-    private void fillEditFields(){
-        ((EditText) mView.findViewById(R.id.recipe_description)).setInputType(InputType.TYPE_CLASS_TEXT |
+    private void setDescription(){
+        mDescriptionEdit = mView.findViewById(R.id.recipe_description);
+        mDescriptionEdit.setInputType(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE |
                 InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        ((EditText) mView.findViewById(R.id.recipe_description)).setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        ((EditText) mView.findViewById(R.id.recipe_description)).setMovementMethod(new ScrollingMovementMethod());
+        mDescriptionEdit.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        mDescriptionEdit.setMovementMethod(new ScrollingMovementMethod());
     }
 
     /**
@@ -207,5 +213,15 @@ public class RecipeEditFragment extends Fragment {
             }
         });
 
+    }
+
+    private void saveRecipe(){
+        String description = mDescriptionEdit.getText().toString();
+        Recipe updatedRecipe = new Recipe(mRecipe.getId(), mRecipe.getTitle(),mRecipe.getImage_url(), description);
+
+        saveIngredients();
+        mModel.saveRecipe(updatedRecipe, added, deleted);
+        added.clear();
+        deleted.clear();
     }
 }
