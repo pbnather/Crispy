@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".ui.recipe.recipeDetail.RecipeDetailActivity"
+    tools:context=".ui.recipe.recipeDetail.RecipeDetailFragment"
     tools:ignore="MergeRootFrame">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -38,10 +38,11 @@
         android:id="@+id/recipe_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/btnEditRecipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"

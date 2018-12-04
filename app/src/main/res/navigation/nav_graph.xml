@@ -29,10 +29,27 @@
         android:id="@+id/recipeListFragment"
         android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListFragment"
         android:label="recipe_list_fragment"
-        tools:layout="@layout/recipe_list_fragment" />
+        tools:layout="@layout/recipe_list_fragment" >
+        <action
+            android:id="@+id/action_recipeListFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
+        <action
+            android:id="@+id/action_recipeListFragment_to_recipeEditFragment"
+            app:destination="@id/recipeEditFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="dk.au.itsmap.group4.crispy.ui.account.AccountFragment"
         android:label="account_fragment"
         tools:layout="@layout/account_fragment" />
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail.RecipeDetailFragment"
+        android:label="recipe_detail_fragment"
+        tools:layout="@layout/recipe_detail_inner_detail" />
+    <fragment
+        android:id="@+id/recipeEditFragment"
+        android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail.RecipeEditFragment"
+        android:label="recipe_edit_fragment"
+        tools:layout="@layout/recipe_detail_inner_edit" />
 </navigation>

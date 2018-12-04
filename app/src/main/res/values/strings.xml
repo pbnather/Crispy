@@ -55,4 +55,6 @@
     <string name="l" translatable="false">l</string>
     <string name="ml" translatable="false">ml</string>
     <string name="pc">pc</string>
+    <string name="recipe_detail_title">Recipe detail</string>
+    <string name="recipe_edit_title">Edit recipe</string>
 </resources>

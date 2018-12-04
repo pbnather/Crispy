@@ -1,7 +1,6 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
-import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
 
 
 public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerViewAdapter.OnRecyclerViewItemClickListener {

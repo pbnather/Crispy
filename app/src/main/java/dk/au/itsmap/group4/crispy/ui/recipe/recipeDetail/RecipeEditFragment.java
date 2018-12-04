@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
@@ -57,11 +59,19 @@ public class RecipeEditFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.recipe_detail_inner_edit, container, false);
+        mActivity = getActivity();
+
+        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
+        toolbar.setTitle(getString(R.string.recipe_edit_title));
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // inflate inner layout to scroll view
+        inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container));
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();
-        mView = inflater.inflate(R.layout.recipe_edit, container, false);
-        mActivity = getActivity();
 
         mModel.getSelectedRecipe().observe( this , (r) ->
                 {

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
@@ -22,12 +23,6 @@ import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 public class RecipeListFragment extends Fragment implements RecipesRecyclerViewAdapter.OnRecipeClickListener {
-
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
-    private boolean mTwoPane;
 
     private Activity mActivity;
     private View mView;
@@ -42,7 +37,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+        mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
     }
 
     @Nullable
@@ -59,20 +54,12 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-        FloatingActionButton fab = (FloatingActionButton) mView.findViewById(R.id.addRecipeButton);
-        fab.setOnClickListener(view -> {
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        FloatingActionButton addRecipeButton = (FloatingActionButton) mView.findViewById(R.id.addRecipeButton);
+        addRecipeButton.setOnClickListener(view -> {
+            Snackbar.make(view, "Navigate here to RecipeAddFragment", Snackbar.LENGTH_LONG)
                     .setAction("Action", null)
                     .show();
         });
-
-        if (mView.findViewById(R.id.recipe_detail_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
 
         // setup list adapters
         setupRecyclerView();
@@ -105,19 +92,8 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
         mModel.selectRecipe(recipe.getId());
 
-//        if (mTwoPane) {
-//            // show only fragment
-//            // TODO: check, if the fragment has to be replaced
-//            RecipeDetailFragment fragment = new RecipeDetailFragment();
-//            this.getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.recipe_detail_container, fragment)
-//                    .commit();
-//        } else {
-//            // go to another activity
-//            Intent intent = new Intent(this, RecipeDetailActivity.class);
-//            intent.putExtra(EXTRA_RECIPE_ID, recipe.getId());
-//            this.startActivity(intent);
-//        }
+        Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
+
     }
 
 }
