@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
@@ -52,7 +53,6 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
 
     private void authenticateUser() {
         mCurrentUser = mAuth.getCurrentUser();
-        updateMenu();
         if(mCurrentUser == null) {
             signIn();
         } else if(mUserGroup == null)
@@ -117,7 +117,7 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
         GlideApp.with(this)
                 .load(mCurrentUser != null ? mCurrentUser.getPhotoUrl() : null)
                 .placeholder(R.drawable.default_profile_picture)
-                .into(new Target<Drawable>() {
+                .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onStart() {
 
@@ -140,11 +140,6 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
 
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-
-                    @Override
-                    public void getSize(@NonNull SizeReadyCallback cb) {
 
                     }
 
@@ -207,6 +202,7 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
             // Successfully signed in
             if (resultCode == RESULT_OK) {
                 authenticateUser();
+                updateMenu();
                 if (response != null && response.isNewUser()) {
                     registerUser(mCurrentUser.getUid(), mCurrentUser.getDisplayName());
                 }
@@ -216,6 +212,7 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
                     return;
                 } else {
                     authenticateUser();
+                    updateMenu();
                 }
 
                 // TODO: Notify user about unknown error

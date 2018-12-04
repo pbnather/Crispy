@@ -1,7 +1,5 @@
 package dk.au.itsmap.group4.crispy.ui.account;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
@@ -20,11 +18,5 @@ public class AccountActivity extends CrispyAuthenticatedActivity {
         mToolbar = findViewById(R.id.mainToolbar);
         mToolbar.setTitle(R.string.crispy_planner);
         setSupportActionBar(mToolbar);
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, AccountFragment.newInstance())
-                    .commitNow();
-        }
     }
 }
