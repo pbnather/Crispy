@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,13 +111,6 @@ public class AddPlannedMealFragment extends Fragment {
 
             }
         });
-        // has selected by clicking outside
-        recipeName.setOnFocusChangeListener((View v, boolean b) -> {
-            if(!b) {
-                mMeal.setTitle(((TextView) v).getText().toString());
-                mModel.getSelectedMeal().setValue(mMeal);
-            }
-        });
 
         // assign to user
         mUsersSpinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mModel.getPossibleCooks());
@@ -180,11 +175,19 @@ public class AddPlannedMealFragment extends Fragment {
 
 
     private void showTimePickerDialog(View v) {
+        // save meal changes before showing the dialog
+        mMeal.setTitle(recipeName.getText().toString());
+        mModel.getSelectedMeal().setValue(mMeal);
+
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(),"timePicker");
     }
 
     private void showDatePickerDialog(View v) {
+        // save meal changes before showing the dialog
+        mMeal.setTitle(recipeName.getText().toString());
+        mModel.getSelectedMeal().setValue(mMeal);
+        
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
