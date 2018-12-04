@@ -8,23 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.entity.Ingredient;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
@@ -35,12 +36,14 @@ public class RecipeEditFragment extends Fragment {
 
     private RecipeViewModel mModel;
     private IngredientAutoCompleteAdapter mAutoAdapter;
-    private Button btnAddIngredient, banDeleteRecipe;
+    private Button btnAddIngredient, btnDeleteRecipe;
     private TableLayout ingredientsTable;
-    private IRecipe mRecipe;
     private List<IIngredient> added;
     private List<IIngredient> deleted;
-
+    private ArrayAdapter mUnitSpinnerAdapter;
+    private Activity mActivity;
+    private View mView;
+    private View.OnClickListener deleteRowListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,24 +58,14 @@ public class RecipeEditFragment extends Fragment {
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();
-        View rootView = inflater.inflate(R.layout.recipe_edit, container, false);
+        mView = inflater.inflate(R.layout.recipe_edit, container, false);
+        mActivity = getActivity();
 
-        Activity activity = getActivity();
-        ingredientsTable = rootView.findViewById(R.id.ingredientsTable);
-        btnAddIngredient = rootView.findViewById(R.id.btnAddIngredient);
-        banDeleteRecipe = rootView.findViewById(R.id.btnDeleteRecipy);
+        ingredientsTable = mView.findViewById(R.id.ingredientsTable);
+        btnAddIngredient = mView.findViewById(R.id.btnAddIngredient);
+        btnDeleteRecipe = mView.findViewById(R.id.btnDeleteRecipy);
 
-        banDeleteRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveIngredients();
-                mModel.saveRecipe(mModel.getSelectedRecipe().getValue(), added, deleted);
-                added.clear();
-                deleted.clear();
-            }
-        });
-
-        View.OnClickListener deleteRowListener = new View.OnClickListener() {
+        deleteRowListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View tr = (View) v.getParent();
@@ -83,25 +76,26 @@ public class RecipeEditFragment extends Fragment {
             }
         };
 
-        ArrayList<View> addedIngredients = new ArrayList<View>();
+        btnDeleteRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveIngredients();
+                mModel.saveRecipe(mModel.getSelectedRecipe().getValue(), added, deleted);
+                added.clear();
+                deleted.clear();
+            }
+        });
 
         btnAddIngredient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View newIngredient = inflater.inflate(R.layout.edit_ingredient_row, container, false);
-                newIngredient.setTag(null);
-                AutoCompleteTextView ingredientName = newIngredient.findViewById(R.id.ingredientNameEditText);
-                ingredientName.setAdapter(mAutoAdapter);
-                Button deleteRowBtn = newIngredient.findViewById(R.id.deleteRowBtn);
-                deleteRowBtn.setOnClickListener(deleteRowListener);
-                addedIngredients.add(newIngredient);
-                ingredientsTable.addView(newIngredient);
+                addIngredientRow(inflater, container, null);
             }
         });
 
         mAutoAdapter = new IngredientAutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
 
-        mModel.getSelectedRecipe().observe(this, recipe -> updateView(activity, rootView, recipe));
+        mModel.getSelectedRecipe().observe(this, recipe -> updateView(mActivity, mView, recipe));
 
         mModel.getIngredientsForSelectedRecipe().observe(this, ingredients -> {
 
@@ -109,29 +103,44 @@ public class RecipeEditFragment extends Fragment {
 
             for(IIngredient ingredient : ingredients) {
                 // add array of views
-                View ingredientRowLayout = inflater.inflate(R.layout.edit_ingredient_row, container, false);
-                AutoCompleteTextView ingredientName = ingredientRowLayout.findViewById(R.id.ingredientNameEditText);
-                EditText ingredientQuantity = ingredientRowLayout.findViewById(R.id.quantityEditText);
-                Spinner unitPicker = ingredientRowLayout.findViewById(R.id.unitPicker);
-                Button deleteRowBtn = ingredientRowLayout.findViewById(R.id.deleteRowBtn);
-                deleteRowBtn.setOnClickListener(deleteRowListener);
-                ingredientName.setAdapter(mAutoAdapter);
-                ingredientRowLayout.setTag(ingredient.getId());
-                ingredientName.setText(ingredient.getName());
-                ingredientQuantity.setText(String.valueOf(ingredient.getQuantity()));
-                ingredientsTable.addView(ingredientRowLayout);
+                addIngredientRow(inflater, container, ingredient);
             }
         });
 
+        fillEditFields();
+
+        return mView;
+    }
+
+    private void addIngredientRow(LayoutInflater inflater, ViewGroup container, IIngredient ingredient){
+        View ingredientRowLayout = inflater.inflate(R.layout.edit_ingredient_row, container, false);
+        AutoCompleteTextView ingredientName = ingredientRowLayout.findViewById(R.id.ingredientNameEditText);
+        EditText ingredientQuantity = ingredientRowLayout.findViewById(R.id.quantityEditText);
+        Spinner unitPicker = ingredientRowLayout.findViewById(R.id.unitPicker);
+        Button deleteRowBtn = ingredientRowLayout.findViewById(R.id.deleteRowBtn);
+
+        deleteRowBtn.setOnClickListener(deleteRowListener);
+        ingredientName.setAdapter(mAutoAdapter);
+        setUnitSpinner(unitPicker);
+        if (ingredient != null) {
+            ingredientRowLayout.setTag(ingredient.getId());
+            ingredientName.setText(ingredient.getName());
+            ingredientQuantity.setText(String.valueOf(ingredient.getQuantity()));
+            int unitNr = mModel.unitNr(ingredient.getUnit());
+            unitPicker.setSelection(unitNr);
+        }
+        else
+            ingredientRowLayout.setTag(null);
+        ingredientsTable.addView(ingredientRowLayout);
+    }
 
 
-        ((EditText) rootView.findViewById(R.id.recipe_description)).setInputType(InputType.TYPE_CLASS_TEXT |
+    private void fillEditFields(){
+        ((EditText) mView.findViewById(R.id.recipe_description)).setInputType(InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE |
                 InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        ((EditText) rootView.findViewById(R.id.recipe_description)).setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-        ((EditText) rootView.findViewById(R.id.recipe_description)).setMovementMethod(new ScrollingMovementMethod());
-
-        return rootView;
+        ((EditText) mView.findViewById(R.id.recipe_description)).setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+        ((EditText) mView.findViewById(R.id.recipe_description)).setMovementMethod(new ScrollingMovementMethod());
     }
 
     /**
@@ -174,13 +183,29 @@ public class RecipeEditFragment extends Fragment {
         String id = (String) tr.getTag();
         String name = ingredientName.getText().toString();
         String quantity = ingredientQuantity.getText().toString();
-        if (name == null | name.isEmpty() | quantity.isEmpty()){
-
+        String unit = unitPicker.getSelectedItem().toString();
+        if (name == null | name.isEmpty() | quantity.isEmpty() | unit.isEmpty()){
             return null;
         }
         else{
-            Ingredient nIng = new Ingredient(id, name , "", Double.valueOf(quantity));
+            Ingredient nIng = new Ingredient(id, name , unit , Double.valueOf(quantity));
             return nIng;
         }
+    }
+
+    private void setUnitSpinner(Spinner unitSpinner) {
+        // assign to user
+        mUnitSpinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_dropdown_item, mModel.getPossibleUnits());
+        unitSpinner.setAdapter(mUnitSpinnerAdapter);
+        unitSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //mMeal.setCookName(parent.getItemAtPosition(position).toString());
+                //mModel.getSelectedMeal().setValue(mMeal);
+            } // to close the onItemSelected
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 }
