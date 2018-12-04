@@ -26,6 +26,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
@@ -116,7 +117,7 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
     private void updateMenu() {
         GlideApp.with(this)
                 .load(mCurrentUser != null ? mCurrentUser.getPhotoUrl() : null)
-                .placeholder(R.drawable.default_profile_picture)
+                //.placeholder(ContextCompat.getDrawable(this, R.drawable.default_profile_picture))
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onStart() {
@@ -166,7 +167,7 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
 
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        mMenu.findItem(R.id.btnAccount).setIcon(errorDrawable);
+                        //mMenu.findItem(R.id.btnAccount).setIcon(errorDrawable);
                     }
                 });
     }
