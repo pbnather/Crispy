@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_mealsPlanFragment_to_addPlannedMealFragment"
             app:destination="@id/addPlannedMealFragment" />
+        <action
+            android:id="@+id/action_mealsPlanFragment_to_recipeListFragment"
+            app:destination="@id/recipeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPlannedMealFragment"
         android:name="dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal.AddPlannedMealFragment"
         android:label="add_planned_meal_fragment"
         tools:layout="@layout/add_planned_meal_fragment" />
+    <fragment
+        android:id="@+id/recipeListFragment"
+        android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListFragment"
+        android:label="recipe_list_fragment"
+        tools:layout="@layout/recipe_list_fragment" />
 </navigation>

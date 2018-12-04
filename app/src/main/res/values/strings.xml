@@ -47,4 +47,7 @@
     <string name="channel_description">Channel Description</string>
     <string name="notification_title">Notification Title</string>
     <string name="notification_text">Notification Text</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

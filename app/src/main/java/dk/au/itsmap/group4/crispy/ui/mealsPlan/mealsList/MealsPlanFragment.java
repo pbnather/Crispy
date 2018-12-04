@@ -58,8 +58,7 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
 
         // all recipes button
         btnRecipies.setOnClickListener(v -> {
-            Intent intent = new Intent(mActivity, RecipeListActivity.class);
-            mActivity.startActivity(intent);
+            Navigation.findNavController(mView).navigate(R.id.recipeListFragment);
         });
 
         // add meal to plan button
@@ -69,8 +68,6 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
         });
 
         // setup list view
-        mRecyclerView = mView.findViewById(R.id.daysList);
-        assert mRecyclerView != null;
         setupRecyclerView();
 
         // observe for model changes
@@ -85,6 +82,8 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
 
 
     private void setupRecyclerView() {
+        mRecyclerView = mView.findViewById(R.id.daysList);
+        assert mRecyclerView != null;
 
         mLayoutManager = new LinearLayoutManager(mActivity);
         mRecyclerView.setLayoutManager(mLayoutManager);

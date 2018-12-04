@@ -17,12 +17,6 @@ import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
-/**
- * A fragment representing a single Recipe detail screen.
- * This fragment is either contained in a {@link RecipeListActivity}
- * in two-pane mode (on tablets) or a {@link RecipeDetailActivity}
- * on handsets.
- */
 public class RecipeDetailFragment extends Fragment {
 
     private RecipeViewModel mModel;
