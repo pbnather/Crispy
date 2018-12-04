@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -49,10 +50,11 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
         mActivity = this.getActivity();
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
         btnAddMeal = mView.findViewById(R.id.btnAddMeal);
-        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
-        toolbar.setTitle(R.string.crispy_planner);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(R.string.crispy_planner);
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
 
         // all recipes button
         btnRecipies.setOnClickListener(v -> {

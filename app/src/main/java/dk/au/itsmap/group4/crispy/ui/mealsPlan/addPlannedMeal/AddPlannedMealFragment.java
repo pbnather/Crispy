@@ -22,6 +22,7 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
@@ -82,10 +83,12 @@ public class AddPlannedMealFragment extends Fragment {
         mealDate = mView.findViewById(R.id.mealDate);
         mealTime = mView.findViewById(R.id.mealTime);
 
-        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
-        toolbar.setTitle(R.string.add_meal);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(mIsEditMode ?  R.string.edit_meal : R.string.add_meal);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
 
         mModel.getSelectedMeal().observe(this, meal -> {
             mMeal = meal;

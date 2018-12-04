@@ -11,8 +11,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -48,11 +48,10 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
         mActivity = this.getActivity();
 
-        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
-        toolbar.setTitle(R.string.recipies);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle(R.string.recipies);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         FloatingActionButton addRecipeButton = (FloatingActionButton) mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {
