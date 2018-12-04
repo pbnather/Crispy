@@ -113,7 +113,7 @@ public class AddPlannedMealFragment extends Fragment {
         });
 
         // assign to user
-        mUsersSpinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, mModel.getPossibleCooks());
+        mUsersSpinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_dropdown_item, mModel.getPossibleCooks());
         whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
         whoCooksSpinner.setAdapter(mUsersSpinnerAdapter);
         whoCooksSpinner.setSelection(mUsersSpinnerAdapter.getPosition(mModel.getSelectedMeal().getValue().getCookName()));

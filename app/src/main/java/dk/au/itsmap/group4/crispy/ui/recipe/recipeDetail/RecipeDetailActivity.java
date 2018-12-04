@@ -1,28 +1,22 @@
 package dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
-
-import android.view.MenuItem;
 
 import static dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListActivity.EXTRA_RECIPE_ID;
 
 
-/**
- * An activity representing a single RecipeDao detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a {@link RecipeListActivity}.
- */
+
 public class RecipeDetailActivity extends AppCompatActivity {
 
     private RecipeViewModel mModel;
@@ -70,8 +64,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
             mModel.selectRecipe(recipeId);
 
-//            RecipeDetailFragment fragment = new RecipeDetailFragment();
-            RecipeEditFragment fragment = new RecipeEditFragment();
+           RecipeDetailFragment fragment = new RecipeDetailFragment();
+           // RecipeEditFragment fragment = new RecipeEditFragment();
             Bundle bundle = new Bundle();
             bundle.putString(EXTRA_RECIPE_ID, recipeId);
             fragment.setArguments(bundle);
@@ -91,7 +85,8 @@ public class RecipeDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, RecipeListActivity.class));
+            // navigateUpTo(new Intent(this, RecipeListActivity.class));
+
             return true;
         }
         return super.onOptionsItemSelected(item);

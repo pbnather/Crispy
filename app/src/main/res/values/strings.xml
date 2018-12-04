@@ -14,6 +14,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="fui_name_hint">Your name</string>
     <string name="save">SAVE</string>
     <string name="cancel">CANCEL</string>
     <string name="all_recipies">ALL RECIPIES</string>
@@ -50,4 +51,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="channel_name" translatable="false">Channel Name</string>
+    <string name="channel_description" translatable="false">Channel Description</string>
+    <string name="notification_title" translatable="false">Notification Title</string>
+    <string name="notification_text" translatable="false">Notification Text</string>
+    <string name="kg" translatable="false">kg</string>
+    <string name="g" translatable="false">g</string>
+    <string name="l" translatable="false">l</string>
+    <string name="ml" translatable="false">ml</string>
+    <string name="pc">pc</string>
 </resources>

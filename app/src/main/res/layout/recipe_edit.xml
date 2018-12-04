@@ -78,7 +78,6 @@
             android:hint="@string/add_description"
             android:inputType="textMultiLine"
             android:isScrollContainer="true"
-            android:minHeight="100dp"
             android:scrollbars="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
