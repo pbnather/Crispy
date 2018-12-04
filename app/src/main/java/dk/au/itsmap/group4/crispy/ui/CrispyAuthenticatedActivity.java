@@ -25,13 +25,12 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
 
-public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
+public abstract class CrispyAuthenticatedActivity extends AppCompatActivity implements INavigationActivity {
 
     private static final String TAG = "AuthActivity";
     private static final int RC_SIGN_IN = 451;
@@ -219,6 +218,4 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
             }
         }
     }
-
-    abstract protected NavController getNavController();
 }

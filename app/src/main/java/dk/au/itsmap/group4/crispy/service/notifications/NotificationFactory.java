@@ -14,7 +14,7 @@ import java.util.Calendar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanActivity;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 
 /**
  * Class for creating notifications
@@ -46,7 +46,7 @@ public class NotificationFactory
     }
 
     public void notifyAboutTodaysMeals() {
-        Intent intent = new Intent(this.mContext, MealsPlanActivity.class);
+        Intent intent = new Intent(this.mContext, MainNavigationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this.mContext, 0, intent, 0);
 

@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.ui.mealsPlan;
+package dk.au.itsmap.group4.crispy.ui;
 
 import android.os.Bundle;
 
@@ -7,9 +7,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.service.notifications.NotificationAlarm;
-import dk.au.itsmap.group4.crispy.ui.CrispyAuthenticatedActivity;
 
-public class MealsPlanActivity extends CrispyAuthenticatedActivity {
+public class MainNavigationActivity extends CrispyAuthenticatedActivity {
 
     Toolbar mToolbar;
 
@@ -18,7 +17,7 @@ public class MealsPlanActivity extends CrispyAuthenticatedActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.meals_plan_activity);
+        setContentView(R.layout.main_navigation_activity);
 
         mNavController = Navigation.findNavController(this, R.id.navigation_fragment);
 
@@ -30,7 +29,7 @@ public class MealsPlanActivity extends CrispyAuthenticatedActivity {
     }
 
     @Override
-    protected NavController getNavController() {
+    public NavController getNavController() {
         return mNavController;
     }
 
