@@ -43,7 +43,6 @@
         <activity
             android:name=".ui.account.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".ui.account.AccountActivity"></activity>
 
         <service android:name=".service.notifications.NotificationIntentService" android:exported="false" />
     </application>

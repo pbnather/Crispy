@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -26,12 +25,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.navigation.NavController;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
-import dk.au.itsmap.group4.crispy.ui.account.AccountActivity;
 
 public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
 
@@ -184,8 +182,8 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
                 return true;
             case R.id.btnAccount:
                 // TODO: navigate to AccountFragment using Navigation
-                Intent intent = new Intent(this, AccountActivity.class);
-                startActivity(intent);
+                getNavController().navigate(R.id.accountFragment);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -221,4 +219,6 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity {
             }
         }
     }
+
+    abstract protected NavController getNavController();
 }

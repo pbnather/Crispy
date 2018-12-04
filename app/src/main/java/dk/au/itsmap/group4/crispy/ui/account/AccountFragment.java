@@ -1,7 +1,11 @@
 package dk.au.itsmap.group4.crispy.ui.account;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +27,7 @@ public class AccountFragment extends Fragment {
 
     private AccountViewModel mViewModel;
     private FirebaseUser mCurrentUser;
+    private Activity mActivity;
 
     public static AccountFragment newInstance() {
         return new AccountFragment();
@@ -39,7 +44,14 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        mActivity = this.getActivity();
         View rootView = inflater.inflate(R.layout.account_fragment, container, false);
+
+        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
+        toolbar.setTitle("Your profile");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         ImageView profilePicture = rootView.findViewById(R.id.profilePicture);
         mCurrentUser = mViewModel.getCurrentUser();
         GlideApp.with(this)

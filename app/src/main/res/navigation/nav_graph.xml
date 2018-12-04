@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_mealsPlanFragment_to_recipeListFragment"
             app:destination="@id/recipeListFragment" />
+        <action
+            android:id="@+id/action_mealsPlanFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPlannedMealFragment"
@@ -27,4 +30,9 @@
         android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListFragment"
         android:label="recipe_list_fragment"
         tools:layout="@layout/recipe_list_fragment" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="dk.au.itsmap.group4.crispy.ui.account.AccountFragment"
+        android:label="account_fragment"
+        tools:layout="@layout/account_fragment" />
 </navigation>
