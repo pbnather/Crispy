@@ -14,6 +14,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="fui_name_hint">Your name</string>
     <string name="save">SAVE</string>
     <string name="cancel">CANCEL</string>
     <string name="all_recipies">ALL RECIPIES</string>
