@@ -32,7 +32,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     private static final String TAG = "AuthActivity";
     private static final int RC_SIGN_IN = 451;
 
-    private Menu mMenu;
+    protected Menu mMenu;
     private AuthViewModel mAuth;
     private FirebaseUser mUser;
     private LiveData<List<IUserGroup>> mUserGroup;
