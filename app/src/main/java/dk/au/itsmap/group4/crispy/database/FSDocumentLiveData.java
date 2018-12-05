@@ -11,14 +11,14 @@ import androidx.lifecycle.LiveData;
 import dk.au.itsmap.group4.crispy.database.entity.Entity;
 
 /* Inspired by https://stackoverflow.com/a/50109176 */
-public class FSLiveData<T extends U, U> extends LiveData<U> {
+public class FSDocumentLiveData<T extends U, U> extends LiveData<U> {
 
     private ListenerRegistration mListenerRegistration;
     private final DocumentSnapshotListener mListener = new DocumentSnapshotListener();
     private final Class<T> mClassType;
     private final DocumentReference mDocumentRef;
 
-    FSLiveData(DocumentReference documentRef, Class<T> classType) {
+    FSDocumentLiveData(DocumentReference documentRef, Class<T> classType) {
         mDocumentRef = documentRef;
         mClassType = classType;
     }

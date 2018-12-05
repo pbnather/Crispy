@@ -15,14 +15,14 @@ import androidx.lifecycle.LiveData;
 import dk.au.itsmap.group4.crispy.database.entity.Entity;
 
 /* Inspired by https://stackoverflow.com/a/50109176 */
-public class FSLiveDataList<T extends U, U> extends LiveData<List<U>> {
+public class FSCollectionLiveData<T extends U, U> extends LiveData<List<U>> {
 
     private ListenerRegistration mListenerRegistration;
     private final QuerySnapshotListener mListener = new QuerySnapshotListener();
     private final Class<T> mClassType;
     private final Query mQuery;
 
-    FSLiveDataList(Query query, Class<T> classType) {
+    FSCollectionLiveData(Query query, Class<T> classType) {
         mQuery = query;
         mClassType = classType;
     }

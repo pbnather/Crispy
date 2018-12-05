@@ -5,10 +5,13 @@ import android.app.Application;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
+import dk.au.itsmap.group4.crispy.model.IUserGroup;
 
 public class AuthViewModel extends AndroidViewModel {
 
@@ -22,6 +25,10 @@ public class AuthViewModel extends AndroidViewModel {
 
     public FirebaseAuthLiveData getCurrentUser() {
         return mUser;
+    }
+
+    public LiveData<List<IUserGroup>> getUserGroup(String userId) {
+        return mRepository.getUserGroup(userId);
     }
 
     public void registerUser() {

@@ -7,6 +7,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import androidx.lifecycle.LiveData;
 import dk.au.itsmap.group4.crispy.database.entity.Ingredient;
 import dk.au.itsmap.group4.crispy.database.entity.Meal;
 import dk.au.itsmap.group4.crispy.database.entity.Recipe;
+import dk.au.itsmap.group4.crispy.database.entity.UserGroup;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
@@ -63,9 +65,9 @@ public class FSRepository implements IRepository {
         mGroups = mFirestore.collection("groups");
     }
 
-    public LiveData<IUserGroup> getUserGroup(@NonNull String userId) {
-        return new LiveData<IUserGroup>() {
-        };
+    public LiveData<List<IUserGroup>> getUserGroup(@NonNull String userId) {
+        Query groupQuery = mGroups.whereArrayContains("userIds", userId).limit(1);
+        return new FSCollectionLiveData<UserGroup, IUserGroup>(groupQuery, UserGroup.class);
     }
 
     public void createUserWithGroup(@NonNull String userId, @NonNull String userName) {
@@ -97,16 +99,20 @@ public class FSRepository implements IRepository {
         batch.commit();
     }
 
+    public void addUserToGroup(String userId, String groupId) {
+
+    }
+
     @Override
     public LiveData<IMeal> getMealById(@NonNull String mealId) {
         DocumentReference docRef = mMeals.document(mealId);
-        return new FSLiveData<>(docRef, Meal.class);
+        return new FSDocumentLiveData<>(docRef, Meal.class);
     }
 
     @Override
     public LiveData<IRecipe> getRecipeById(@NonNull String recipeId) {
         DocumentReference docRef = mRecipes.document(recipeId);
-        return new FSLiveData<>(docRef, Recipe.class);
+        return new FSDocumentLiveData<>(docRef, Recipe.class);
     }
 
     @Override
@@ -116,12 +122,12 @@ public class FSRepository implements IRepository {
 
     @Override
     public LiveData<List<IMeal>> getAllMeals() {
-        return new FSLiveDataList<>(mMeals.whereGreaterThan("date", Timestamp.now()), Meal.class);
+        return new FSCollectionLiveData<>(mMeals.whereGreaterThan("date", Timestamp.now()), Meal.class);
     }
 
     @Override
     public LiveData<List<IRecipe>> getAllRecipes() {
-        return new FSLiveDataList<>(mRecipes, Recipe.class);
+        return new FSCollectionLiveData<>(mRecipes, Recipe.class);
     }
 
     @Override
@@ -132,7 +138,7 @@ public class FSRepository implements IRepository {
     @Override
     public LiveData<List<IIngredient>> getIngredientsForRecipeById(@NonNull String recipeId) {
         CollectionReference ingredients = mRecipes.document(recipeId).collection("ingredients");
-        return new FSLiveDataList<>(ingredients, Ingredient.class);
+        return new FSCollectionLiveData<>(ingredients, Ingredient.class);
     }
 
     @Override

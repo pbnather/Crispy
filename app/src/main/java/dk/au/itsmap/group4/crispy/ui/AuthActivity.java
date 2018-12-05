@@ -21,8 +21,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
 
 public abstract class AuthActivity extends AppCompatActivity implements INavigationActivity {
@@ -33,6 +35,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     private Menu mMenu;
     private AuthViewModel mAuth;
     private FirebaseUser mUser;
+    private LiveData<List<IUserGroup>> mUserGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +43,19 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
 
         mAuth = ViewModelProviders.of(this).get(AuthViewModel.class);
 
+        mUserGroup = new LiveData<List<IUserGroup>>() {};
         LiveData<FirebaseUser> firebaseUser = mAuth.getCurrentUser();
         firebaseUser.observeForever(user -> {
-            if (user == null) signIn();
+            if (user == null) {
+                stopObservingUserGroup();
+                signIn();
+            } else {
+                mUser = user;
+                observeUserGroup();
+            }
             updateMenu(user);
-            mUser = user;
         });
+
     }
 
     @Override
@@ -125,9 +135,23 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                         .build(), RC_SIGN_IN);
     }
 
-    protected void signOut() {
+    public void signOut() {
         AuthUI.getInstance()
-                .signOut(this).addOnSuccessListener(task -> {
+                .signOut(this);
+    }
+
+    public LiveData<IUserGroup> getUserGroup() {
+        return Transformations.map(mUserGroup, userGroup -> userGroup == null ? null : userGroup.get(0));
+    }
+
+    private void observeUserGroup() {
+        mUserGroup = mAuth.getUserGroup(mUser.getUid());
+        mUserGroup.observe(this, group -> {
+            Log.i(TAG, "SIze " + group.size());
         });
+    }
+
+    private void stopObservingUserGroup() {
+        mUserGroup = new LiveData<List<IUserGroup>>() {};
     }
 }
