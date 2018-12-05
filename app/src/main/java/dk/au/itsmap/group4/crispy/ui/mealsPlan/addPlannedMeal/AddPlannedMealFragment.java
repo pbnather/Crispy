@@ -31,6 +31,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.utils.Helpers;
 
@@ -40,7 +41,7 @@ public class AddPlannedMealFragment extends Fragment {
     private boolean mIsEditMode = false;
     private IMeal mMeal;
 
-    private Activity mActivity;
+    private MainNavigationActivity mActivity;
     private Button btnSave, btnDate, btnTime, btnDelete;
     private TextView mealDate, mealTime;
     private Spinner whoCooksSpinner;
@@ -65,7 +66,7 @@ public class AddPlannedMealFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mActivity = this.getActivity();
+        mActivity = (MainNavigationActivity) this.getActivity();
         mView = inflater.inflate(R.layout.add_planned_meal_fragment, container, false);
 
         btnSave = mView.findViewById(R.id.btnSave);
@@ -80,10 +81,13 @@ public class AddPlannedMealFragment extends Fragment {
         mealTime = mView.findViewById(R.id.mealTime);
 
 
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(mIsEditMode ?  R.string.edit_meal : R.string.add_meal);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        String toolbar_name;
+        if (mIsEditMode)
+            toolbar_name= getText(R.string.edit_meal).toString();
+        else
+            toolbar_name = getText(R.string.add_meal).toString();
+
+        mActivity.setMainToolbarWithNavigation(toolbar_name);
 
 
         mModel.getSelectedMeal().observe(this, meal -> {

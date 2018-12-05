@@ -20,11 +20,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 public class RecipeListFragment extends Fragment implements RecipesRecyclerViewAdapter.OnRecipeClickListener {
 
-    private Activity mActivity;
+    private MainNavigationActivity mActivity;
     private View mView;
 
     private RecipeViewModel mModel;
@@ -46,12 +47,9 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         super.onCreateView(inflater, container, savedInstanceState);
 
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
-        mActivity = this.getActivity();
+        mActivity = (MainNavigationActivity) this.getActivity();
 
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(R.string.recipies);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        mActivity.setMainToolbarWithNavigation("Recipies");
 
         FloatingActionButton addRecipeButton = (FloatingActionButton) mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {

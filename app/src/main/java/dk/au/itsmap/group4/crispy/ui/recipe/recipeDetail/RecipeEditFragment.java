@@ -32,6 +32,7 @@ import dk.au.itsmap.group4.crispy.database.entity.Ingredient;
 import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 public class RecipeEditFragment extends Fragment {
@@ -43,7 +44,7 @@ public class RecipeEditFragment extends Fragment {
     private List<IIngredient> added;
     private List<IIngredient> deleted;
     private ArrayAdapter mUnitSpinnerAdapter;
-    private Activity mActivity;
+    private MainNavigationActivity mActivity;
     private View mView;
     private View.OnClickListener deleteRowListener;
     private EditText mDescriptionEdit;
@@ -60,12 +61,10 @@ public class RecipeEditFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
-        mActivity = getActivity();
+        mActivity = (MainNavigationActivity) getActivity();
 
-        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
-        toolbar.setTitle(getString(R.string.recipe_edit_title));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
+        mActivity.setToolbar(superToolbar);
 
         // inflate inner layout to scroll view
         inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container));

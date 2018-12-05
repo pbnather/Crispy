@@ -1,6 +1,7 @@
 package dk.au.itsmap.group4.crispy.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -24,7 +25,6 @@ public class MainNavigationActivity extends AuthActivity {
         mToolbar = findViewById(R.id.mainToolbar);
         mToolbar.setTitle(R.string.crispy_planner);
         setSupportActionBar(mToolbar);
-
         NotificationAlarm.startAlarm(this);
     }
 
@@ -38,5 +38,24 @@ public class MainNavigationActivity extends AuthActivity {
         return mNavController.navigateUp();
     }
 
+    public void setToolbar(Toolbar t){
+        mToolbar.setVisibility(View.GONE);
+        setSupportActionBar(t);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
+    public void setMainToolbarWithNavigation(String title){
+        mToolbar.setVisibility(View.VISIBLE);
+        mToolbar.setTitle(title);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    public void setMainToolbar(String title){
+        mToolbar.setVisibility(View.VISIBLE);
+        mToolbar.setTitle(title);
+        setSupportActionBar(mToolbar);
+    }
 }

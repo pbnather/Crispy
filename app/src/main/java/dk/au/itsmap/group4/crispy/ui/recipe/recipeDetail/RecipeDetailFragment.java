@@ -4,6 +4,7 @@ import android.app.Activity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -25,6 +26,7 @@ import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -33,7 +35,7 @@ public class RecipeDetailFragment extends Fragment {
 
     private RecipeViewModel mModel;
     private TableLayout ingredientsTable;
-    private Activity mActivity;
+    private MainNavigationActivity mActivity;
     private View mView;
     private FloatingActionButton btnEditRecipe;
 
@@ -48,13 +50,23 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
-        mActivity = this.getActivity();
+        mActivity = (MainNavigationActivity) this.getActivity();
+
+        //close main toolbar
+//        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
+//        toolbar.setVisibility(View.GONE);
+
+         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
+//        superToolbar.setTitle(R.string.crispy_planner);
 
 
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle(R.string.recipe_detail_title);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+//        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+//
+//        //actionBar.setTitle(R.string.recipe_detail_title);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayShowHomeEnabled(true);
+
+        mActivity.setToolbar(superToolbar);
 
         // inflate inner layout to scroll view
         inflater.inflate(R.layout.recipe_detail_inner_detail, mView.findViewById(R.id.recipe_detail_container));

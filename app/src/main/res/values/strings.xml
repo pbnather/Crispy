@@ -58,4 +58,5 @@
     <string name="recipe_detail_title">Recipe detail</string>
     <string name="recipe_edit_title">Edit recipe</string>
     <string name="edit_meal">Edit meal</string>
+    <string name="meal_day">Meal date:</string>
 </resources>

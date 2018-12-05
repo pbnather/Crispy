@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.IAccountManager;
 
 public class AccountFragment extends Fragment {
@@ -30,7 +31,7 @@ public class AccountFragment extends Fragment {
     private IAccountManager mAccount;
     private AccountViewModel mViewModel;
     private FirebaseUser mCurrentUser;
-    private Activity mActivity;
+    private MainNavigationActivity mActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,13 +45,10 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        mActivity = this.getActivity();
+        mActivity = (MainNavigationActivity) this.getActivity();
         View rootView = inflater.inflate(R.layout.account_fragment, container, false);
 
-        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
-        toolbar.setTitle("Your profile");
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+        mActivity.setMainToolbarWithNavigation("Your profile");
 
         ImageView profilePicture = rootView.findViewById(R.id.profilePicture);
         mCurrentUser = mViewModel.getCurrentUser();
