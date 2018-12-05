@@ -8,7 +8,7 @@ import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.service.notifications.NotificationAlarm;
 
-public class MainNavigationActivity extends CrispyAuthenticatedActivity {
+public class MainNavigationActivity extends AuthActivity {
 
     Toolbar mToolbar;
 

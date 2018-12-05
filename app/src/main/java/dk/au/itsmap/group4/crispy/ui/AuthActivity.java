@@ -30,76 +30,23 @@ import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
 
-public abstract class CrispyAuthenticatedActivity extends AppCompatActivity implements INavigationActivity {
+public abstract class AuthActivity extends AppCompatActivity implements INavigationActivity {
 
     private static final String TAG = "AuthActivity";
     private static final int RC_SIGN_IN = 451;
 
-    private FirebaseAuth mAuth;
-    protected Menu mMenu;
+    private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private AuthVIewModel mModel;
 
-    protected FirebaseUser mCurrentUser;
-    protected IUserGroup mUserGroup;
+    protected Menu mMenu;
+    protected FirebaseUser mCurrentUser;    // V
+    protected IUserGroup mUserGroup;        // M
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAuth = FirebaseAuth.getInstance();
+        // Authenticate user on start of activity
         authenticateUser();
-    }
-
-    private void authenticateUser() {
-        mCurrentUser = mAuth.getCurrentUser();
-        if(mCurrentUser == null) {
-            signIn();
-        } else if(mUserGroup == null)
-            FSRepository
-                .getInstance()
-                .getUserGroup(mCurrentUser.getUid())
-                .observe(this, group -> mUserGroup = group);
-    }
-
-    private void updateUserProfile(String username, String photoUrl) {
-        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                .setDisplayName(username)
-                .setPhotoUri(Uri.parse(photoUrl))
-                .build();
-
-        if(mCurrentUser != null) {
-            mCurrentUser.updateProfile(profileUpdates)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            updateMenu();
-                        }
-                    });
-        }
-    }
-
-    private void signIn() {
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
-
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .setTheme(R.style.Crispy)
-                        .build(), RC_SIGN_IN);
-    }
-
-    protected void signOut() {
-        AuthUI.getInstance()
-                .signOut(this).addOnSuccessListener(task -> {
-                authenticateUser();
-                });
-    }
-
-    private void registerUser(String userId, String username) {
-        FSRepository
-                .getInstance()
-                .createUserWithGroup(userId, username);
     }
 
     @Override
@@ -174,15 +121,9 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity impl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnGroceryList:
-                //TODO: navigate to grocery list instead of signing out :)
-                if (mCurrentUser != null) {
-                    signOut();
-                }
                 return true;
             case R.id.btnAccount:
-                // TODO: navigate to AccountFragment using Navigation
                 getNavController().navigate(R.id.accountFragment);
-
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -205,17 +146,73 @@ public abstract class CrispyAuthenticatedActivity extends AppCompatActivity impl
                     registerUser(mCurrentUser.getUid(), mCurrentUser.getDisplayName());
                 }
             } else {
-                if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                if (response == null) {
+                    signIn();
+                    return;
+                } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     // TODO: Notify user about no internet connection
                     return;
-                } else {
-                    authenticateUser();
-                    updateMenu();
                 }
 
                 // TODO: Notify user about unknown error
                 Log.e(TAG, "Sign-in error: ", response.getError());
             }
+        }
+    }
+
+    private void authenticateUser() {
+        // Get user, if null -> sing in
+        mCurrentUser = mAuth.getCurrentUser();  // V
+        if(mCurrentUser == null) {              // M
+            signIn();
+        // if userGroup is not loaded -> load it
+        } else if(mUserGroup == null)           // V
+            FSRepository                        // M
+                    .getInstance()
+                    .getUserGroup(mCurrentUser.getUid())
+                    .observe(this, group -> mUserGroup = group);
+    }
+
+    private void signIn() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
+
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .setTheme(R.style.Crispy)
+                        .build(), RC_SIGN_IN);
+    }
+
+    // must be callable from fragments
+    protected void signOut() {
+        AuthUI.getInstance()
+                .signOut(this).addOnSuccessListener(task -> {
+            authenticateUser();
+        });
+    }
+
+    private void registerUser(String userId, String username) { // V
+        FSRepository                                            // M
+                .getInstance()
+                .createUserWithGroup(userId, username);
+    }
+
+    private void updateUserProfile(String username, String photoUrl) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(username)
+                .setPhotoUri(Uri.parse(photoUrl))
+                .build();
+
+        if(mCurrentUser != null) {                      // V
+            mCurrentUser.updateProfile(profileUpdates)  // M
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            updateMenu();
+                        }
+                    });
         }
     }
 }
