@@ -20,6 +20,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProviders;
@@ -114,7 +115,6 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
         GlideApp.with(this)
                 .asDrawable()
                 .load(user != null ? user.getPhotoUrl() : null)
-                .placeholder(R.drawable.default_profile_picture)
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
