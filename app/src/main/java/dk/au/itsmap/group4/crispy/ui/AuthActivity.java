@@ -27,7 +27,7 @@ import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
 
-public abstract class AuthActivity extends AppCompatActivity implements INavigationActivity {
+public abstract class AuthActivity extends AppCompatActivity implements INavigationActivity, IAccountManager {
 
     private static final String TAG = "AuthActivity";
     private static final int RC_SIGN_IN = 451;
@@ -97,7 +97,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnGroceryList:
-                signOut();
+                // TODO: go to grocery store
                 return true;
             case R.id.btnAccount:
                 getNavController().navigate(R.id.accountFragment);
@@ -136,11 +136,13 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                         .build(), RC_SIGN_IN);
     }
 
+    @Override
     public void signOut() {
         AuthUI.getInstance()
                 .signOut(this);
     }
 
+    @Override
     public LiveData<IUserGroup> getUserGroup() {
         return Transformations.map(mUserGroup, userGroup -> userGroup == null ? null : userGroup.get(0));
     }

@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,9 +23,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.ui.IAccountManager;
 
 public class AccountFragment extends Fragment {
 
+    private IAccountManager mAccount;
     private AccountViewModel mViewModel;
     private FirebaseUser mCurrentUser;
     private Activity mActivity;
@@ -34,6 +37,7 @@ public class AccountFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+        mAccount = (IAccountManager) getActivity();
     }
 
     @Nullable
@@ -56,6 +60,7 @@ public class AccountFragment extends Fragment {
                 .into(profilePicture);
         TextView accountNameText = rootView.findViewById(R.id.accountNameText);
         accountNameText.setText(String.format("Hi %s", mCurrentUser.getDisplayName()));
+        rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> mAccount.signOut());
         return rootView;
     }
 
