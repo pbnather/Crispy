@@ -132,6 +132,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setTheme(R.style.Crispy)
+                        .setLogo(R.mipmap.new_crispy_launcher_round)
                         .build(), RC_SIGN_IN);
     }
 
@@ -146,9 +147,6 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
 
     private void observeUserGroup() {
         mUserGroup = mAuth.getUserGroup(mUser.getUid());
-        mUserGroup.observe(this, group -> {
-            Log.i(TAG, "SIze " + group.size());
-        });
     }
 
     private void stopObservingUserGroup() {

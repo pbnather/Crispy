@@ -70,7 +70,7 @@ public class FSRepository implements IRepository {
         return new FSCollectionLiveData<UserGroup, IUserGroup>(groupQuery, UserGroup.class);
     }
 
-    public void createUserWithGroup(@NonNull String userId, @NonNull String userName) {
+    public void createUserWithGroup(@NonNull String userId, @NonNull String userName, @NonNull String photoUrl) {
         DocumentReference userRef = mUsers.document(userId);
         DocumentReference userGroupRef = mGroups.document();
 
@@ -82,9 +82,14 @@ public class FSRepository implements IRepository {
         List<String> userIds = new ArrayList<>();
         userIds.add(userId);
 
+        // Create user info map
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("name", userName);
+        userInfo.put("photo_url", photoUrl);
+
         // Add username to groups users map
         Map<String, Object> users = new HashMap<>();
-        users.put(userId, userName);
+        users.put(userId, userInfo);
 
         // Create new group documents
         Map<String, Object> group = new HashMap<>();
@@ -99,7 +104,11 @@ public class FSRepository implements IRepository {
         batch.commit();
     }
 
-    public void addUserToGroup(String userId, String groupId) {
+    public void addUserToGroup(@NonNull String userId, @NonNull String groupId) {
+
+    }
+
+    public void deleteUserFromGroup(@NonNull String userId) {
 
     }
 

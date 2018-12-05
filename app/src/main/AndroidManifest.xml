@@ -23,10 +23,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".ui.groceryList.GroceryListActivity" />
-        <activity
-            android:name=".ui.account.LoginActivity"
-            android:label="@string/title_activity_login" />
 
         <service android:name=".service.notifications.NotificationIntentService" android:exported="false" />
     </application>

@@ -50,10 +50,6 @@ public class AddPlannedMealFragment extends Fragment {
     private ArrayAdapter<String> mUsersSpinnerAdapter;
     private AutoCompleteTextView recipeName;
 
-    public static AddPlannedMealFragment newInstance() {
-        return new AddPlannedMealFragment();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

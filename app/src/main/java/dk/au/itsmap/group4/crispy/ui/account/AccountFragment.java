@@ -29,15 +29,11 @@ public class AccountFragment extends Fragment {
     private FirebaseUser mCurrentUser;
     private Activity mActivity;
 
-    public static AccountFragment newInstance() {
-        return new AccountFragment();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
+        mViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
     }
 
     @Nullable

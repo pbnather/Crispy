@@ -37,7 +37,7 @@ import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 public class RecipeEditFragment extends Fragment {
 
     private RecipeViewModel mModel;
-    private IngredientAutoCompleteAdapter mAutoAdapter;
+    private AutoCompleteIngredientAdapter mAutoAdapter;
     private Button btnAddIngredient, btnDeleteRecipe;
     private TableLayout ingredientsTable;
     private List<IIngredient> added;
@@ -108,7 +108,7 @@ public class RecipeEditFragment extends Fragment {
             }
         });
 
-        mAutoAdapter = new IngredientAutoCompleteAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
+        mAutoAdapter = new AutoCompleteIngredientAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
 
         mModel.getSelectedRecipe().observe(this, recipe -> updateView(mActivity, mView, recipe));
 

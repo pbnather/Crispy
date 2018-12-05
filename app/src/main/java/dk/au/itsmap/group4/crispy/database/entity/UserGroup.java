@@ -14,7 +14,7 @@ public class UserGroup extends Entity implements IUserGroup {
     private String name;
     private String owner;
     private List<String> userIds;
-    private Map<String, String> users;
+    private Map<String, Map<String, String>> users;
 
     public UserGroup() {}
 
@@ -38,16 +38,16 @@ public class UserGroup extends Entity implements IUserGroup {
     public List<Map<String, String>> getAllUsers() {
         List<Map<String, String>> userNames = new ArrayList<>();
         for (String key : users.keySet()) {
-            Map<String, String> userName = new HashMap<>();
-            userName.put("name", users.get(key));
-            userName.put("id", key);
-            userNames.add(userName);
+            Map<String, String> userInfo = new HashMap<>();
+            userInfo.put("name", users.get(key).get("name"));
+            userInfo.put("photo_url", users.get(key).get("photo_url"));
+            userInfo.put("id", key);
+            userNames.add(userInfo);
         }
         return userNames;
     }
 
-
-    public Map<String, String> getUsers() {
+    public Map<String, Map<String, String>> getUsers() {
         return users;
     }
 

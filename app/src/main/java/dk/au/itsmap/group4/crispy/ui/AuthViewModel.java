@@ -36,7 +36,7 @@ public class AuthViewModel extends AndroidViewModel {
         if(user != null) {
             String userId = mUser.getValue().getUid();
             String userName = mUser.getValue().getDisplayName();
-            mRepository.createUserWithGroup(userId, userName == null ? "" : userName);
+            mRepository.createUserWithGroup(userId, userName == null ? "" : userName, user.getPhotoUrl().toString());
         }
     }
 

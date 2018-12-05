@@ -18,12 +18,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class IngredientAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
+public class AutoCompleteIngredientAdapter extends ArrayAdapter<String> implements Filterable {
     private List<IngredientApiName> mIngredientNames;
     private List<String> mResults;
     private FoodAPIService mFoodApi;
 
-    IngredientAutoCompleteAdapter(Context context, int textViewResourceId) {
+    AutoCompleteIngredientAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
         mIngredientNames = new ArrayList<>();
         mResults = new ArrayList<>();
