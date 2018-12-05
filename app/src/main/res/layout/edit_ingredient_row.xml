@@ -14,10 +14,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:fontFamily="casual"
         android:hint="apples"
-        android:textSize="22sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,63 +24,57 @@
         android:id="@+id/quantityEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:ems="10"
-        android:fontFamily="casual"
-        android:hint="2"
+        android:hint="200.0"
         android:inputType="number|numberDecimal"
         android:textAlignment="center"
-        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/ingredientNameEditText"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/ingredientNameEditText" />
 
     <Spinner
         android:id="@+id/unitPicker"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/quantityEditText"
-        app:layout_constraintEnd_toStartOf="@+id/btnAddIngredient"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/quantityEditText" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.55" />
+        app:layout_constraintGuide_percent="0.48" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.63" />
 
     <Button
         android:id="@+id/deleteRowBtn"
-        style="@style/FirebaseUI.Button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/transparentButton"
-        android:fontFamily="cursive"
         android:text="x"
         android:textAppearance="@style/Base.TextAppearance.MaterialComponents.Button"
         android:textSize="18sp"
-        android:typeface="monospace"
         app:layout_constraintBottom_toBottomOf="@+id/unitPicker"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/unitPicker"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
