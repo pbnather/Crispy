@@ -29,7 +29,7 @@ public class RecipeDetailFragment extends Fragment {
     private RecipeViewModel mModel;
     private TableLayout ingredientsTable;
     private MainNavigationActivity mActivity;
-    private View mView;
+    private View mView, insideView;
     private FloatingActionButton btnEditRecipe;
 
     @Override
@@ -50,15 +50,18 @@ public class RecipeDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
         mActivity = (MainNavigationActivity) this.getActivity();
 
+        mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
 
         mActivity.setToolbar(superToolbar);
 
         // inflate inner layout to scroll view
-        inflater.inflate(R.layout.recipe_detail_inner_detail, mView.findViewById(R.id.recipe_detail_container));
+        insideView = inflater.inflate(R.layout.recipe_detail_inner_detail, mView.findViewById(R.id.recipe_detail_container));
+
+//        mActivity.changeToolbar();
+//        mView = inflater.inflate(R.layout.recipe_detail_inner_detail, container, false);
 
         btnEditRecipe = mView.findViewById(R.id.btnEditRecipe);
         btnEditRecipe.setOnClickListener(v -> {
@@ -91,7 +94,7 @@ public class RecipeDetailFragment extends Fragment {
             return;
         }
         if(mActivity != null) {
-            CollapsingToolbarLayout appBarLayout = mActivity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(recipe.getTitle());
             }

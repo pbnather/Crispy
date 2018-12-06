@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
@@ -50,9 +51,9 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
         FloatingActionButton addRecipeButton = (FloatingActionButton) mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {
-            Snackbar.make(view, "Navigate here to RecipeAddFragment", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null)
-                    .show();
+            Recipe newRecipe = new Recipe();
+            mModel.selectRecipe(newRecipe.getId());
+            Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
         });
 
         // setup list adapters
@@ -87,7 +88,6 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         mModel.selectRecipe(recipe.getId());
 
         Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
-
     }
 
 }

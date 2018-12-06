@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.entity.Ingredient;
 import dk.au.itsmap.group4.crispy.database.entity.Recipe;
@@ -41,15 +42,15 @@ public class RecipeEditFragment extends Fragment {
 
     private RecipeViewModel mModel;
     private AutoCompleteIngredientAdapter mAutoAdapter;
-    private Button btnAddIngredient, btnDeleteRecipe;
+    private Button btnAddIngredient, btnDeleteRecipe, btnSaveRecipe;
     private TableLayout ingredientsTable;
-    private List<IIngredient> added;
+    private List<IIngredient> added, mIngredients;
     private List<IIngredient> deleted;
     private ArrayAdapter mUnitSpinnerAdapter;
     private MainNavigationActivity mActivity;
-    private View mView;
+    private View mView, mInsideView;
     private View.OnClickListener deleteRowListener;
-    private EditText mDescriptionEdit;
+    private EditText mDescriptionEdit, mTitleEdit;
     private IRecipe mRecipe;
 
     @Override
@@ -70,14 +71,18 @@ public class RecipeEditFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
-        mActivity = (MainNavigationActivity) getActivity();
 
-        Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
-        mActivity.setToolbar(superToolbar);
+        mActivity = (MainNavigationActivity) getActivity();
+        mView = inflater.inflate(R.layout.recipe_detail_inner_edit, container, false);
+
+        //mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
 
         // inflate inner layout to scroll view
-        inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container));
+        //mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container), true);
+
+        //Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
+
+        mActivity.setMainToolbarWithNavigation("Edit");
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();
@@ -86,7 +91,8 @@ public class RecipeEditFragment extends Fragment {
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
         btnAddIngredient = mView.findViewById(R.id.btnAddIngredient);
-        btnDeleteRecipe = mView.findViewById(R.id.btnDeleteRecipy);
+        btnDeleteRecipe = mView.findViewById(R.id.btnDelete);
+        btnSaveRecipe = mView.findViewById(R.id.btnSaveRecipy);
 
         deleteRowListener = new View.OnClickListener() {
             @Override
@@ -99,7 +105,15 @@ public class RecipeEditFragment extends Fragment {
             }
         };
 
+
         btnDeleteRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteRecipe();
+            }
+        });
+
+        btnSaveRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveRecipe();
@@ -115,10 +129,11 @@ public class RecipeEditFragment extends Fragment {
 
         mAutoAdapter = new AutoCompleteIngredientAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
 
-        mModel.getSelectedRecipe().observe(this, recipe -> updateView(mActivity, mView, recipe));
+        mModel.getSelectedRecipe().observe(this, recipe -> updateView(recipe));
 
         mModel.getIngredientsForSelectedRecipe().observe(this, ingredients -> {
 
+            mIngredients = ingredients;
             ingredientsTable.removeAllViews();
 
             for(IIngredient ingredient : ingredients) {
@@ -127,6 +142,7 @@ public class RecipeEditFragment extends Fragment {
             }
         });
 
+        mTitleEdit = mView.findViewById(R.id.recipe_title);
         setDescription();
 
         return mView;
@@ -163,26 +179,24 @@ public class RecipeEditFragment extends Fragment {
         mDescriptionEdit.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         mDescriptionEdit.setMovementMethod(new ScrollingMovementMethod());
     }
-
-    /**
-     * Update View of this fragment
-     *
-     * @param activity Base Activity of this fragment
-     * @param rootView View of this fragment
-     * @param recipe   IRecipe to be shown
-     */
-    private void updateView(Activity activity, View rootView, IRecipe recipe) {
-        if (recipe == null) {
+    private void updateView(IRecipe recipe) {
+        if(recipe == null) {
             return;
         }
-        if (activity != null) {
-            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(recipe.getTitle());
-            }
-        }
+//        if(mView != null) {
+//            CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
+//            Toolbar t = mView.findViewById(R.id.detail_toolbar);
+//            if (appBarLayout != null) {
+//
+//                appBarLayout.setTitleEnabled(true);
+//                appBarLayout.setTitle(recipe.getTitle());
+////                t.setTitle(recipe.getTitle());
+//            }
+//        }
 
-        ((EditText) rootView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
+        ((EditText) mView.findViewById(R.id.recipe_title)).setText(recipe.getTitle());
+        ((EditText) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
+        btnDeleteRecipe.setVisibility(View.VISIBLE);
     }
 
     private void saveIngredients(){
@@ -232,11 +246,24 @@ public class RecipeEditFragment extends Fragment {
 
     private void saveRecipe(){
         String description = mDescriptionEdit.getText().toString();
-        Recipe updatedRecipe = new Recipe(mRecipe.getId(), mRecipe.getTitle(),mRecipe.getImage_url(), description);
-
+        String title = mTitleEdit.getText().toString();
+        String id = null;
+        String image=null;
+        if (mRecipe != null){
+            id = mRecipe.getId();
+            image = mRecipe.getImage_url();
+        }
+        Recipe updatedRecipe = new Recipe(id, title , image, description);
         saveIngredients();
         mModel.saveRecipe(updatedRecipe, added, deleted);
         added.clear();
         deleted.clear();
+
+        Navigation.findNavController(mView).navigateUp();
+    }
+
+    private void deleteRecipe(){
+        mModel.deleteRecipe((Recipe) mRecipe, mIngredients);
+        Navigation.findNavController(mView).navigateUp();
     }
 }

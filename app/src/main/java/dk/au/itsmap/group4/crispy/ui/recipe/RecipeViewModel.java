@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
+import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.model.IRepository;
@@ -53,15 +54,29 @@ public class RecipeViewModel extends AndroidViewModel {
 
     public void selectRecipe(String recipeId) {
         if(mSelectedRecipeId == null || !mSelectedRecipeId.equals(recipeId)) {
-            mSelectedRecipeId = recipeId;
-            mSelectedRecipe = mRepository.getRecipeById(recipeId);
-            mSelectedRecipeIngredients = mRepository.getIngredientsForRecipeById(recipeId);
+            if(recipeId != null) {
+                mSelectedRecipeId = recipeId;
+                mSelectedRecipe = mRepository.getRecipeById(recipeId);
+                mSelectedRecipeIngredients = mRepository.getIngredientsForRecipeById(recipeId);
+            } else {
+                mSelectedRecipe = null;
+                mSelectedRecipeId = null;
+                mSelectedRecipeIngredients = null;
+            }
         }
     }
 
     public void saveRecipe(IRecipe recipe, List<IIngredient> added, List<IIngredient> deleted){
-        mRepository.deleteIngredientsForRecipe(recipe, deleted);
-        mRepository.saveRecipeWithIngredients(recipe, added);
+        if (recipe.getId() != null){
+            mRepository.deleteIngredientsForRecipe(recipe, deleted);
+        }
+        String id = mRepository.saveRecipeWithIngredients(recipe, added);
+        selectRecipe(id);
+    }
+
+    public void deleteRecipe(Recipe recipe, List<IIngredient> ingredients){
+        mRepository.deleteIngredientsForRecipe(recipe, ingredients);
+        mRepository.deleteRecipe(recipe);
     }
 
     public String[] getPossibleUnits() {

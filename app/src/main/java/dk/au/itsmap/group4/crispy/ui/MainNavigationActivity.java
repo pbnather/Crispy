@@ -38,11 +38,22 @@ public class MainNavigationActivity extends AuthActivity {
         return mNavController.navigateUp();
     }
 
+
+    public void changeToolbar(){
+        setContentView(R.layout.recipe_detail_fragment);
+        Toolbar t = findViewById(R.id.detail_toolbar);
+        setSupportActionBar(t);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Random Title");
+    }
+
     public void setToolbar(Toolbar t){
         mToolbar.setVisibility(View.GONE);
         setSupportActionBar(t);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Random Title");
     }
 
     public void setMainToolbarWithNavigation(String title){

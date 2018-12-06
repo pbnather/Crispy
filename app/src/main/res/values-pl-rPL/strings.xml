@@ -35,4 +35,17 @@
     <string name="add_meal_update_success">Zaktualizowano posiłek!</string>
     <string name="add_meal_is_in_past_error">Skup się na przyszłości, a nie na tym co już minęło! Zmień czas posiłku.</string>
     <string name="fui_name_hint">Twoje imię</string>
+    <string name="pc">szt.</string>
+    <string name="recipe_detail_title">Szczegóły przepisu</string>
+    <string name="recipe_edit_title">Edytuj przepis</string>
+    <string name="edit_meal">Edytuj posiłek</string>
+    <string name="meal_day">Dzień posiłku:</string>
+    <string name="title">Tytuł</string>
+    <string name="recipe_name">Dodaj nazwę przepisu</string>
+    <string name="ingredients">Składniki</string>
+    <string name="add">Dodaj</string>
+    <string name="description">Opis</string>
+    <string name="add_description">Dodaj swój opis</string>
+    <string name="delete">Usuń</string>
+    <string name="delete_meal_message">Usunięto posiłek</string>
 </resources>
