@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -54,7 +57,15 @@ public class RecipeEditFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        setHasOptionsMenu(true);
+    }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem account =menu.findItem(R.id.btnAccount);
+        MenuItem list = menu.findItem(R.id.btnGroceryList);
+        account.setVisible(false);
+        list.setVisible(false);
     }
 
     @Override

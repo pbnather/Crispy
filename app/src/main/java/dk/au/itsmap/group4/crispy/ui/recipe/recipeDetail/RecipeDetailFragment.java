@@ -9,6 +9,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
@@ -35,7 +37,15 @@ public class RecipeDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        setHasOptionsMenu(true);
+    }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem account =menu.findItem(R.id.btnAccount);
+        MenuItem list = menu.findItem(R.id.btnGroceryList);
+        account.setVisible(false);
+        list.setVisible(false);
     }
 
     @Override
@@ -43,19 +53,7 @@ public class RecipeDetailFragment extends Fragment {
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
         mActivity = (MainNavigationActivity) this.getActivity();
 
-        //close main toolbar
-//        Toolbar toolbar = (Toolbar) mActivity.findViewById(R.id.mainToolbar);
-//        toolbar.setVisibility(View.GONE);
-
-         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
-//        superToolbar.setTitle(R.string.crispy_planner);
-
-
-//        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-//
-//        //actionBar.setTitle(R.string.recipe_detail_title);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setDisplayShowHomeEnabled(true);
+        Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
 
         mActivity.setToolbar(superToolbar);
 
