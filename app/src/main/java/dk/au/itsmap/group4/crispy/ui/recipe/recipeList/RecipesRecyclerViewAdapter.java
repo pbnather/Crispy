@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,10 +13,12 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.service.GlideApp;
 
 
-// separating of OnClickListeners to Activity inspired by:
-// https://github.com/guenodz/livedata-recyclerview-sample/blob/master/app/src/main/java/me/guendouz/livedata_recyclerview/PostsAdapter.java
+/* Separation of OnClickListeners from Activity inspired by:
+ * https://github.com/guenodz/livedata-recyclerview-sample/blob/master/app/src/main/java/me/guendouz/livedata_recyclerview/PostsAdapter.java
+ */
 public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecyclerViewAdapter.ViewHolder> {
 
     public interface OnRecipeClickListener {
@@ -61,17 +64,24 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
 
     class ViewHolder extends RecyclerView.ViewHolder {
         final TextView mContentView;
+        final ImageView mImageView;
 
         ViewHolder(View view) {
             super(view);
 
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = view.findViewById(R.id.content);
+            mImageView = view.findViewById(R.id.recipeImage);
         }
 
         void bind(final IRecipe recipe) {
             if (recipe != null) {
 
                 mContentView.setText(recipe.getTitle());
+                GlideApp.with(mContext)
+                        .load(recipe.getImage_url())
+                        .placeholder(R.drawable.crispy_icon)
+                        .centerCrop()
+                        .into(mImageView);
 
                 itemView.setTag(recipe);
 

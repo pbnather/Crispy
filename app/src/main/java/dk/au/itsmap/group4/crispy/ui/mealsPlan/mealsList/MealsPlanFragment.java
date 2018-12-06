@@ -20,15 +20,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 
 
 public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
-    private RecyclerView mRecyclerView;
     private MealsPlanRecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private Activity mActivity;
+    private MainNavigationActivity mActivity;
     private Button btnRecipies;
     private FloatingActionButton btnAddMeal;
     private View mView;
@@ -38,7 +37,7 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = ViewModelProviders.of(getActivity()).get(MealsPlanViewModel.class);
+        mActivity = (MainNavigationActivity) this.getActivity();
     }
 
     @Nullable
@@ -46,7 +45,10 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.meals_plan_fragment, container, false);
-        mActivity = this.getActivity();
+        mModel = ViewModelProviders.of(mActivity).get(MealsPlanViewModel.class);
+
+        setupRecyclerView();
+
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
         btnAddMeal = mView.findViewById(R.id.btnAddMeal);
 
@@ -66,28 +68,19 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
             Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
         });
 
-        // setup list view
-        setupRecyclerView();
-
-        // observe for model changes
-        mModel.getAllMeals().observe(this, (meal) -> {
-            if(mAdapter != null) {
-                mAdapter.setData(meal);
-            }
-        });
-
         return mView;
     }
 
 
     private void setupRecyclerView() {
-        mRecyclerView = mView.findViewById(R.id.daysList);
-        assert mRecyclerView != null;
-
-        mLayoutManager = new LinearLayoutManager(mActivity);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
+        RecyclerView mRecyclerView = mView.findViewById(R.id.daysList);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         mAdapter = new MealsPlanRecyclerViewAdapter(this);
+
+        // observe for model changes
+        mModel.getAllMeals().observe(mActivity, (meal) -> mAdapter.setData(meal));
+
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
 

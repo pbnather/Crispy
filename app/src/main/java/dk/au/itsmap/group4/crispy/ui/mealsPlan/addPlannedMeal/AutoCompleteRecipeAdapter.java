@@ -11,9 +11,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 
-public class AutoCompleteRecipeAdapter extends ArrayAdapter<String> implements Filterable {
+public class AutoCompleteRecipeAdapter extends ArrayAdapter<IRecipe> implements Filterable {
     private List<IRecipe> mValues;
-    private List<String> mResults;
+    private List<IRecipe> mResults;
 
     AutoCompleteRecipeAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -27,7 +27,7 @@ public class AutoCompleteRecipeAdapter extends ArrayAdapter<String> implements F
     }
 
     @Override
-    public String getItem(int index) {
+    public IRecipe getItem(int index) {
         return mResults.get(index);
     }
 
@@ -46,11 +46,11 @@ public class AutoCompleteRecipeAdapter extends ArrayAdapter<String> implements F
                 if(constraint != null) {
 
                     // Now assign the values and count to the FilterResults object
-                    List<String> list = new ArrayList<>();
+                    List<IRecipe> list = new ArrayList<>();
                     for (IRecipe mValue : mValues) {
                         String title = mValue.getTitle();
                         if (title.toLowerCase().contains(constraint.toString().toLowerCase())) {
-                            list.add(title);
+                            list.add(mValue);
                         }
                     }
                     mResults = list;
@@ -72,4 +72,5 @@ public class AutoCompleteRecipeAdapter extends ArrayAdapter<String> implements F
             }
         };
     }
+
 }

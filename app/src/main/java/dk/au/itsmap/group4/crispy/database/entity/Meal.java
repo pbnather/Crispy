@@ -98,15 +98,23 @@ public class Meal extends Entity implements IMeal {
         return cal.get(time);
     }
 
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @Override
     public void setCookName(String cookName) {
         this.cookName = cookName;
     }
 
+    @Override
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    @Override
+    public void setImage_url(String imageUrl) {
+        this.image_url = imageUrl;
     }
 }

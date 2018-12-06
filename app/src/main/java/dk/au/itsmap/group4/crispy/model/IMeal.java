@@ -31,4 +31,6 @@ public interface IMeal {
 
     void setDate(Timestamp date);
 
+    void setImage_url(String imageUrl);
+
 }

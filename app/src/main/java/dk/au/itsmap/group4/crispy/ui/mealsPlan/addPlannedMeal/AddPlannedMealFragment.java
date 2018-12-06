@@ -25,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
+import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.utils.Helpers;
@@ -96,16 +97,14 @@ public class AddPlannedMealFragment extends Fragment {
                 recipes -> mRecipesAutoCompleteAdapter.setData(recipes)
         );
         // has selected recipe from autocomplete
-        recipeName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        recipeName.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                mMeal.setTitle(parent.getItemAtPosition(position).toString());
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                IRecipe selectedRecipe = (IRecipe) parent.getItemAtPosition(position);
+                mMeal.setTitle(selectedRecipe.getTitle());
+                mMeal.setImage_url(selectedRecipe.getImage_url());
                 mModel.getSelectedMeal().setValue(mMeal);
-            } // to close the onItemSelected
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
             }
         });
 

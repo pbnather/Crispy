@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.service.GlideApp;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
@@ -31,6 +33,7 @@ public class RecipeDetailFragment extends Fragment {
     private MainNavigationActivity mActivity;
     private View mView, insideView;
     private FloatingActionButton btnEditRecipe;
+    private ImageView mRecipeToolbarImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class RecipeDetailFragment extends Fragment {
 
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
+        mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
 
         mActivity.setToolbar(superToolbar);
 
@@ -97,6 +101,10 @@ public class RecipeDetailFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(recipe.getTitle());
+                GlideApp.with(mView)
+                        .load(recipe.getImage_url())
+                        .centerCrop()
+                        .into(mRecipeToolbarImage);
             }
         }
 

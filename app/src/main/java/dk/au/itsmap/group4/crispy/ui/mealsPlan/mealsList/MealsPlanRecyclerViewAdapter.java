@@ -6,6 +6,7 @@ import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
+import dk.au.itsmap.group4.crispy.service.GlideApp;
 
 // separating of OnClickListeners to Activity inspired by:
 // https://github.com/guenodz/livedata-recyclerview-sample/blob/master/app/src/main/java/me/guendouz/livedata_recyclerview/PostsAdapter.java
@@ -56,17 +58,21 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        final View mView;
         final TextView mDay;
         final TextView mTitle;
         final TextView mHour;
         final TextView mUsersCooking;
+        final ImageView mRecipeImage;
 
         ViewHolder(View view) {
             super(view);
+            mView = view;
             mDay = (TextView) view.findViewById(R.id.day_date);
             mTitle = (TextView) view.findViewById(R.id.mealTitle);
             mHour = (TextView) view.findViewById(R.id.mealHour);
             mUsersCooking = (TextView) view.findViewById(R.id.usersCooking);
+            mRecipeImage = view.findViewById(R.id.recipeImageMeal);
         }
 
         @SuppressLint("DefaultLocale")
@@ -80,9 +86,15 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
                     mDay.setVisibility(View.GONE);
                 }
 
+                GlideApp.with(mView)
+                        .load(item.getImage_url())
+                        .placeholder(R.drawable.crispy_icon)
+                        .centerCrop()
+                        .into(mRecipeImage);
+
                 mTitle.setText(item.getTitle());
                 mHour.setText(String.format(DateFormat.getTimeInstance(DateFormat.SHORT).format(item.getDate())));
-
+                
                 mUsersCooking.setText(item.getCookName());
 
                 itemView.setTag(item);

@@ -37,7 +37,6 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        mActivity = (MainNavigationActivity) this.getActivity();
         mActivity.setMainToolbarWithNavigation(getText(R.string.recipies).toString());
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
 
@@ -63,11 +62,11 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         mAdapter = new RecipesRecyclerViewAdapter(mActivity, this);
 
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mAdapter);
-
         // observe model for changes
         mModel.getAllRecipes().observe(mActivity, recipes -> mAdapter.setData(recipes));
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
