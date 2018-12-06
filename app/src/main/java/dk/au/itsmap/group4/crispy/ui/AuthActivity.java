@@ -2,6 +2,7 @@ package dk.au.itsmap.group4.crispy.ui;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +21,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProviders;
@@ -47,14 +47,14 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
         mUserGroup = new LiveData<List<IUserGroup>>() {};
         LiveData<FirebaseUser> firebaseUser = mAuth.getCurrentUser();
         firebaseUser.observeForever(user -> {
+            mUser = user;
             if (user == null) {
                 stopObservingUserGroup();
                 signIn();
             } else {
-                mUser = user;
                 observeUserGroup();
             }
-            updateMenu(user);
+            updateMenu();
         });
 
     }
@@ -68,7 +68,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
 
             // Successfully signed in
             if (resultCode == RESULT_OK) {
-                updateMenu(mUser);
+                updateMenu();
                 if (response != null && response.isNewUser()) {
                     mAuth.registerUser();
                 }
@@ -89,7 +89,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         mMenu = menu;
-        updateMenu(mUser);
+        updateMenu();
         return true;
     }
 
@@ -110,11 +110,11 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     }
 
     /* Adapted from https://stackoverflow.com/a/37116931 */
-    private void updateMenu(FirebaseUser user) {
+    private void updateMenu() {
         if(mMenu == null) return;
         GlideApp.with(this)
                 .asDrawable()
-                .load(user != null ? user.getPhotoUrl() : null)
+                .load(getUserPhotoUrl())
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -145,6 +145,16 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     @Override
     public LiveData<IUserGroup> getUserGroup() {
         return Transformations.map(mUserGroup, userGroup -> userGroup == null ? null : userGroup.get(0));
+    }
+
+    @Override
+    public Uri getUserPhotoUrl() {
+        return mUser != null ? mUser.getPhotoUrl() : null;
+    }
+
+    @Override
+    public String getUserName() {
+        return mUser != null ? mUser.getDisplayName() : null;
     }
 
     private void observeUserGroup() {

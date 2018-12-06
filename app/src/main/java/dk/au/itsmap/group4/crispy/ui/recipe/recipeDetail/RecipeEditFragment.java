@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -72,11 +71,7 @@ public class RecipeEditFragment extends Fragment {
         added = new ArrayList<>();
         deleted = new ArrayList<>();
 
-        mModel.getSelectedRecipe().observe( this , (r) ->
-                {
-                    mRecipe = r;
-                }
-        );
+        mModel.getSelectedRecipe().observe( this , r -> mRecipe = r);
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
         btnAddIngredient = mView.findViewById(R.id.btnAddIngredient);

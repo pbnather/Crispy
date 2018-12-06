@@ -7,7 +7,6 @@ import android.widget.Filterable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
