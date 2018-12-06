@@ -61,4 +61,9 @@
     <string name="meal_day">Meal date:</string>
     <string name="title">Title</string>
     <string name="recipe_name">Add recipe name</string>
+    <string name="recipe_saved_msg">Recipe saved!</string>
+    <string name="recipe_deleted_msg">Recipe deleted!</string>
+    <string name="empty_ingredient_msg">Fill information about ingredients!</string>
+    <string name="empty_title_msg">Fill recipe title!</string>
+    <string name="edit_recipe">Edit recipe</string>
 </resources>

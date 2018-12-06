@@ -82,7 +82,7 @@ public class RecipeEditFragment extends Fragment {
 
         //Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
 
-        mActivity.setMainToolbarWithNavigation("Edit");
+        mActivity.setMainToolbarWithNavigation(getText(R.string.edit_recipe).toString());
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();
@@ -199,16 +199,18 @@ public class RecipeEditFragment extends Fragment {
         btnDeleteRecipe.setVisibility(View.VISIBLE);
     }
 
-    private void saveIngredients(){
+    private boolean saveIngredients(){
         for(int i=0, j=ingredientsTable.getChildCount(); i<j; i++){
                 View ingredientRowLayout = (View) ingredientsTable.getChildAt(i);
                 Ingredient ing = getIngredient(ingredientRowLayout);
                 if (ing != null)
                     added.add(ing);
-                else
-                    Toast.makeText( getActivity(), "NULL", Toast.LENGTH_SHORT).show();
-                //TODO:Change message
+                else {
+                    Toast.makeText(getActivity(), R.string.empty_ingredient_msg, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
             }
+        return true;
     }
 
     private Ingredient getIngredient(View tr){
@@ -249,21 +251,29 @@ public class RecipeEditFragment extends Fragment {
         String title = mTitleEdit.getText().toString();
         String id = null;
         String image=null;
+        if (title.isEmpty())
+        {
+            Toast.makeText(getActivity(), R.string.empty_title_msg, Toast.LENGTH_LONG).show();
+            return;
+        }
         if (mRecipe != null){
             id = mRecipe.getId();
             image = mRecipe.getImage_url();
         }
         Recipe updatedRecipe = new Recipe(id, title , image, description);
-        saveIngredients();
-        mModel.saveRecipe(updatedRecipe, added, deleted);
-        added.clear();
-        deleted.clear();
-
-        Navigation.findNavController(mView).navigateUp();
+        if (saveIngredients()){
+            mModel.saveRecipe(updatedRecipe, added, deleted);
+            added.clear();
+            deleted.clear();
+            Toast.makeText(getActivity(), R.string.recipe_saved_msg, Toast.LENGTH_LONG).show();
+            Navigation.findNavController(mView).navigateUp();
+        }
     }
 
     private void deleteRecipe(){
         mModel.deleteRecipe((Recipe) mRecipe, mIngredients);
-        Navigation.findNavController(mView).navigateUp();
+        Toast.makeText(getActivity(), R.string.recipe_deleted_msg, Toast.LENGTH_LONG).show();
+        Navigation.findNavController(mView).navigate(R.id.recipeListFragment);
+        //TODO: better navigation
     }
 }

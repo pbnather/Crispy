@@ -47,7 +47,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
         mActivity = (MainNavigationActivity) this.getActivity();
 
-        mActivity.setMainToolbarWithNavigation("Recipies");
+        mActivity.setMainToolbarWithNavigation(getText(R.string.recipies).toString());
 
         FloatingActionButton addRecipeButton = (FloatingActionButton) mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {

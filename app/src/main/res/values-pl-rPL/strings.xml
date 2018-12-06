@@ -48,4 +48,9 @@
     <string name="add_description">Dodaj swój opis</string>
     <string name="delete">Usuń</string>
     <string name="delete_meal_message">Usunięto posiłek</string>
+    <string name="recipe_saved_msg">Zapisano przepis!</string>
+    <string name="recipe_deleted_msg">Usunięto przepis!</string>
+    <string name="empty_ingredient_msg">Uzupełnij informację o składnikach!</string>
+    <string name="empty_title_msg">Uzupełnij tytuł przepisu!</string>
+    <string name="edit_recipe">Edytuj przepis</string>
 </resources>
