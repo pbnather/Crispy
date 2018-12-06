@@ -132,7 +132,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setTheme(R.style.Crispy)
-                        .setLogo(R.mipmap.new_crispy_launcher_round)
+                        .setLogo(R.drawable.crispy_icon)
                         .build(), RC_SIGN_IN);
     }
 
