@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,27 +15,21 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.database.entity.Recipe;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 public class RecipeListFragment extends Fragment implements RecipesRecyclerViewAdapter.OnRecipeClickListener {
 
-    private MainNavigationActivity mActivity;
     private View mView;
-
     private RecipeViewModel mModel;
-
     private RecipesRecyclerViewAdapter mAdapter;
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-
+    private MainNavigationActivity mActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        mActivity = (MainNavigationActivity) this.getActivity();
     }
 
     @Nullable
@@ -44,49 +37,43 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
         mActivity = (MainNavigationActivity) this.getActivity();
-
         mActivity.setMainToolbarWithNavigation(getText(R.string.recipies).toString());
+        mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
 
-        FloatingActionButton addRecipeButton = (FloatingActionButton) mView.findViewById(R.id.addRecipeButton);
-        addRecipeButton.setOnClickListener(view -> {
-            Recipe newRecipe = new Recipe();
-            mModel.selectRecipe(newRecipe.getId());
-            Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
-        });
+        mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
 
-        // setup list adapters
+        setupFloatingButton();
         setupRecyclerView();
-
-        // observe for model changes
-        mModel.getAllRecipes().observe(this, (recipeList) -> {
-            if(mAdapter != null) {
-                mAdapter.setData(recipeList);
-            }
-        });
-
         return mView;
 
     }
 
-    private void setupRecyclerView() {
-        mRecyclerView = mView.findViewById(R.id.recipe_list);
-        assert mRecyclerView != null;
+    private void setupFloatingButton() {
+        FloatingActionButton addRecipeButton = mView.findViewById(R.id.addRecipeButton);
+        addRecipeButton.setOnClickListener(view -> {
 
-        mLayoutManager = new LinearLayoutManager(mActivity);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new RecipesRecyclerViewAdapter(getActivity(), this);
-        mRecyclerView.setAdapter(mAdapter);
+            mModel.selectRecipe(null);
+            Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
+        });
     }
 
+    private void setupRecyclerView() {
+        RecyclerView recyclerView = mView.findViewById(R.id.recipe_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
+        mAdapter = new RecipesRecyclerViewAdapter(mActivity, this);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
+
+        // observe model for changes
+        mModel.getAllRecipes().observe(mActivity, recipes -> mAdapter.setData(recipes));
+    }
 
     @Override
     public void onRecipeClicked(IRecipe recipe) {
 
         mModel.selectRecipe(recipe.getId());
-
         Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
     }
 
