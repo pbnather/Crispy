@@ -12,6 +12,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import dk.au.itsmap.group4.crispy.service.foodapi.FoodAPIService;
 import dk.au.itsmap.group4.crispy.service.foodapi.IngredientApiName;
+import dk.au.itsmap.group4.crispy.service.foodapi.RecipeImage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +75,7 @@ public class AutoCompleteIngredientAdapter extends ArrayAdapter<String> implemen
 
                         @Override
                         public void onFailure(Call<List<IngredientApiName>> call, Throwable t) {
-                            Log.w("TAG", "Error fetching ingredietn names from API", t);
+                            Log.w("TAG", "Error fetching ingredient names from API", t);
                         }
                     });
                     filterResults.values = mResults;
