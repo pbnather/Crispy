@@ -115,6 +115,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
         GlideApp.with(this)
                 .asDrawable()
                 .load(getUserPhotoUrl())
+                .circleCrop()
                 .into(new SimpleTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
