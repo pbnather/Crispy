@@ -110,8 +110,8 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
                 } else {
                     mDay.setVisibility(View.GONE);
                 }
-                sdf.applyPattern("HH:mm");
-                mHour.setText(sdf.format(item.getDate()));
+
+                mHour.setText(DateUtils.formatDateTime(mContext, item.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
 
 
                 GlideApp.with(mView)

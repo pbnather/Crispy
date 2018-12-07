@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -193,9 +194,9 @@ public class AddPlannedMealFragment extends Fragment {
 
         mealDate.setText(sdf.format(meal.getDate()));
 
-        sdf.applyPattern("HH:mm");
-        mealTime.setText(sdf.format(meal.getDate()));
-        
+        mealTime.setText(DateUtils.formatDateTime(mActivity, meal.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
+
+
         recipeName.setText(meal.getTitle());
 
     }
