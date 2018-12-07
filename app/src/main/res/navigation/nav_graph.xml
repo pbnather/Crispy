@@ -33,9 +33,6 @@
         <action
             android:id="@+id/action_recipeListFragment_to_recipeDetailFragment"
             app:destination="@id/recipeDetailFragment" />
-        <action
-            android:id="@+id/action_recipeListFragment_to_recipeEditFragment"
-            app:destination="@id/recipeEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -46,7 +43,11 @@
         android:id="@+id/recipeDetailFragment"
         android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail.RecipeDetailFragment"
         android:label="recipe_detail_fragment"
-        tools:layout="@layout/recipe_detail_inner_detail" />
+        tools:layout="@layout/recipe_detail_inner_detail" >
+        <action
+            android:id="@+id/action_recipeDetailFragment_to_recipeEditFragment"
+            app:destination="@id/recipeEditFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recipeEditFragment"
         android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail.RecipeEditFragment"

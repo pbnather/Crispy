@@ -273,7 +273,8 @@ public class RecipeEditFragment extends Fragment {
     private void deleteRecipe(){
         mModel.deleteRecipe((Recipe) mRecipe, mIngredients);
         Toast.makeText(getActivity(), R.string.recipe_deleted_msg, Toast.LENGTH_LONG).show();
-        Navigation.findNavController(mView).navigate(R.id.recipeListFragment);
-        //TODO: better navigation
+        // go twice up
+        Navigation.findNavController(mView).popBackStack();
+        Navigation.findNavController(mView).navigateUp();
     }
 }

@@ -17,7 +17,7 @@ import dk.au.itsmap.group4.crispy.model.IRepository;
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 
 /**
- * TODO: Remove this class, if we will not use it!
+ * TODO: Remove this class, if we will not use it! It is not possible to use LiveData from background service
  */
 
 /**

@@ -51,8 +51,8 @@ public class NotificationFactory
         PendingIntent pendingIntent = PendingIntent.getActivity(this.mContext, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.mContext, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.crispy_launcher_round)
-                .setContentTitle(mContext.getString(R.string.notification_title)) // TODO: Add better text to notification
+                .setSmallIcon(R.mipmap.crispy_launcher_round) // TODO: Add better image to notification
+                .setContentTitle(mContext.getString(R.string.notification_title))
                 .setContentText(mContext.getString(R.string.notification_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
