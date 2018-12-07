@@ -80,9 +80,7 @@ public class RecipeViewModel extends AndroidViewModel {
         }
         String id = mRepository.saveRecipeWithIngredients(recipe, added);
         recipe.setId(id);
-        if(recipe.getImage_url() == null || recipe.getImage_url().isEmpty()) {
-            addPhotoToRecipe(recipe, added);
-        }
+        addPhotoToRecipe(recipe, added);
         selectRecipe(id);
     }
 
