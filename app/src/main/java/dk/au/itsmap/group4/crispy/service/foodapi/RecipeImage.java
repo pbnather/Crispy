@@ -29,7 +29,7 @@ public class RecipeImage {
     }
 
     public String getImage() {
-        return image;
+        return image.replaceFirst("312x231.jpg", "636x393.jpg");
     }
 
     public void setImage(String image) {

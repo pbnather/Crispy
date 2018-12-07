@@ -80,7 +80,9 @@ public class RecipeViewModel extends AndroidViewModel {
         }
         String id = mRepository.saveRecipeWithIngredients(recipe, added);
         recipe.setId(id);
-        addPhotoToRecipe(recipe, added);
+        if(recipe.getImage_url() == null || recipe.getImage_url().isEmpty()) {
+            addPhotoToRecipe(recipe, added);
+        }
         selectRecipe(id);
     }
 
@@ -107,7 +109,6 @@ public class RecipeViewModel extends AndroidViewModel {
                 public void onResponse(Call<List<RecipeImage>> call, Response<List<RecipeImage>> response) {
                     if (response.body() != null && !response.body().isEmpty()) {
                         String image = response.body().get(0).getImage();
-                        // TODO: get better image quality
                         recipe.setImage_url(image);
                         mRepository.saveRecipe(recipe);
                     }
