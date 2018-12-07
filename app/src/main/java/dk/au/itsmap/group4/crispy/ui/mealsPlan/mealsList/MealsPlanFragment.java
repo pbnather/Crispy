@@ -75,7 +75,7 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
     private void setupRecyclerView() {
         RecyclerView mRecyclerView = mView.findViewById(R.id.daysList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
-        mAdapter = new MealsPlanRecyclerViewAdapter(this);
+        mAdapter = new MealsPlanRecyclerViewAdapter(mActivity, this);
 
         // observe for model changes
         mModel.getAllMeals().observe(mActivity, (meal) -> mAdapter.setData(meal));
