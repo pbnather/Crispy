@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.utils.TimeUtils;
 
 // separating of OnClickListeners to Activity inspired by:
 // https://github.com/guenodz/livedata-recyclerview-sample/blob/master/app/src/main/java/me/guendouz/livedata_recyclerview/PostsAdapter.java
@@ -87,26 +88,21 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE, d. MMM");
                 // show date only if is this meal on different date then previous
                 if (!(prevItem != null && sdf.format(item.getDate()).equals(sdf.format(prevItem.getDate())))) {
+                    String str;
                     if(item.getDate() == null) {
-                        mDay.setText("---");
+                        str = "---";
                     }
-                    String str = DateUtils.getRelativeDateTimeString(
+                    else if(TimeUtils.isToday(item.getDate())) {
+                        str = "Today";
+                    }
+                    else if(TimeUtils.isTomorrow(item.getDate())) {
+                        str = "Tomorrow";
+                    } else {
+                        str = sdf.format(item.getDate());
+                    }
 
-                            mContext, // Suppose you are in an activity or other Context subclass
-
-                            item.getDate().getTime(), // The time to display
-
-                            DateUtils.MINUTE_IN_MILLIS, // The resolution. This will display only
-                            // minutes (no "3 seconds ago")
-
-
-                            DateUtils.WEEK_IN_MILLIS, // The maximum resolution at which the time will switch
-                            // to default date instead of spans. This will not
-                            // display "3 weeks ago" but a full date instead
-
-                            0).toString();
-                    // mDay.setText(item.getDate() != null ? sdf.format(item.getDate()) : "---");
                     mDay.setText(str);
+                    mDay.setVisibility(View.VISIBLE);
                 } else {
                     mDay.setVisibility(View.GONE);
                 }
