@@ -1,6 +1,7 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
@@ -12,11 +13,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,12 +32,16 @@ import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.model.IUserGroup;
+import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.ui.IAccountManager;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.utils.Helpers;
 
 public class AddPlannedMealFragment extends Fragment {
 
+    private IAccountManager mAccount;
     private MealsPlanViewModel mModel;
     private boolean mIsEditMode = false;
     private IMeal mMeal;
@@ -44,7 +53,7 @@ public class AddPlannedMealFragment extends Fragment {
     private View mView;
 
     private AutoCompleteRecipeAdapter mRecipesAutoCompleteAdapter;
-    private ArrayAdapter<String> mUsersSpinnerAdapter;
+    private UserAdapter mUsersSpinnerAdapter;
     private AutoCompleteTextView recipeName;
 
     @Override
@@ -63,6 +72,7 @@ public class AddPlannedMealFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mActivity = (MainNavigationActivity) this.getActivity();
+        mAccount = mActivity;
         mView = inflater.inflate(R.layout.add_planned_meal_fragment, container, false);
 
         btnSave = mView.findViewById(R.id.btnSave);
@@ -110,7 +120,8 @@ public class AddPlannedMealFragment extends Fragment {
         });
 
         // assign to user
-        mUsersSpinnerAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_dropdown_item, mModel.getPossibleCooks());
+        mUsersSpinnerAdapter = new UserAdapter(mActivity, R.layout.group_member_item, R.id.userName);
+        mAccount.getUserGroup().observe(mActivity, group -> mUsersSpinnerAdapter.setData(group.getAllUsers()));
         whoCooksSpinner = mView.findViewById(R.id.whoPrepares);
         whoCooksSpinner.setAdapter(mUsersSpinnerAdapter);
         whoCooksSpinner.setSelection(mUsersSpinnerAdapter.getPosition(mModel.getSelectedMeal().getValue().getCookName()));
@@ -199,6 +210,57 @@ public class AddPlannedMealFragment extends Fragment {
 
         recipeName.setText(meal.getTitle());
 
+    }
+
+    /* Adapted from http://android-er.blogspot.com/2010/12/custom-arrayadapter-for-spinner-with.html */
+    public class UserAdapter extends ArrayAdapter<String> {
+        private List<Map<String, String>> mUsers;
+        private List<String> mUsernames;
+
+        public UserAdapter(@NonNull Context context, int resource, int textViewResourceId) {
+            super(context, resource, textViewResourceId);
+        }
+
+        public void setData(List<Map<String, String>> users) {
+            mUsers = users;
+            mUsernames = new ArrayList<>();
+            for(Map<String, String> user : mUsers) {
+                mUsernames.add(user.get("name").split(" ")[0]);
+            }
+            clear();
+            addAll(mUsernames);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,
+                                    ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.group_member_item, parent, false);
+
+            TextView userName = row.findViewById(R.id.userName);
+            ImageView userPhoto = row.findViewById(R.id.userPhoto);
+
+            String photoUrl = mUsers.get(position).get("photo_url");
+            userName.setText(mUsers.get(position).get("name").split(" ")[0]);
+
+            GlideApp.with(row)
+                    .load(photoUrl)
+                    .placeholder(R.drawable.crispy_icon)
+                    .into(userPhoto);
+
+            return row;
+        }
     }
 
 }

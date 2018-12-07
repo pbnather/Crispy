@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,6 +37,14 @@ public class AccountFragment extends Fragment {
         mAccount = (IAccountManager) getActivity();
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem account =menu.findItem(R.id.btnAccount);
+        MenuItem list = menu.findItem(R.id.btnGroceryList);
+        account.setVisible(false);
+        list.setVisible(false);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -45,8 +55,8 @@ public class AccountFragment extends Fragment {
         rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> mAccount.signOut());
 
         // Set toolbar
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         mActivity = (MainNavigationActivity) this.getActivity();
         mActivity.setMainToolbarWithNavigation("Your profile");
 
@@ -60,7 +70,10 @@ public class AccountFragment extends Fragment {
         // Set welcome text
         TextView accountNameText = rootView.findViewById(R.id.accountNameText);
         accountNameText.setText(String.format("Hi %s", mAccount.getUserName()));
-        rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> mAccount.signOut());
+        rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> {
+            mAccount.signOut();
+            mActivity.getNavController().popBackStack();
+        });
 
         // Set list of group members
         mAccount.getUserGroup().observe(this, this::displayGroupMembers);
