@@ -257,6 +257,7 @@ public class AddPlannedMealFragment extends Fragment {
             GlideApp.with(row)
                     .load(photoUrl)
                     .placeholder(R.drawable.crispy_icon)
+                    .circleCrop()
                     .into(userPhoto);
 
             return row;

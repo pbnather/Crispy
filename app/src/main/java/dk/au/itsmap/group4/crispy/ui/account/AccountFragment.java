@@ -65,6 +65,7 @@ public class AccountFragment extends Fragment {
         GlideApp.with(this)
                 .load(mAccount.getUserPhotoUrl())
                 .placeholder(R.drawable.default_profile_picture_hd)
+                .circleCrop()
                 .into(profilePicture);
 
         // Set welcome text
