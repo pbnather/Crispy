@@ -52,8 +52,8 @@ public class NotificationFactory
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.mContext, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.crispy_launcher_round)
-                .setContentTitle(mContext.getString(R.string.notification_title)) // TODO: Ad better text to notification
-                .setContentText(mContext.getString(R.string.notification_text) + getCurrentTime())
+                .setContentTitle(mContext.getString(R.string.notification_title)) // TODO: Add better text to notification
+                .setContentText(mContext.getString(R.string.notification_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);

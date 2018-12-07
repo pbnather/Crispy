@@ -26,7 +26,7 @@ public class NotificationAlarm {
         AlarmManager mAlarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         if (mAlarmMgr != null) {
             // TODO: change time to AlarmManager.INTERVAL_DAY
-            mAlarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), ONE_MINUTE_INTERVAL, alarmIntent);
+            mAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), ONE_MINUTE_INTERVAL, alarmIntent);
         }
     }
 }

@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.concurrent.CountDownLatch;
+
 public class NotificationIntentService extends IntentService {
+
+    private CountDownLatch doneSignal = new CountDownLatch(1);
 
     NotificationFactory mNotificationHelper;
 
@@ -19,6 +23,12 @@ public class NotificationIntentService extends IntentService {
         mNotificationHelper = new NotificationFactory(this);
 
         (new NotifyTodaysMealAsyncTask()).execute(mNotificationHelper);
+
+        try {
+            doneSignal.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
