@@ -78,15 +78,12 @@ public class RecipeEditFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mActivity = (MainNavigationActivity) getActivity();
-        //mView = inflater.inflate(R.layout.recipe_detail_inner_edit, container, false);
-
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
 
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
+        superToolbar.setTitle(getText(R.string.edit_recipe));
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
         mActivity.setToolbar(superToolbar);
-
-       // mActivity.setMainToolbarWithNavigation(getText(R.string.edit_recipe).toString());
 
         // inflate inner layout to scroll view
         mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container), true);
@@ -101,7 +98,7 @@ public class RecipeEditFragment extends Fragment {
         btnDeleteRecipe = mView.findViewById(R.id.btnDelete);
 
         btnSaveRecipe = mView.findViewById(R.id.btnEditRecipe);
-        btnSaveRecipe.setImageDrawable(getResources().getDrawable(R.drawable.crispy_icon));
+        btnSaveRecipe.setImageDrawable(getResources().getDrawable(R.drawable.save));
 
         deleteRowListener = new View.OnClickListener() {
             @Override
@@ -189,23 +186,20 @@ public class RecipeEditFragment extends Fragment {
         mDescriptionEdit.setMovementMethod(new ScrollingMovementMethod());
     }
     private void updateView(IRecipe recipe) {
+        CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
+        appBarLayout.setTitle(getText(R.string.edit_recipe));
         if(recipe == null) {
             return;
         }
         if(mView != null) {
-            CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(getText(R.string.edit_recipe));
-                GlideApp.with(mView)
-                        .load(recipe.getImage_url())
-                        .centerCrop()
-                        .into(mRecipeToolbarImage);
-            }
+            GlideApp.with(mView)
+                    .load(recipe.getImage_url())
+                    .centerCrop()
+                    .into(mRecipeToolbarImage);
+            ((EditText) mView.findViewById(R.id.recipe_title)).setText(recipe.getTitle());
+            ((EditText) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
+            btnDeleteRecipe.setVisibility(View.VISIBLE);
         }
-
-        ((EditText) mView.findViewById(R.id.recipe_title)).setText(recipe.getTitle());
-        ((EditText) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
-        btnDeleteRecipe.setVisibility(View.VISIBLE);
     }
 
     private boolean saveIngredients(){

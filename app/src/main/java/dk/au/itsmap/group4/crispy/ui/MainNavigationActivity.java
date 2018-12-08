@@ -47,7 +47,6 @@ public class MainNavigationActivity extends AuthActivity {
         setSupportActionBar(t);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Random Title");
     }
 
     @Override

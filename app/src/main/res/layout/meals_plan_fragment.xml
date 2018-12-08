@@ -43,7 +43,6 @@
         android:src="@mipmap/plus_white"
         app:backgroundTint="@color/crispyAccent"
         app:fabCustomSize="@android:dimen/app_icon_size"
-        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.976"
