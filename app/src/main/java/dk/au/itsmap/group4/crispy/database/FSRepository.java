@@ -2,9 +2,12 @@ package dk.au.itsmap.group4.crispy.database;
 
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -32,6 +35,8 @@ public class FSRepository implements IRepository {
 
     private final static String DEFAULT_GROUP_ID = "Ri6ynXhA0n3Da7MDOXe6";
     private final static String TAG = "FSRepository";
+
+    private String groupId;
 
     private FirebaseFirestore mFirestore;
     private CollectionReference mRecipes;
@@ -152,8 +157,14 @@ public class FSRepository implements IRepository {
     }
 
     @Override
+    public void getRecipeByIdOnce(@NonNull String recipeId, OnCompleteListener<DocumentSnapshot> listener) {
+        DocumentReference docRef = mRecipes.document(recipeId);
+        docRef.get().addOnCompleteListener(listener);
+    }
+
+    @Override
     public LiveData<IRecipe> getRecipeForMeal(@NonNull IMeal meal) {
-        return getRecipeById(meal.getRecipeId());
+        return null;
     }
 
     @Override

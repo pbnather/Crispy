@@ -158,6 +158,11 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
         return mUser != null ? mUser.getDisplayName() : null;
     }
 
+    @Override
+    public String getUserId() {
+        return mUser != null ? mUser.getUid() : null;
+    }
+
     private void observeUserGroup() {
         mUserGroup = mAuth.getUserGroup(mUser.getUid());
     }
