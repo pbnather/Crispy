@@ -1,7 +1,11 @@
 package dk.au.itsmap.group4.crispy.model;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 public interface IRepository {
@@ -27,4 +31,6 @@ public interface IRepository {
     void deleteMeal(String mealId);
     void deleteIngredientsForRecipe(IRecipe recipe, List<IIngredient> ingredients);
     void deleteIngredientsForRecipeById(String recipeId, List<IIngredient> ingredients);
+
+    void getRecipeByIdOnce(String recipeId, OnCompleteListener<DocumentSnapshot> listener);
 }
