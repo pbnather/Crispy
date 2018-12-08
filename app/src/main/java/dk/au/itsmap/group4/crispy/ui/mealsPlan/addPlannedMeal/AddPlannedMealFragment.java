@@ -1,5 +1,6 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
+import android.app.MediaRouteActionProvider;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -33,6 +34,7 @@ import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
+import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.ui.IAccountManager;
 import dk.au.itsmap.group4.crispy.ui.INavigationController;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
@@ -45,6 +47,7 @@ public class AddPlannedMealFragment extends Fragment {
 
     private FragmentManager mFragmentManager;
     private MealsPlanViewModel mModel;
+    private IUserGroup mUserGroup;
     private IMeal mMeal;
 
     private IAccountManager mAccount;
@@ -144,13 +147,25 @@ public class AddPlannedMealFragment extends Fragment {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                mMeal.setCookName(parent.getItemAtPosition(position).toString());
+                String userId = parent.getItemAtPosition(position).toString();
+                Map<String, String> theUser = null;
+                for(Map<String, String> user: mUserGroup.getAllUsers()) {
+                    if(user.get("id").equals(userId)) {
+                        theUser = user;
+                        break;
+                    }
+                }
+                if(theUser != null) {
+                    mMeal.setCookName(getFirstWord(theUser.get("name")));
+                    mMeal.setCookImage(theUser.get("photo_url"));
+                }
             }
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         // observe group members for changes
         mAccount.getUserGroup().observe(mActivity, group -> {
+            mUserGroup = group;
             usersSpinnerAdapter.setData(group.getAllUsers());
             if(mMeal != null && mMeal.getCookName() != null) mGroupMembers.setSelection(usersSpinnerAdapter.getPosition(getFirstWord(mMeal.getCookName())));
         });
@@ -208,7 +223,7 @@ public class AddPlannedMealFragment extends Fragment {
             mUsers = users;
             mUsernames = new ArrayList<>();
             for(Map<String, String> user : mUsers) {
-                mUsernames.add(getFirstWord(Objects.requireNonNull(user.get("name"))));
+                mUsernames.add(getFirstWord(Objects.requireNonNull(user.get("id"))));
             }
             clear();
             addAll(mUsernames);

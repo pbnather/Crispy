@@ -13,6 +13,8 @@ public interface IMeal {
 
     String getImage_url();
 
+    String getCookImage();
+
     String getRecipeId();
 
     String getCookName();
@@ -32,5 +34,7 @@ public interface IMeal {
     void setDate(Timestamp date);
 
     void setImage_url(String imageUrl);
+
+    void setCookImage(String image_url);
 
 }

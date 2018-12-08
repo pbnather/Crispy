@@ -75,6 +75,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
         final TextView mHour;
         final TextView mUsersCooking;
         final ImageView mRecipeImage;
+        final ImageView mUserImage;
 
         ViewHolder(View view) {
             super(view);
@@ -84,6 +85,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
             mHour = view.findViewById(R.id.mealHour);
             mUsersCooking = view.findViewById(R.id.usersCooking);
             mRecipeImage = view.findViewById(R.id.recipeImageMeal);
+            mUserImage = view.findViewById(R.id.userImage);
         }
 
         void bind(final IMeal item, final IMeal prevItem) {
@@ -123,6 +125,12 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
                 mTitle.setText(item.getTitle());
 
                 mUsersCooking.setText(item.getCookName());
+
+                GlideApp.with(mView)
+                        .load(item.getCookImage())
+                        .placeholder(R.drawable.crispy_icon)
+                        .circleCrop()
+                        .into(mUserImage);
 
                 itemView.setTag(item);
 

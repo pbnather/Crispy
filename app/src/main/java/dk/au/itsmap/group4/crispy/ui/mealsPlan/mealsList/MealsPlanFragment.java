@@ -52,6 +52,7 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
         btnAddMeal = mView.findViewById(R.id.btnAddMeal);
 
+        //set toolbar
         ActionBar actionBar = mActivity.getSupportActionBar();
         actionBar.setTitle(R.string.crispy_planner);
         actionBar.setDisplayHomeAsUpEnabled(false);

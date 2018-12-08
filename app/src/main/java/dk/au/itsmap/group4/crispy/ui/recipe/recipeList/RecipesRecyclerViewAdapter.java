@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +83,7 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
                         .load(recipe.getImage_url())
                         .placeholder(R.drawable.crispy_icon)
                         .centerCrop()
+                        .transform(new RoundedCorners(20))
                         .into(mImageView);
 
                 itemView.setTag(recipe);
