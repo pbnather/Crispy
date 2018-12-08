@@ -14,4 +14,6 @@ public interface IAccountManager {
     Uri getUserPhotoUrl();
 
     String getUserName();
+
+    String getUserId();
 }
