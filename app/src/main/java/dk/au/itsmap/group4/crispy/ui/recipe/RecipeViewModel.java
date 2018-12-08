@@ -28,9 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RecipeViewModel extends AndroidViewModel {
 
     private IRepository mRepository;
-    private LiveData<List<IIngredient>> mSelectedRecipeIngredients;
     private LiveData<List<IRecipe>> mRecipes;
     private LiveData<IRecipe> mSelectedRecipe;
+    private LiveData<List<IIngredient>> mSelectedRecipeIngredients;
     private String mSelectedRecipeId;
 
     public RecipeViewModel(@NonNull Application application) {

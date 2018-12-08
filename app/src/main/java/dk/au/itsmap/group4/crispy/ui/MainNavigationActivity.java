@@ -1,5 +1,6 @@
 package dk.au.itsmap.group4.crispy.ui;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
@@ -63,5 +64,10 @@ public class MainNavigationActivity extends AuthActivity {
         mToolbar.setVisibility(View.VISIBLE);
         mToolbar.setTitle(title);
         setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    public boolean isOrientationLandscape() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

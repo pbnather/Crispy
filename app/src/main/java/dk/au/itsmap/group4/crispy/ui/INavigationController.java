@@ -11,4 +11,6 @@ public interface INavigationController {
     void setMainToolbarWithNavigation(String title);
 
     void setMainToolbar(String title);
+
+    boolean isOrientationLandscape();
 }

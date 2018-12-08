@@ -59,7 +59,9 @@ public class RecipeDetailFragment extends Fragment {
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
 
-        mActivity.setToolbar(superToolbar);
+        if(!mActivity.isOrientationLandscape()) {
+            mActivity.setToolbar(superToolbar);
+        }
 
         // inflate inner layout to scroll view
         inflater.inflate(R.layout.recipe_detail_inner_detail, mView.findViewById(R.id.recipe_detail_container));
@@ -76,6 +78,9 @@ public class RecipeDetailFragment extends Fragment {
         mModel.getIngredientsForSelectedRecipe().observe(this, ingredients -> {
 
             ingredientsTable.removeAllViews();
+            if(ingredients == null) {
+                return;
+            }
             for(IIngredient ingredient : ingredients) {
                 // add array of views
                 addIngredientRow(inflater, container, ingredient);

@@ -73,7 +73,9 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     public void onRecipeClicked(IRecipe recipe) {
 
         mModel.selectRecipe(recipe.getId());
-        Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
+        if(!mActivity.isOrientationLandscape()) {
+            Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
+        }
     }
 
 }
