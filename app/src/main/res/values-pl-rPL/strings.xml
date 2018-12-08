@@ -53,4 +53,8 @@
     <string name="empty_ingredient_msg">Uzupełnij informację o składnikach!</string>
     <string name="empty_title_msg">Uzupełnij tytuł przepisu!</string>
     <string name="edit_recipe">Edytuj przepis</string>
+    <string name="sign_out">Wyloguj się</string>
+    <string name="account">Twoje konto</string>
+    <string name="delete_account">Usuń konto</string>
+    <string name="hi">Witaj</string>
 </resources>

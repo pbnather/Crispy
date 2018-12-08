@@ -16,11 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +39,13 @@ import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
+import dk.au.itsmap.group4.crispy.utils.GlideApp;
 
 public class RecipeEditFragment extends Fragment {
 
     private RecipeViewModel mModel;
     private AutoCompleteIngredientAdapter mAutoAdapter;
-    private Button btnAddIngredient, btnDeleteRecipe, btnSaveRecipe;
+    private Button btnAddIngredient, btnDeleteRecipe;
     private TableLayout ingredientsTable;
     private List<IIngredient> added, mIngredients;
     private List<IIngredient> deleted;
@@ -52,6 +55,8 @@ public class RecipeEditFragment extends Fragment {
     private View.OnClickListener deleteRowListener;
     private EditText mDescriptionEdit, mTitleEdit;
     private IRecipe mRecipe;
+    private ImageView mRecipeToolbarImage;
+    private FloatingActionButton btnSaveRecipe;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,16 +78,18 @@ public class RecipeEditFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mActivity = (MainNavigationActivity) getActivity();
-        mView = inflater.inflate(R.layout.recipe_detail_inner_edit, container, false);
+        //mView = inflater.inflate(R.layout.recipe_detail_inner_edit, container, false);
 
-        //mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
+        mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
+
+        Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
+        mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
+        mActivity.setToolbar(superToolbar);
+
+       // mActivity.setMainToolbarWithNavigation(getText(R.string.edit_recipe).toString());
 
         // inflate inner layout to scroll view
-        //mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container), true);
-
-        //Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
-
-        mActivity.setMainToolbarWithNavigation(getText(R.string.edit_recipe).toString());
+        mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container), true);
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();
@@ -92,7 +99,9 @@ public class RecipeEditFragment extends Fragment {
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
         btnAddIngredient = mView.findViewById(R.id.btnAddIngredient);
         btnDeleteRecipe = mView.findViewById(R.id.btnDelete);
-        btnSaveRecipe = mView.findViewById(R.id.btnSaveRecipy);
+
+        btnSaveRecipe = mView.findViewById(R.id.btnEditRecipe);
+        btnSaveRecipe.setImageDrawable(getResources().getDrawable(R.drawable.crispy_icon));
 
         deleteRowListener = new View.OnClickListener() {
             @Override
@@ -183,16 +192,16 @@ public class RecipeEditFragment extends Fragment {
         if(recipe == null) {
             return;
         }
-//        if(mView != null) {
-//            CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
-//            Toolbar t = mView.findViewById(R.id.detail_toolbar);
-//            if (appBarLayout != null) {
-//
-//                appBarLayout.setTitleEnabled(true);
-//                appBarLayout.setTitle(recipe.getTitle());
-////                t.setTitle(recipe.getTitle());
-//            }
-//        }
+        if(mView != null) {
+            CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
+            if (appBarLayout != null) {
+                appBarLayout.setTitle(getText(R.string.edit_recipe));
+                GlideApp.with(mView)
+                        .load(recipe.getImage_url())
+                        .centerCrop()
+                        .into(mRecipeToolbarImage);
+            }
+        }
 
         ((EditText) mView.findViewById(R.id.recipe_title)).setText(recipe.getTitle());
         ((EditText) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());

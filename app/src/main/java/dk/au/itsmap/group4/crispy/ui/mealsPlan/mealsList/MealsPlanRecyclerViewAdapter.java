@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +117,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
                         .load(item.getImage_url())
                         .placeholder(R.drawable.crispy_icon)
                         .centerCrop()
+                        .transform(new RoundedCorners(20))
                         .into(mRecipeImage);
 
                 mTitle.setText(item.getTitle());

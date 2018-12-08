@@ -12,9 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.utils.GlideApp;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
@@ -24,6 +26,8 @@ public class AccountFragment extends Fragment {
 
     private IAccountManager mAccount;
     private MainNavigationActivity mActivity;
+    private TableLayout groupTable;
+    private View rootView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +48,7 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.account_fragment, container, false);
+        rootView = inflater.inflate(R.layout.account_fragment, container, false);
 
         // Set sign out button action
         rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> mAccount.signOut());
@@ -53,7 +57,7 @@ public class AccountFragment extends Fragment {
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
         mActivity = (MainNavigationActivity) this.getActivity();
-        mActivity.setMainToolbarWithNavigation("Your profile");
+        mActivity.setMainToolbarWithNavigation(getText(R.string.account).toString());
 
         // Set profile image
         ImageView profilePicture = rootView.findViewById(R.id.profilePicture);
@@ -65,14 +69,18 @@ public class AccountFragment extends Fragment {
 
         // Set welcome text
         TextView accountNameText = rootView.findViewById(R.id.accountNameText);
-        accountNameText.setText(String.format("Hi %s", mAccount.getUserName()));
+        accountNameText.setText(String.format(getText(R.string.hi).toString()+" %s!", mAccount.getUserName()));
+
+        //Set sign out
         rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> {
             mAccount.signOut();
             mActivity.getNavController().popBackStack();
         });
 
         // Set list of group members
-        mAccount.getUserGroup().observe(this, this::displayGroupMembers);
+        groupTable = rootView.findViewById(R.id.groupMembersList);
+        mAccount.getUserGroup().observe(this, (group) -> displayGroupMembers(group, inflater, container));
+
         return rootView;
     }
 
@@ -82,7 +90,31 @@ public class AccountFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
-    private void displayGroupMembers(IUserGroup group) {
+    private void displayGroupMembers(IUserGroup group, LayoutInflater inflater, ViewGroup container) {
+        groupTable.removeAllViews();
 
+        TextView groupName = rootView.findViewById(R.id.groupName);
+        groupName.setText(group.getName()+":");
+
+        for(int i=0; i<group.getAllUsers().size(); i++) {
+            // add array of views
+
+            View userRowLayout = inflater.inflate(R.layout.group_member_item, container, false);
+
+            TextView nameView = userRowLayout.findViewById(R.id.userName);
+            ImageView pictureView = userRowLayout.findViewById(R.id.userPhoto);
+
+            String userName = group.getAllUsers().get(i).get("name");
+            String pictureUrl = group.getAllUsers().get(i).get("photo_url");
+
+            GlideApp.with(userRowLayout)
+                    .load(pictureUrl)
+                    .placeholder(R.drawable.default_profile_picture_hd)
+                    .circleCrop()
+                    .into(pictureView);
+
+            nameView.setText(userName);
+            groupTable.addView(userRowLayout);
+        }
     }
 }
