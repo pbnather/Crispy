@@ -66,4 +66,8 @@
     <string name="empty_ingredient_msg">Fill information about ingredients!</string>
     <string name="empty_title_msg">Fill recipe title!</string>
     <string name="edit_recipe">Edit recipe</string>
+    <string name="sign_out">Sign out</string>
+    <string name="account">Your account</string>
+    <string name="delete_account">Delete account</string>
+    <string name="hi">Hi</string>
 </resources>

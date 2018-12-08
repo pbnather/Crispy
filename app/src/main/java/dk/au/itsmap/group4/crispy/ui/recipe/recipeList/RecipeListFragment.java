@@ -25,6 +25,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     private RecipeViewModel mModel;
     private RecipesRecyclerViewAdapter mAdapter;
     private MainNavigationActivity mActivity;
+    private  FloatingActionButton addRecipeButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,19 +38,21 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        mActivity.setMainToolbarWithNavigation(getText(R.string.recipies).toString());
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
+
 
         mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
 
         setupFloatingButton();
         setupRecyclerView();
+        mActivity.setMainToolbarWithNavigation(getText(R.string.recipies).toString());
+
         return mView;
 
     }
 
     private void setupFloatingButton() {
-        FloatingActionButton addRecipeButton = mView.findViewById(R.id.addRecipeButton);
+        addRecipeButton = mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {
 
             mModel.selectRecipe(null);

@@ -101,17 +101,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionText" />
 
-        <Button
-            android:id="@+id/btnSaveRecipy"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="29dp"
-            android:text="@string/save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_description" />
-
         <EditText
             android:id="@+id/recipe_title"
             android:layout_width="wrap_content"
@@ -129,10 +118,13 @@
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/delete"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

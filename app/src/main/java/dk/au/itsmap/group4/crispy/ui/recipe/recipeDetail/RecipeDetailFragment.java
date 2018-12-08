@@ -61,8 +61,6 @@ public class RecipeDetailFragment extends Fragment {
 
         mActivity.setToolbar(superToolbar);
 
-        //mActivity.setMainToolbarWithNavigation("Details");
-
         // inflate inner layout to scroll view
         inflater.inflate(R.layout.recipe_detail_inner_detail, mView.findViewById(R.id.recipe_detail_container));
 
