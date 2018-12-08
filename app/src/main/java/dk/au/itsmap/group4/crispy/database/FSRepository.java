@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
@@ -29,7 +30,8 @@ import dk.au.itsmap.group4.crispy.model.IUserGroup;
 
 public class FSRepository implements IRepository {
 
-    private final String TAG = "FSRepository";
+    private final static String DEFAULT_GROUP_ID = "Ri6ynXhA0n3Da7MDOXe6";
+    private final static String TAG = "FSRepository";
 
     private FirebaseFirestore mFirestore;
     private CollectionReference mRecipes;
@@ -67,7 +69,7 @@ public class FSRepository implements IRepository {
 
     public LiveData<List<IUserGroup>> getUserGroup(@NonNull String userId) {
         Query groupQuery = mGroups.whereArrayContains("userIds", userId).limit(1);
-        return new FSCollectionLiveData<UserGroup, IUserGroup>(groupQuery, UserGroup.class);
+        return new FSCollectionLiveData<>(groupQuery, UserGroup.class);
     }
 
     public void createUserWithGroup(@NonNull String userId, @NonNull String userName, @NonNull String photoUrl) {
@@ -99,9 +101,34 @@ public class FSRepository implements IRepository {
         group.put("users", users);
 
         WriteBatch batch = mFirestore.batch();
-        userRef.set(user);
-        userGroupRef.set(group);
+        batch.set(userRef, user);
+        batch.set(userGroupRef, group);
         batch.commit();
+    }
+
+    public void createUserAndAssignGroup(@NonNull String userId, @NonNull String groupId,
+                                         @NonNull String userName, @NonNull String photoUrl) {
+        DocumentReference userRef = mUsers.document(userId);
+        DocumentReference userGroupRef = mGroups.document(groupId);
+
+        // Create new user document
+        Map<String, Object> user = new HashMap<>();
+        user.put("group", userGroupRef);
+
+        // Create user info map
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("name", userName);
+        userInfo.put("photo_url", photoUrl);
+
+        WriteBatch batch = mFirestore.batch();
+        batch.set(userRef, user);
+        batch.update(userGroupRef,"userIds", FieldValue.arrayUnion(userId));
+        batch.update(userGroupRef,"users." + userId, userInfo);
+        batch.commit();
+    }
+
+    public void createUserAndAssignDefaultGroup(@NonNull String userId, @NonNull String userName, @NonNull String photoUrl) {
+        createUserAndAssignGroup(userId, DEFAULT_GROUP_ID, userName, photoUrl);
     }
 
     public void addUserToGroup(@NonNull String userId, @NonNull String groupId) {
