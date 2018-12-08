@@ -44,18 +44,20 @@ class NotificationFactory
             notificationManager.createNotificationChannel(channel);
         }
 
-
     }
 
+    /**
+     * Creates notification about today's meal
+     */
     void notifyAboutTodayMeals() {
         Intent intent = new Intent(mContext, MainNavigationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this.mContext, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, CHANNEL_ID_STR)
-                .setSmallIcon(R.mipmap.crispy_launcher_round) // TODO: Add better image to notification
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(mContext.getString(R.string.notification_title))
-                .setContentText(mContext.getString(R.string.notification_text))
+                .setContentText(mContext.getString(R.string.notification_text)) // TODO: change text based on today's meal
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
@@ -64,14 +66,4 @@ class NotificationFactory
         notificationManager.notify(CHANNEL_ID_INT, mBuilder.build());
     }
 
-    /**
-     * Get current time
-     * Inspired by https://stackoverflow.com/a/834172
-     * @return return current time as formatted String "HH:mm:ss"
-     */
-    private String getCurrentTime() {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.US);
-        return sdf.format(cal.getTime());
-    }
 }

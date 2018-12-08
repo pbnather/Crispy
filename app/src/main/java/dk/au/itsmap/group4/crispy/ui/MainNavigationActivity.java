@@ -25,6 +25,8 @@ public class MainNavigationActivity extends AuthActivity {
         mToolbar = findViewById(R.id.mainToolbar);
         mToolbar.setTitle(R.string.crispy_planner);
         setSupportActionBar(mToolbar);
+
+        // register notification alarm
         NotificationAlarm.startAlarm(this);
     }
 
