@@ -33,9 +33,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/recipe_list"
         app:layout_constraintEnd_toStartOf="@+id/recipe_list_separator" />
 
-    <fragment
-        android:id="@+id/fragment"
-        android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail.RecipeDetailFragment"
+    <FrameLayout
+        android:id="@+id/right_column"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

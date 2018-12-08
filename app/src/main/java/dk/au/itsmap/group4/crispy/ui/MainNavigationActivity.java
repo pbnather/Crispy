@@ -45,6 +45,9 @@ public class MainNavigationActivity extends AuthActivity {
     public void setToolbar(Toolbar t){
         mToolbar.setVisibility(View.GONE);
         setSupportActionBar(t);
+        if(t == null) {
+            return;
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Random Title");

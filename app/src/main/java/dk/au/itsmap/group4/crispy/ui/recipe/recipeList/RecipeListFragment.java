@@ -20,6 +20,8 @@ import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
+import dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail.RecipeDetailFragment;
+import dk.au.itsmap.group4.crispy.ui.recipe.recipeDetail.RecipeEditFragment;
 
 public class RecipeListFragment extends Fragment implements RecipesRecyclerViewAdapter.OnRecipeClickListener {
 
@@ -28,7 +30,8 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     private RecipesRecyclerViewAdapter mAdapter;
     private MainNavigationActivity mActivity;
     private Guideline mGuideLine;
-    private  FloatingActionButton addRecipeButton;
+    private FloatingActionButton addRecipeButton;
+    private boolean mHasTwoColumns;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,11 +46,13 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
 
-
         mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
 
+        // right column is visible only on some resolutions
+        mHasTwoColumns = mView.findViewById(R.id.right_column) != null;
+
         mGuideLine = mView.findViewById(R.id.recipe_list_separator);
-        setGuidinePosition(100f);
+        setGuidlinePosition(1f);
 
         setupFloatingButton();
         setupRecyclerView();
@@ -60,9 +65,12 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     private void setupFloatingButton() {
         addRecipeButton = mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {
-
             mModel.selectRecipe(null);
-            Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
+            if(mHasTwoColumns) {
+                showFragment(new RecipeEditFragment());
+            } else {
+                Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
+            }
         });
     }
 
@@ -82,15 +90,26 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     public void onRecipeClicked(IRecipe recipe) {
 
         mModel.selectRecipe(recipe);
-        if(mActivity.isOrientationLandscape()) {
-            setGuidinePosition(0.45f);
+        if(mHasTwoColumns) {
+            showFragment(new RecipeDetailFragment());
         } else {
             Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
         }
     }
 
-    private void setGuidinePosition(float percentage) {
-        if(mGuideLine == null) {
+
+
+    private void showFragment(Fragment fragment) {
+        if(mView.findViewById(R.id.right_column) != null) {
+            setGuidlinePosition(0.45f);
+            mActivity.getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.right_column, fragment)
+                    .commit();
+        }
+    }
+
+    private void setGuidlinePosition(float percentage) {
+        if(mGuideLine == null || percentage < 0 || percentage > 1) {
             return;
         }
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mGuideLine.getLayoutParams();

@@ -68,7 +68,7 @@ public class RecipeEditFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem account =menu.findItem(R.id.btnAccount);
+        MenuItem account = menu.findItem(R.id.btnAccount);
         MenuItem list = menu.findItem(R.id.btnGroceryList);
         account.setVisible(false);
         list.setVisible(false);
@@ -78,9 +78,10 @@ public class RecipeEditFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mActivity = (MainNavigationActivity) getActivity();
-        //mView = inflater.inflate(R.layout.recipe_detail_inner_edit, container, false);
 
+        // inflate inner layout to scroll view
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
+        mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container), true);
 
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
@@ -88,8 +89,6 @@ public class RecipeEditFragment extends Fragment {
 
        // mActivity.setMainToolbarWithNavigation(getText(R.string.edit_recipe).toString());
 
-        // inflate inner layout to scroll view
-        mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container), true);
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();
