@@ -7,7 +7,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.database.entity.Recipe;
@@ -29,9 +32,8 @@ public class RecipeViewModel extends AndroidViewModel {
 
     private IRepository mRepository;
     private LiveData<List<IRecipe>> mRecipes;
-    private LiveData<IRecipe> mSelectedRecipe;
+    private MutableLiveData<IRecipe> mSelectedRecipe;
     private LiveData<List<IIngredient>> mSelectedRecipeIngredients;
-    private String mSelectedRecipeId;
 
     public RecipeViewModel(@NonNull Application application) {
         super(application);
@@ -53,24 +55,26 @@ public class RecipeViewModel extends AndroidViewModel {
         return mSelectedRecipeIngredients;
     }
 
+    public LiveData<List<IIngredient>> getIngredientsForRecipeById(String id) {
+        return mRepository.getIngredientsForRecipeById(id);
+    }
+
     public LiveData<IRecipe> getSelectedRecipe() {
         if (mSelectedRecipe == null) {
-            mSelectedRecipe = new LiveData<IRecipe>() {};
+            mSelectedRecipe = new MutableLiveData<IRecipe>() {};
         }
         return mSelectedRecipe;
     }
 
-    public void selectRecipe(String recipeId) {
-        if(mSelectedRecipeId == null || !mSelectedRecipeId.equals(recipeId)) {
-            if(recipeId != null) {
-                mSelectedRecipeId = recipeId;
-                mSelectedRecipe = mRepository.getRecipeById(recipeId);
-                mSelectedRecipeIngredients = mRepository.getIngredientsForRecipeById(recipeId);
-            } else {
-                mSelectedRecipe = null;
-                mSelectedRecipeId = null;
-                mSelectedRecipeIngredients = null;
+    public void selectRecipe(IRecipe recipe) {
+        if(recipe != null) {
+            // update selected meal only if current selected is different
+            if(mSelectedRecipe.getValue()  == null || (mSelectedRecipe.getValue() != null && !recipe.getId().equals(mSelectedRecipe.getValue().getId()))) {
+                mSelectedRecipe.setValue(recipe);
             }
+
+        } else {
+            mSelectedRecipe.setValue(null);
         }
     }
 
@@ -81,7 +85,7 @@ public class RecipeViewModel extends AndroidViewModel {
         String id = mRepository.saveRecipeWithIngredients(recipe, added);
         recipe.setId(id);
         addPhotoToRecipe(recipe, added);
-        selectRecipe(id);
+        selectRecipe(recipe);
     }
 
     private void addPhotoToRecipe(IRecipe recipe, List<IIngredient> ingredients) {

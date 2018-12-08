@@ -9,6 +9,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Guideline;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -25,6 +27,8 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     private RecipeViewModel mModel;
     private RecipesRecyclerViewAdapter mAdapter;
     private MainNavigationActivity mActivity;
+    private Guideline mGuideLine;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,9 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
 
         mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
+
+        mGuideLine = mView.findViewById(R.id.recipe_list_separator);
+        setGuidinePosition(100f);
 
         setupFloatingButton();
         setupRecyclerView();
@@ -72,10 +79,21 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     @Override
     public void onRecipeClicked(IRecipe recipe) {
 
-        mModel.selectRecipe(recipe.getId());
-        if(!mActivity.isOrientationLandscape()) {
+        mModel.selectRecipe(recipe);
+        if(mActivity.isOrientationLandscape()) {
+            setGuidinePosition(0.45f);
+        } else {
             Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
         }
+    }
+
+    private void setGuidinePosition(float percentage) {
+        if(mGuideLine == null) {
+            return;
+        }
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mGuideLine.getLayoutParams();
+        params.guidePercent = percentage; // 45% // range: 0 <-> 1
+        mGuideLine.setLayoutParams(params);
     }
 
 }

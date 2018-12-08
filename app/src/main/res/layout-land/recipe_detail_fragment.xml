@@ -4,30 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/browser_actions_bg_grey"
     android:fitsSystemWindows="true"
     tools:context=".ui.recipe.recipeDetail.RecipeDetailFragment"
     tools:ignore="MergeRootFrame">
 
-    <ImageView
-        android:id="@+id/recipeImageToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:fitsSystemWindows="true"
-        android:scaleType="centerCrop"
-        app:layout_collapseMode="parallax"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/txtRecipeTitle"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/title_recipe_detail"
+        android:textAlignment="viewStart"
+        android:textIsSelectable="false"
+        android:textSize="27sp"
+        android:textStyle="bold"
+        android:typeface="serif"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/recipe_detail_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeImageToolbar"></androidx.core.widget.NestedScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/txtRecipeTitle">
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnEditRecipe"

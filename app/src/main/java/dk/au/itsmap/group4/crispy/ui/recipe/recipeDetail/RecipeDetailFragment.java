@@ -17,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
@@ -34,6 +38,8 @@ public class RecipeDetailFragment extends Fragment {
     private View mView;
     private FloatingActionButton btnEditRecipe;
     private ImageView mRecipeToolbarImage;
+
+    private Observer<List<IIngredient>> mSelectedRecipeIngrediensObserver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +66,7 @@ public class RecipeDetailFragment extends Fragment {
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
 
         if(!mActivity.isOrientationLandscape()) {
-            mActivity.setToolbar(superToolbar);
+            mActivity.setToolbar(superToolbar); // TODO: fix toolbar in landscape
         }
 
         // inflate inner layout to scroll view
@@ -73,17 +79,24 @@ public class RecipeDetailFragment extends Fragment {
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
 
-        mModel.getSelectedRecipe().observe(this, (recipe) -> updateView(recipe));
-
-        mModel.getIngredientsForSelectedRecipe().observe(this, ingredients -> {
-
+        mSelectedRecipeIngrediensObserver = iIngredients -> {
             ingredientsTable.removeAllViews();
-            if(ingredients == null) {
+            if(iIngredients == null) {
                 return;
             }
-            for(IIngredient ingredient : ingredients) {
+            for(IIngredient ingredient : iIngredients) {
                 // add array of views
                 addIngredientRow(inflater, container, ingredient);
+            }
+        };
+
+        mModel.getSelectedRecipe().observe(this, (recipe) -> {
+            updateView(recipe);
+            // subscribe to ingredients of this recipe
+            if(recipe != null) {
+                mModel.getIngredientsForRecipeById(recipe.getId()).observe(this, mSelectedRecipeIngrediensObserver);
+            } else {
+                mSelectedRecipeIngrediensObserver.onChanged(null);
             }
         });
 
@@ -99,15 +112,18 @@ public class RecipeDetailFragment extends Fragment {
         if(recipe == null) {
             return;
         }
-        if(mActivity != null) {
-            CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(recipe.getTitle());
-                GlideApp.with(mView)
-                        .load(recipe.getImage_url())
-                        .centerCrop()
-                        .into(mRecipeToolbarImage);
-            }
+        // set title to app bar or ot custom headline in landscape
+        CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(recipe.getTitle());
+            GlideApp.with(mView)
+                    .load(recipe.getImage_url())
+                    .centerCrop()
+                    .into(mRecipeToolbarImage);
+        }
+        TextView txtTitle = mView.findViewById(R.id.txtRecipeTitle);
+        if(txtTitle != null) {
+            txtTitle.setText(recipe.getTitle());
         }
 
         ((TextView) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
