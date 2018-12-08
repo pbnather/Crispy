@@ -24,7 +24,7 @@
         android:id="@+id/addPlannedMealFragment"
         android:name="dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal.AddPlannedMealFragment"
         android:label="add_planned_meal_fragment"
-        tools:layout="@layout/add_planned_meal_fragment" />
+        tools:layout="@layout/meals_plan_edit_fragment" />
     <fragment
         android:id="@+id/recipeListFragment"
         android:name="dk.au.itsmap.group4.crispy.ui.recipe.recipeList.RecipeListFragment"

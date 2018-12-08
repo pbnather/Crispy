@@ -75,7 +75,7 @@ public class AddPlannedMealFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        mView = inflater.inflate(R.layout.add_planned_meal_fragment, container, false);
+        mView = inflater.inflate(R.layout.meals_plan_edit_fragment, container, false);
         mModel = ViewModelProviders.of(mActivity).get(MealsPlanViewModel.class);
         mIsEditMode = mModel.getMode() == MealsPlanViewModel.Mode.EDIT;
 
