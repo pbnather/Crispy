@@ -39,6 +39,7 @@ public class RecipeViewModel extends AndroidViewModel {
         super(application);
 
         mRepository = FSRepository.getInstance();
+        mSelectedRecipe = new MutableLiveData<IRecipe>() {};
     }
 
     public LiveData<List<IRecipe>> getAllRecipes() {
@@ -60,9 +61,6 @@ public class RecipeViewModel extends AndroidViewModel {
     }
 
     public LiveData<IRecipe> getSelectedRecipe() {
-        if (mSelectedRecipe == null) {
-            mSelectedRecipe = new MutableLiveData<IRecipe>() {};
-        }
         return mSelectedRecipe;
     }
 
