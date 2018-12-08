@@ -40,6 +40,7 @@ public class RecipeDetailFragment extends Fragment {
     private ImageView mRecipeToolbarImage;
 
     private Observer<List<IIngredient>> mSelectedRecipeIngrediensObserver;
+    private IRecipe mRecipe;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,14 @@ public class RecipeDetailFragment extends Fragment {
 
         btnEditRecipe = mView.findViewById(R.id.btnEditRecipe);
         btnEditRecipe.setOnClickListener(v -> {
-            Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
+            mModel.selectRecipe(mRecipe);
+            mModel.setMode(RecipeViewModel.Mode.EDIT);
+            if(mModel.isSinglePage()) {
+                Navigation.findNavController(mView).popBackStack();
+                mActivity.getNavController().navigate(R.id.recipeListFragment);
+            } else {
+                Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
+            }
         });
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
@@ -91,9 +99,10 @@ public class RecipeDetailFragment extends Fragment {
         };
 
         mModel.getSelectedRecipe().observe(this, (recipe) -> {
-            updateView(recipe);
+            mRecipe = recipe;
+            updateView(mRecipe);
             // subscribe to ingredients of this recipe
-            if(recipe != null) {
+            if(mRecipe != null) {
                 mModel.getIngredientsForRecipeById(recipe.getId()).observe(this, mSelectedRecipeIngrediensObserver);
             } else {
                 mSelectedRecipeIngrediensObserver.onChanged(null);

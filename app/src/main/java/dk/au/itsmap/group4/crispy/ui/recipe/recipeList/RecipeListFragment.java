@@ -31,7 +31,6 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     private MainNavigationActivity mActivity;
     private Guideline mGuideLine;
     private FloatingActionButton addRecipeButton;
-    private boolean mHasTwoColumns;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,10 +48,23 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
 
         // right column is visible only on some resolutions
-        mHasTwoColumns = mView.findViewById(R.id.right_column) != null;
+        mModel.setIsSinglePage(mView.findViewById(R.id.right_column) != null);
 
-        mGuideLine = mView.findViewById(R.id.recipe_list_separator);
-        setGuidlinePosition(1f);
+        if(mModel.isSinglePage()) {
+            mGuideLine = mView.findViewById(R.id.recipe_list_separator);
+            switch (mModel.getMode()) {
+                case VIEW:
+                    showFragment(new RecipeDetailFragment());
+                    break;
+                case EDIT:
+                case ADD:
+                    showFragment(new RecipeEditFragment());
+                    break;
+                case LIST:
+                    // show list in full page width
+                    setGuidlinePosition(1f);
+            }
+        }
 
         setupFloatingButton();
         setupRecyclerView();
@@ -66,7 +78,8 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         addRecipeButton = mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {
             mModel.selectRecipe(null);
-            if(mHasTwoColumns) {
+            if(mModel.isSinglePage()) {
+                mModel.setMode(RecipeViewModel.Mode.ADD);
                 showFragment(new RecipeEditFragment());
             } else {
                 Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
@@ -90,7 +103,8 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     public void onRecipeClicked(IRecipe recipe) {
 
         mModel.selectRecipe(recipe);
-        if(mHasTwoColumns) {
+        if(mModel.isSinglePage()) {
+            mModel.setMode(RecipeViewModel.Mode.VIEW);
             showFragment(new RecipeDetailFragment());
         } else {
             Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);

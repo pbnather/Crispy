@@ -274,7 +274,14 @@ public class RecipeEditFragment extends Fragment {
             added.clear();
             deleted.clear();
             Toast.makeText(getActivity(), R.string.recipe_saved_msg, Toast.LENGTH_LONG).show();
-            Navigation.findNavController(mView).navigateUp();
+            if(mModel.isSinglePage()) {
+                mModel.selectRecipe(updatedRecipe);
+                mModel.setMode(RecipeViewModel.Mode.VIEW);
+                Navigation.findNavController(mView).popBackStack();
+                mActivity.getNavController().navigate(R.id.recipeListFragment);
+            } else {
+                Navigation.findNavController(mView).navigateUp();
+            }
         }
     }
 
@@ -282,7 +289,15 @@ public class RecipeEditFragment extends Fragment {
         mModel.deleteRecipe((Recipe) mRecipe, mIngredients);
         Toast.makeText(getActivity(), R.string.recipe_deleted_msg, Toast.LENGTH_LONG).show();
         // go twice up
-        Navigation.findNavController(mView).popBackStack();
-        Navigation.findNavController(mView).navigateUp();
+        if(mModel.isSinglePage()) {
+            mModel.selectRecipe(null);
+            mModel.setMode(RecipeViewModel.Mode.LIST);
+            Navigation.findNavController(mView).popBackStack();
+            mActivity.getNavController().navigate(R.id.recipeListFragment);
+        } else {
+            Navigation.findNavController(mView).popBackStack();
+            Navigation.findNavController(mView).navigateUp();
+        }
+
     }
 }

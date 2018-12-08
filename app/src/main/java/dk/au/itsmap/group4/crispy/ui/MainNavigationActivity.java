@@ -54,7 +54,8 @@ public class MainNavigationActivity extends AuthActivity {
     }
 
     @Override
-    public void setMainToolbarWithNavigation(String title){
+    public void setMainToolbarWithNavigation(String title) {
+        mToolbar = findViewById(R.id.mainToolbar);
         mToolbar.setVisibility(View.VISIBLE);
         mToolbar.setTitle(title);
         setSupportActionBar(mToolbar);
@@ -64,6 +65,7 @@ public class MainNavigationActivity extends AuthActivity {
 
     @Override
     public void setMainToolbar(String title){
+        mToolbar = findViewById(R.id.mainToolbar);
         mToolbar.setVisibility(View.VISIBLE);
         mToolbar.setTitle(title);
         setSupportActionBar(mToolbar);

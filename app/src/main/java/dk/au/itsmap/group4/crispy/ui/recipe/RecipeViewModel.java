@@ -30,6 +30,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RecipeViewModel extends AndroidViewModel {
 
+    /**
+     * Mode of Recipes views
+     */
+    public enum Mode {
+        LIST, VIEW, EDIT, ADD
+    }
+
+    // if current layout has two columns
+    private boolean mIsSinglePage = false;
+    private Mode mMode = Mode.LIST;
+
     private IRepository mRepository;
     private LiveData<List<IRecipe>> mRecipes;
     private MutableLiveData<IRecipe> mSelectedRecipe;
@@ -145,5 +156,21 @@ public class RecipeViewModel extends AndroidViewModel {
                 return i;
         }
         return 0;
+    }
+
+    public boolean isSinglePage() {
+        return mIsSinglePage;
+    }
+
+    public void setIsSinglePage(boolean isSinglePage) {
+        this.mIsSinglePage = isSinglePage;
+    }
+
+    public Mode getMode() {
+        return mMode;
+    }
+
+    public void setMode(Mode mode) {
+        this.mMode = mode;
     }
 }
