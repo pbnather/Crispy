@@ -109,7 +109,7 @@ public class AccountFragment extends Fragment {
 
             GlideApp.with(userRowLayout)
                     .load(pictureUrl)
-                    .placeholder(R.drawable.crispy_icon)
+                    .placeholder(R.drawable.default_profile_picture_hd)
                     .circleCrop()
                     .into(pictureView);
 
