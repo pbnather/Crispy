@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.service.notifications;
+package dk.au.itsmap.group4.crispy.service.notification;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -38,7 +38,7 @@ public class NotificationIntentService extends IntentService {
             // todo
             Log.d("NOTIFICATION", "Alarm clock fired");
 
-            helpers[0].notifyAboutTodaysMeals();
+            helpers[0].notifyAboutTodayMeals();
 
             return null;
             // todo: check why there are no values in the repository

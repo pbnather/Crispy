@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.service.notifications;
+package dk.au.itsmap.group4.crispy.service.notification;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

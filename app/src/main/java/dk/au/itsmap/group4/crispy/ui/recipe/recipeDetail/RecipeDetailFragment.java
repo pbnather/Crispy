@@ -22,7 +22,7 @@ import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
-import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.utils.GlideApp;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
@@ -31,7 +31,7 @@ public class RecipeDetailFragment extends Fragment {
     private RecipeViewModel mModel;
     private TableLayout ingredientsTable;
     private MainNavigationActivity mActivity;
-    private View mView, insideView;
+    private View mView;
     private FloatingActionButton btnEditRecipe;
     private ImageView mRecipeToolbarImage;
 
@@ -62,10 +62,7 @@ public class RecipeDetailFragment extends Fragment {
         mActivity.setToolbar(superToolbar);
 
         // inflate inner layout to scroll view
-        insideView = inflater.inflate(R.layout.recipe_detail_inner_detail, mView.findViewById(R.id.recipe_detail_container));
-
-//        mActivity.changeToolbar();
-//        mView = inflater.inflate(R.layout.recipe_detail_inner_detail, container, false);
+        inflater.inflate(R.layout.recipe_detail_inner_detail, mView.findViewById(R.id.recipe_detail_container));
 
         btnEditRecipe = mView.findViewById(R.id.btnEditRecipe);
         btnEditRecipe.setOnClickListener(v -> {
@@ -108,7 +105,6 @@ public class RecipeDetailFragment extends Fragment {
             }
         }
 
-       // ((TextView) rootView.findViewById(R.id.recipe_detail_inner_detail)).setText(recipe.getDescription());
         ((TextView) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
     }
 

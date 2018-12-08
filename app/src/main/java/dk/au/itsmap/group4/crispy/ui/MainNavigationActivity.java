@@ -7,7 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.service.notifications.NotificationAlarm;
+import dk.au.itsmap.group4.crispy.service.notification.NotificationAlarm;
 
 public class MainNavigationActivity extends AuthActivity {
 
@@ -38,16 +38,7 @@ public class MainNavigationActivity extends AuthActivity {
         return mNavController.navigateUp();
     }
 
-
-    public void changeToolbar(){
-        setContentView(R.layout.recipe_detail_fragment);
-        Toolbar t = findViewById(R.id.detail_toolbar);
-        setSupportActionBar(t);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("Random Title");
-    }
-
+    @Override
     public void setToolbar(Toolbar t){
         mToolbar.setVisibility(View.GONE);
         setSupportActionBar(t);
@@ -56,6 +47,7 @@ public class MainNavigationActivity extends AuthActivity {
         getSupportActionBar().setTitle("Random Title");
     }
 
+    @Override
     public void setMainToolbarWithNavigation(String title){
         mToolbar.setVisibility(View.VISIBLE);
         mToolbar.setTitle(title);
@@ -64,6 +56,7 @@ public class MainNavigationActivity extends AuthActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    @Override
     public void setMainToolbar(String title){
         mToolbar.setVisibility(View.VISIBLE);
         mToolbar.setTitle(title);

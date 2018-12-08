@@ -44,14 +44,6 @@ public class MealsPlanViewModel extends ViewModel {
         return mRepository.getAllMeals();
     }
 
-    public LiveData<IMeal> getMealById(String id) {
-        return mRepository.getMealById(id);
-    }
-
-    public LiveData<IRecipe> getRecipeById(String id) {
-        return mRepository.getRecipeById(id);
-    }
-
     public LiveData<List<IRecipe>> getAllRecipes() {
         if (mRecipes == null) {
             mRecipes = mRepository.getAllRecipes();
@@ -63,17 +55,13 @@ public class MealsPlanViewModel extends ViewModel {
         return mSelectedMeal;
     }
 
+    public void selectMeal(IMeal meal) {
+        mSelectedMeal.setValue(meal);
+    }
+
     public void createMeal() {
         mRepository.saveMeal(mSelectedMeal.getValue());
         mSelectedMeal.setValue(new Meal());
-    }
-
-    public String[] getPossibleCooks() {
-        return new String[] {
-                "Vojta",
-                "Pawel",
-                "Ala"
-        };
     }
 
     public void deleteSelectedMeal() {

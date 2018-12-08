@@ -1,8 +1,5 @@
 package dk.au.itsmap.group4.crispy.ui.account;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,11 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
-import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.utils.GlideApp;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.IAccountManager;
 

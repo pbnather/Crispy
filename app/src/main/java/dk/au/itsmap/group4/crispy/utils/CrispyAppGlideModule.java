@@ -1,4 +1,4 @@
-package dk.au.itsmap.group4.crispy.service;
+package dk.au.itsmap.group4.crispy.utils;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;

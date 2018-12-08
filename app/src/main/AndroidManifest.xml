@@ -19,7 +19,7 @@
         </intent-filter>
         </activity>
 
-        <service android:name=".service.notifications.NotificationIntentService" android:exported="false" />
+        <service android:name=".service.notification.NotificationIntentService" android:exported="false" />
     </application>
 
 </manifest>

@@ -13,7 +13,7 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
-import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.utils.GlideApp;
 
 
 /* Separation of OnClickListeners from Activity inspired by:

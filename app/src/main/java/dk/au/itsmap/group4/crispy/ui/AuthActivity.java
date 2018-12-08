@@ -26,9 +26,9 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModelProviders;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
-import dk.au.itsmap.group4.crispy.service.GlideApp;
+import dk.au.itsmap.group4.crispy.utils.GlideApp;
 
-public abstract class AuthActivity extends AppCompatActivity implements INavigationActivity, IAccountManager {
+public abstract class AuthActivity extends AppCompatActivity implements INavigationController, IAccountManager {
 
     private static final String TAG = "AuthActivity";
     private static final int RC_SIGN_IN = 451;
