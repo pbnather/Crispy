@@ -55,7 +55,6 @@ public class AddPlannedMealFragment extends Fragment {
     private View mView;
 
     private AutoCompleteRecipeAdapter mRecipesAdapter;
-    private UserAdapter mUsersSpinnerAdapter;
     private AutoCompleteTextView mRecipeName;
 
     private boolean mIsEditMode = false;
@@ -76,7 +75,6 @@ public class AddPlannedMealFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        mUsersSpinnerAdapter = new UserAdapter(mActivity, R.layout.group_member_item, R.id.userName);
         mView = inflater.inflate(R.layout.add_planned_meal_fragment, container, false);
         mModel = ViewModelProviders.of(mActivity).get(MealsPlanViewModel.class);
         mIsEditMode = mModel.getMode() == MealsPlanViewModel.Mode.EDIT;
@@ -140,7 +138,8 @@ public class AddPlannedMealFragment extends Fragment {
     }
 
     private void setupGroupMemberPicker() {
-        mGroupMembers.setAdapter(mUsersSpinnerAdapter);
+        UserAdapter usersSpinnerAdapter = new UserAdapter(mActivity, R.layout.group_member_item, R.id.userName);
+        mGroupMembers.setAdapter(usersSpinnerAdapter);
         mGroupMembers.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -152,8 +151,8 @@ public class AddPlannedMealFragment extends Fragment {
 
         // observe group members for changes
         mAccount.getUserGroup().observe(mActivity, group -> {
-            mUsersSpinnerAdapter.setData(group.getAllUsers());
-            if(mMeal != null) mGroupMembers.setSelection(mUsersSpinnerAdapter.getPosition(getFirstWord(mMeal.getCookName())));
+            usersSpinnerAdapter.setData(group.getAllUsers());
+            if(mMeal != null && mMeal.getCookName() != null) mGroupMembers.setSelection(usersSpinnerAdapter.getPosition(getFirstWord(mMeal.getCookName())));
         });
     }
 
