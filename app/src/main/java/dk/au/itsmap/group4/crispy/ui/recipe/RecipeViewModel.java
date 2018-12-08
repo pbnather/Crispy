@@ -69,7 +69,7 @@ public class RecipeViewModel extends AndroidViewModel {
     public void selectRecipe(IRecipe recipe) {
         if(recipe != null) {
             // update selected meal only if current selected is different
-            if(mSelectedRecipe.getValue()  == null || (mSelectedRecipe.getValue() != null && !recipe.getId().equals(mSelectedRecipe.getValue().getId()))) {
+            if(mSelectedRecipe != null && (mSelectedRecipe.getValue() == null || (mSelectedRecipe.getValue() != null && !recipe.getId().equals(mSelectedRecipe.getValue().getId())))) {
                 mSelectedRecipe.setValue(recipe);
             }
 
