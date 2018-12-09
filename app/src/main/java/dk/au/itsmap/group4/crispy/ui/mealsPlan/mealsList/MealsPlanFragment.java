@@ -1,6 +1,5 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
@@ -22,17 +20,19 @@ import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
+import dk.au.itsmap.group4.crispy.ui.recipe.RecipeViewModel;
 
 
 public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerViewAdapter.OnRecyclerViewItemClickListener {
 
     private MealsPlanRecyclerViewAdapter mAdapter;
     private MainNavigationActivity mActivity;
-    private Button btnRecipies;
+    private Button btnRecipies, btnEditMeal;
     private FloatingActionButton btnAddMeal;
     private View mView;
 
     private MealsPlanViewModel mModel;
+    private RecipeViewModel mRecipeModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,11 +46,13 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
                              @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.meals_plan_fragment, container, false);
         mModel = ViewModelProviders.of(mActivity).get(MealsPlanViewModel.class);
+        mRecipeModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
 
         setupRecyclerView();
 
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
         btnAddMeal = mView.findViewById(R.id.btnAddMeal);
+        btnEditMeal = mView.findViewById(R.id.editMealBtn);
 
         mActivity.setMainToolbar(getText(R.string.crispy_planner).toString());
         ActionBar actionBar = mActivity.getSupportActionBar();
@@ -90,7 +92,14 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
     @Override
     public void onItemClicked(IMeal meal) {
         mModel.switchToEditMode(meal);
-        Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
+        mRecipeModel.setMode(RecipeViewModel.Mode.VIEW);
+        mRecipeModel.selectRecipeById(meal.getRecipeId());
+        Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
     }
 
+    @Override
+    public void onEditButtonClicked(IMeal meal) {
+        mModel.switchToEditMode(meal);
+        Navigation.findNavController(mView).navigate(R.id.addPlannedMealFragment);
+    }
 }

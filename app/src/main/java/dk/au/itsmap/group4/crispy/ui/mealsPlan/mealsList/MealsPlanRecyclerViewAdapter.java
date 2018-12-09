@@ -33,6 +33,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
 
     public interface OnRecyclerViewItemClickListener {
         void onItemClicked(IMeal meal);
+        void onEditButtonClicked(IMeal meal);
     }
 
     private final OnRecyclerViewItemClickListener mClickListener;
@@ -140,6 +141,12 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
                             if (mClickListener != null)
                                 mClickListener.onItemClicked(meal);
                         });
+
+                        mMeals.get(i).findViewById(R.id.editMealBtn).setOnClickListener(v-> {
+                            if (mClickListener != null)
+                                mClickListener.onEditButtonClicked(meal);
+                        });
+
                         i++;
 
                 }

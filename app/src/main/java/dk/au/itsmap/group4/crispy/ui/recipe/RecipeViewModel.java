@@ -7,10 +7,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
@@ -88,16 +86,14 @@ public class RecipeViewModel extends AndroidViewModel {
         return mSelectedRecipe;
     }
 
+    public void selectRecipeById(String recipeId) {
+        mSelectedRecipeId.setValue(recipeId);
+    }
     public void selectRecipe(IRecipe recipe) {
         if(recipe != null) {
-            mSelectedRecipeId.setValue(recipe.getId());
-
-            // update selected meal only if current selected is different
-//            if(mSelectedRecipe != null && (mSelectedRecipe.getValue() == null || (mSelectedRecipe.getValue() != null && !recipe.getId().equals(mSelectedRecipe.getValue().getId())))) {
-//            }
-
+            selectRecipeById(recipe.getId());
         } else {
-            mSelectedRecipeId.setValue(null);
+            selectRecipeById(null);
         }
     }
 
