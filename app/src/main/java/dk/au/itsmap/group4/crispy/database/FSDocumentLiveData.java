@@ -26,15 +26,15 @@ public class FSDocumentLiveData<T extends U, U> extends LiveData<U> {
     @Override
     protected void onActive() {
         super.onActive();
-        if(mListenerRegistration == null) {
-            mListenerRegistration = mDocumentRef.addSnapshotListener(mListener);
-        }
+        mListenerRegistration = mDocumentRef.addSnapshotListener(mListener);
     }
 
     @Override
     protected void onInactive() {
         super.onInactive();
-        mListenerRegistration.remove();
+        if(mListenerRegistration != null) {
+            mListenerRegistration.remove();
+        }
     }
 
     private class DocumentSnapshotListener implements EventListener<DocumentSnapshot> {

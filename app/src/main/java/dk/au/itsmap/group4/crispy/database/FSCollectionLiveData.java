@@ -30,15 +30,15 @@ public class FSCollectionLiveData<T extends U, U> extends LiveData<List<U>> {
     @Override
     protected void onActive() {
         super.onActive();
-        if(mListenerRegistration == null) {
-            mListenerRegistration = mQuery.addSnapshotListener(mListener);
-        }
+        mListenerRegistration = mQuery.addSnapshotListener(mListener);
     }
 
     @Override
     protected void onInactive() {
         super.onInactive();
-        mListenerRegistration.remove();
+        if(mListenerRegistration != null) {
+            mListenerRegistration.remove();
+        }
     }
 
     private class QuerySnapshotListener implements EventListener<QuerySnapshot> {
