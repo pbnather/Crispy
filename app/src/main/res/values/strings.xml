@@ -18,7 +18,7 @@
     <string name="save">SAVE</string>
     <string name="cancel">CANCEL</string>
     <string name="all_recipies">ALL RECIPIES</string>
-    <string name="prepares">Prepares:</string>
+    <string name="prepares">Cooks:</string>
     <string name="time">Time:</string>
     <string name="mealDate">Choose the day</string>
     <string name="mealTime">Choose the time</string>

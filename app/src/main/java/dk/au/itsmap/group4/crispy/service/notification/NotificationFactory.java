@@ -55,7 +55,7 @@ class NotificationFactory
         PendingIntent pendingIntent = PendingIntent.getActivity(this.mContext, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, CHANNEL_ID_STR)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.ic_pot)
                 .setContentTitle(mContext.getString(R.string.notification_title))
                 .setContentText(mContext.getString(R.string.notification_text)) // TODO: change text based on today's meal
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

@@ -16,6 +16,7 @@ public class Meal extends Entity implements IMeal {
 
     private String title;
     private String image_url;
+    private String cookImage;
     private String cookName;
     private DocumentReference recipe;
     private Timestamp date;
@@ -64,6 +65,9 @@ public class Meal extends Entity implements IMeal {
     public String getCookName() {
         return cookName;
     }
+
+    @Override
+    public String getCookImage(){ return  cookImage;}
 
     @Override
     @Exclude
@@ -117,4 +121,10 @@ public class Meal extends Entity implements IMeal {
     public void setImage_url(String imageUrl) {
         this.image_url = imageUrl;
     }
+
+    @Override
+    public void setCookImage(String image_url) {
+        cookImage = image_url;
+    }
+
 }

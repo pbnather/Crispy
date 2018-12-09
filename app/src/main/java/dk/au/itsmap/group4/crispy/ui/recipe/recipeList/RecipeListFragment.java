@@ -52,6 +52,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
         // right column is visible only on some resolutions
         mModel.setIsSinglePage(mView.findViewById(R.id.right_column) != null);
+        mModel.setMode(RecipeViewModel.Mode.LIST);
 
         // change right column based on ViewModel modes
         if(mModel.isSinglePage()) {
