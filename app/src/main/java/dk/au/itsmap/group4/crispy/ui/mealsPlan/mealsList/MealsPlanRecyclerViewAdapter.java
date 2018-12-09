@@ -115,6 +115,7 @@ public class MealsPlanRecyclerViewAdapter extends RecyclerView.Adapter<MealsPlan
                         TextView mealCook = mMeals.get(i).findViewById(R.id.usersCooking);
                         ImageView userImage = mMeals.get(i).findViewById(R.id.userImage);
                         ImageView mealImage = mMeals.get(i).findViewById(R.id.recipeImageMeal);
+                        Button btnEdit = mMeals.get(i).findViewById(R.id.editMealBtn);
 
                         mealTime.setText(DateUtils.formatDateTime(mContext, meal.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
 
