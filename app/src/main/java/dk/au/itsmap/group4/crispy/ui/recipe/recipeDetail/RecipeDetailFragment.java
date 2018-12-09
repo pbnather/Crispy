@@ -6,6 +6,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -48,9 +49,11 @@ public class RecipeDetailFragment extends Fragment {
 
         mActivity = (MainNavigationActivity) this.getActivity();
         mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+
+        mActivity = (MainNavigationActivity) this.getActivity();
+
         if (!mModel.isSinglePage())
             setHasOptionsMenu(true);
-        mActivity = (MainNavigationActivity) this.getActivity();
     }
 
     @Override
@@ -66,10 +69,10 @@ public class RecipeDetailFragment extends Fragment {
 
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
 
-        Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
 
-        if(!mActivity.isOrientationLandscape()) {
+        if(!mModel.isSinglePage()) {
+            Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
             mActivity.setToolbar(superToolbar); // TODO: fix toolbar in landscape
         }
 
