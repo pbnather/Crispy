@@ -45,6 +45,10 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        if (!mModel.isSinglePage())
+            setHasOptionsMenu(true);
         mActivity = (MainNavigationActivity) this.getActivity();
         setHasOptionsMenu(true);
     }
@@ -59,8 +63,10 @@ public class RecipeDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
+        mActivity = (MainNavigationActivity) this.getActivity();
+
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
+
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
 
