@@ -3,6 +3,7 @@ package dk.au.itsmap.group4.crispy.database;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
@@ -10,10 +11,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -205,7 +208,26 @@ public class FSRepository implements IRepository {
         recipeRef.set(recipe)
                 .addOnSuccessListener(v -> Log.d(TAG, "Saved recipe " + recipeRef.getId()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error saving recipe", e));
+        updateMealsForRecipe(recipe);
         return recipeRef.getId();
+    }
+
+    private void updateMealsForRecipe(@NonNull IRecipe recipe) {
+        if(recipe.getId() != null) {
+            mMeals.whereEqualTo("recipeId", recipe.getId()).get()
+                    .addOnSuccessListener(v -> mFirestore.runTransaction(new Transaction.Function<Void>() {
+                        @Override
+                        public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                            for(DocumentSnapshot doc : v.getDocuments()) {
+                                DocumentReference mealRef = mMeals.document(doc.getId());
+                                transaction.update(mealRef, "image_url", recipe.getImage_url());
+                                transaction.update(mealRef, "title", recipe.getTitle());
+                            }
+                            return null;
+                        }
+                    }))
+                    .addOnFailureListener(e -> Log.w(TAG, "Error updating meals for recipe", e));
+        }
     }
 
     @Override
@@ -256,6 +278,7 @@ public class FSRepository implements IRepository {
         batch.commit()
                 .addOnSuccessListener(v -> Log.d(TAG, "Saved recipe with ingredients " + recipeRef.getId()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error saving recipe with ingredients", e));
+        updateMealsForRecipe(recipe);
         return recipeRef.getId();
     }
 
