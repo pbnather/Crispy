@@ -85,15 +85,15 @@ public class RecipeEditFragment extends Fragment {
 
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
-        mActivity.setToolbar(superToolbar);
+        if(superToolbar != null) {
+            mActivity.setToolbar(superToolbar);
+        }
 
        // mActivity.setMainToolbarWithNavigation(getText(R.string.edit_recipe).toString());
 
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();
-
-        mModel.getSelectedRecipe().observe( this , r -> mRecipe = r);
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
         btnAddIngredient = mView.findViewById(R.id.btnAddIngredient);
@@ -114,37 +114,34 @@ public class RecipeEditFragment extends Fragment {
         };
 
 
-        btnDeleteRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteRecipe();
-            }
-        });
+        btnDeleteRecipe.setOnClickListener(v -> deleteRecipe());
 
-        btnSaveRecipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveRecipe();
-            }
-        });
+        btnSaveRecipe.setOnClickListener(v -> saveRecipe());
 
-        btnAddIngredient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addIngredientRow(inflater, container, null);
-            }
-        });
+        btnAddIngredient.setOnClickListener(v -> addIngredientRow(inflater, container, null));
 
         mAutoAdapter = new AutoCompleteIngredientAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
 
-        mModel.getSelectedRecipe().observe(this, recipe -> updateView(recipe));
+        mModel.getMode().observe(this, mode -> {
+            if(mode == RecipeViewModel.Mode.ADD) {
+                mRecipe = new Recipe();
+                updateView(mRecipe);
+            }
+        });
 
-        mModel.getIngredientsForSelectedRecipe().observe(this, ingredients -> {
+        mModel.getSelectedRecipe().observe(this, recipe -> {
+            mRecipe = recipe;
+            updateView(mRecipe);
+        });
 
-            mIngredients = ingredients;
+        mModel.getIngredientsForSelectedRecipe().observe(this, iIngredients -> {
+
+            mIngredients = iIngredients;
             ingredientsTable.removeAllViews();
-
-            for(IIngredient ingredient : ingredients) {
+            if(iIngredients == null) {
+                return;
+            }
+            for(IIngredient ingredient : iIngredients) {
                 // add array of views
                 addIngredientRow(inflater, container, ingredient);
             }
@@ -181,14 +178,19 @@ public class RecipeEditFragment extends Fragment {
 
     private void setDescription(){
         mDescriptionEdit = mView.findViewById(R.id.recipe_description);
-        mDescriptionEdit.setInputType(InputType.TYPE_CLASS_TEXT |
+        mDescriptionEdit.setInputType(
+                InputType.TYPE_CLASS_TEXT |
                 InputType.TYPE_TEXT_FLAG_MULTI_LINE |
-                InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+        );
         mDescriptionEdit.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
         mDescriptionEdit.setMovementMethod(new ScrollingMovementMethod());
     }
     private void updateView(IRecipe recipe) {
         if(recipe == null) {
+            ((EditText) mView.findViewById(R.id.recipe_title)).setText("");
+            ((EditText) mView.findViewById(R.id.recipe_description)).setText("");
+            btnDeleteRecipe.setVisibility(View.GONE);
             return;
         }
         if(mView != null) {
@@ -204,7 +206,9 @@ public class RecipeEditFragment extends Fragment {
 
         ((EditText) mView.findViewById(R.id.recipe_title)).setText(recipe.getTitle());
         ((EditText) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());
-        btnDeleteRecipe.setVisibility(View.VISIBLE);
+        if(mModel.getMode().getValue() != RecipeViewModel.Mode.ADD) {
+            btnDeleteRecipe.setVisibility(View.VISIBLE);
+        }
     }
 
     private boolean saveIngredients(){
@@ -258,13 +262,12 @@ public class RecipeEditFragment extends Fragment {
         String description = mDescriptionEdit.getText().toString();
         String title = mTitleEdit.getText().toString();
         String id = null;
-        String image=null;
-        if (title.isEmpty())
-        {
+        String image = null;
+        if (title.isEmpty()) {
             Toast.makeText(getActivity(), R.string.empty_title_msg, Toast.LENGTH_LONG).show();
             return;
         }
-        if (mRecipe != null){
+        if (mRecipe != null) {
             id = mRecipe.getId();
             image = mRecipe.getImage_url();
         }
@@ -277,8 +280,8 @@ public class RecipeEditFragment extends Fragment {
             if(mModel.isSinglePage()) {
                 mModel.selectRecipe(updatedRecipe);
                 mModel.setMode(RecipeViewModel.Mode.VIEW);
-                Navigation.findNavController(mView).popBackStack();
-                mActivity.getNavController().navigate(R.id.recipeListFragment);
+//                Navigation.findNavController(mView).popBackStack();
+//                mActivity.getNavController().navigate(R.id.recipeListFragment);
             } else {
                 Navigation.findNavController(mView).navigateUp();
             }
@@ -292,8 +295,8 @@ public class RecipeEditFragment extends Fragment {
         if(mModel.isSinglePage()) {
             mModel.selectRecipe(null);
             mModel.setMode(RecipeViewModel.Mode.LIST);
-            Navigation.findNavController(mView).popBackStack();
-            mActivity.getNavController().navigate(R.id.recipeListFragment);
+//            Navigation.findNavController(mView).popBackStack();
+//            mActivity.getNavController().navigate(R.id.recipeListFragment);
         } else {
             Navigation.findNavController(mView).popBackStack();
             Navigation.findNavController(mView).navigateUp();

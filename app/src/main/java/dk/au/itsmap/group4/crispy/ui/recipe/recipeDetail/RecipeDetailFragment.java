@@ -75,11 +75,11 @@ public class RecipeDetailFragment extends Fragment {
 
         btnEditRecipe = mView.findViewById(R.id.btnEditRecipe);
         btnEditRecipe.setOnClickListener(v -> {
-            mModel.selectRecipe(mRecipe);
             mModel.setMode(RecipeViewModel.Mode.EDIT);
+            mModel.selectRecipe(mRecipe);
             if(mModel.isSinglePage()) {
-                Navigation.findNavController(mView).popBackStack();
-                mActivity.getNavController().navigate(R.id.recipeListFragment);
+//                Navigation.findNavController(mView).popBackStack();
+//                mActivity.getNavController().navigate(R.id.recipeListFragment);
             } else {
                 Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
             }

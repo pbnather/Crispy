@@ -11,6 +11,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.Transformations;
 import dk.au.itsmap.group4.crispy.R;
 import dk.au.itsmap.group4.crispy.database.FSRepository;
 import dk.au.itsmap.group4.crispy.database.entity.Recipe;
@@ -39,18 +40,26 @@ public class RecipeViewModel extends AndroidViewModel {
 
     // if current layout has two columns
     private boolean mIsSinglePage = false;
-    private Mode mMode = Mode.LIST;
+    private MutableLiveData<Mode> mMode;
 
-    private IRepository mRepository;
+    private final IRepository mRepository;
     private LiveData<List<IRecipe>> mRecipes;
-    private MutableLiveData<IRecipe> mSelectedRecipe;
+    private LiveData<IRecipe> mSelectedRecipe;
+    private MutableLiveData<String> mSelectedRecipeId;
+
     private LiveData<List<IIngredient>> mSelectedRecipeIngredients;
 
     public RecipeViewModel(@NonNull Application application) {
         super(application);
 
         mRepository = FSRepository.getInstance();
-        mSelectedRecipe = new MutableLiveData<IRecipe>() {};
+        mSelectedRecipeId = new MutableLiveData<>();
+        mSelectedRecipe = Transformations.switchMap(mSelectedRecipeId, recipeId -> {
+            return recipeId != null ? mRepository.getRecipeById(recipeId) : new MutableLiveData<>();
+        });
+
+        mMode = new MutableLiveData<>();
+
     }
 
     public LiveData<List<IRecipe>> getAllRecipes() {
@@ -77,13 +86,14 @@ public class RecipeViewModel extends AndroidViewModel {
 
     public void selectRecipe(IRecipe recipe) {
         if(recipe != null) {
+            mSelectedRecipeId.setValue(recipe.getId());
+
             // update selected meal only if current selected is different
             if(mSelectedRecipe != null && (mSelectedRecipe.getValue() == null || (mSelectedRecipe.getValue() != null && !recipe.getId().equals(mSelectedRecipe.getValue().getId())))) {
-                mSelectedRecipe.setValue(recipe);
             }
 
         } else {
-            mSelectedRecipe.setValue(null);
+            mSelectedRecipeId.setValue(null);
         }
     }
 
@@ -133,8 +143,10 @@ public class RecipeViewModel extends AndroidViewModel {
         }
     }
 
-    public void deleteRecipe(Recipe recipe, List<IIngredient> ingredients){
-        mRepository.deleteIngredientsForRecipe(recipe, ingredients);
+    public void deleteRecipe(Recipe recipe, List<IIngredient> ingredients) {
+        if(ingredients != null) {
+            mRepository.deleteIngredientsForRecipe(recipe, ingredients);
+        }
         mRepository.deleteRecipe(recipe);
     }
 
@@ -166,11 +178,11 @@ public class RecipeViewModel extends AndroidViewModel {
         this.mIsSinglePage = isSinglePage;
     }
 
-    public Mode getMode() {
+    public LiveData<Mode> getMode() {
         return mMode;
     }
 
     public void setMode(Mode mode) {
-        this.mMode = mode;
+        this.mMode.setValue(mode);
     }
 }

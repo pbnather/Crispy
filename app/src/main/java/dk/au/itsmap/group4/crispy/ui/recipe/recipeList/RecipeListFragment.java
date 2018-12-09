@@ -32,6 +32,9 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     private Guideline mGuideLine;
     private FloatingActionButton addRecipeButton;
 
+    private RecipeDetailFragment mRecipeDetailFragment;
+    private RecipeEditFragment mRecipeEditFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,20 +53,38 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         // right column is visible only on some resolutions
         mModel.setIsSinglePage(mView.findViewById(R.id.right_column) != null);
 
+        // change right column based on ViewModel modes
         if(mModel.isSinglePage()) {
             mGuideLine = mView.findViewById(R.id.recipe_list_separator);
-            switch (mModel.getMode()) {
-                case VIEW:
-                    showFragment(new RecipeDetailFragment());
-                    break;
-                case EDIT:
-                case ADD:
-                    showFragment(new RecipeEditFragment());
-                    break;
-                case LIST:
-                    // show list in full page width
-                    setGuidlinePosition(1f);
+            setGuidlinePosition(1f);
+            if(mRecipeEditFragment == null) {
+                mRecipeEditFragment = new RecipeEditFragment();
             }
+            if(mRecipeDetailFragment == null) {
+                mRecipeDetailFragment = new RecipeDetailFragment();
+            }
+            addFragment(mRecipeDetailFragment);
+            addFragment(mRecipeEditFragment);
+            hideFragment(mRecipeDetailFragment);
+            hideFragment(mRecipeEditFragment);
+            mModel.getMode().observe(this, mode -> {
+                switch (mode) {
+                    case VIEW:
+                        hideFragment(mRecipeEditFragment);
+                        showFragment(mRecipeDetailFragment);
+                        break;
+                    case EDIT:
+                    case ADD:
+                        hideFragment(mRecipeDetailFragment);
+                        showFragment(mRecipeEditFragment);
+                        break;
+                    case LIST:
+                        hideFragment(mRecipeDetailFragment);
+                        hideFragment(mRecipeEditFragment);
+                        // show list in full page width
+                        setGuidlinePosition(1f);
+                }
+            });
         }
 
         setupFloatingButton();
@@ -80,7 +101,6 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
             mModel.selectRecipe(null);
             if(mModel.isSinglePage()) {
                 mModel.setMode(RecipeViewModel.Mode.ADD);
-                showFragment(new RecipeEditFragment());
             } else {
                 Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
             }
@@ -93,7 +113,9 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         mAdapter = new RecipesRecyclerViewAdapter(mActivity, this);
 
         // observe model for changes
-        mModel.getAllRecipes().observe(mActivity, recipes -> mAdapter.setData(recipes));
+        mModel.getAllRecipes().observe(mActivity, recipes -> {
+            mAdapter.setData(recipes);
+        });
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
@@ -101,23 +123,38 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
     @Override
     public void onRecipeClicked(IRecipe recipe) {
-
-        mModel.selectRecipe(recipe);
         if(mModel.isSinglePage()) {
             mModel.setMode(RecipeViewModel.Mode.VIEW);
-            showFragment(new RecipeDetailFragment());
+            mModel.selectRecipe(recipe);
         } else {
+            mModel.selectRecipe(recipe);
             Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
         }
     }
 
 
+    private void addFragment(Fragment fragment) {
+        if(mView.findViewById(R.id.right_column) != null) {
+            setGuidlinePosition(0.45f);
+            mActivity.getSupportFragmentManager().beginTransaction()
+                    .add(R.id.right_column, fragment)
+                    .commit();
+        }
+    }
+    private void hideFragment(Fragment fragment) {
+        if(mView.findViewById(R.id.right_column) != null) {
+            setGuidlinePosition(0.45f);
+            mActivity.getSupportFragmentManager().beginTransaction()
+                    .hide(fragment)
+                    .commit();
+        }
+    }
 
     private void showFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
             setGuidlinePosition(0.45f);
             mActivity.getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.right_column, fragment)
+                    .show(fragment)
                     .commit();
         }
     }
