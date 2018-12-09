@@ -111,7 +111,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         mAdapter = new RecipesRecyclerViewAdapter(mActivity, this);
 
         // observe model for changes
-        mModel.getAllRecipes().observe(this, recipes -> mAdapter.setData(recipes));
+        mModel.getAllRecipes().observe(mActivity, recipes -> mAdapter.setData(recipes));
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);

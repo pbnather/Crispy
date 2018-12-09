@@ -1,6 +1,7 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.mealsList;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,6 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
         mView = inflater.inflate(R.layout.meals_plan_fragment, container, false);
         mModel = ViewModelProviders.of(mActivity).get(MealsPlanViewModel.class);
         mRecipeModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
-
         setupRecyclerView();
 
         btnRecipies = mView.findViewById(R.id.btnAllRecipies);
