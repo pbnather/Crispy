@@ -63,6 +63,10 @@ public class AccountFragment extends Fragment {
 
         // Set sign out button action
         rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> mAccount.signOut());
+
+        // Set toolbar
+        mActivity = (MainNavigationActivity) this.getActivity();
+        mActivity.setMainToolbarWithNavigation(getText(R.string.account).toString());
         rootView.findViewById(R.id.deleteAccountBtn).setOnClickListener(button -> mDeleteAccountDialog.show());
 
         // Set profile image

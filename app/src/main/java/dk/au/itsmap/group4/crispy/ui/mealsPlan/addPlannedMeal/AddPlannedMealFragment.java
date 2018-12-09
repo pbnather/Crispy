@@ -37,6 +37,7 @@ import dk.au.itsmap.group4.crispy.model.IRecipe;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.ui.IAccountManager;
 import dk.au.itsmap.group4.crispy.ui.INavigationController;
+import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 import dk.au.itsmap.group4.crispy.ui.mealsPlan.MealsPlanViewModel;
 import dk.au.itsmap.group4.crispy.utils.GlideApp;
 
@@ -52,7 +53,7 @@ public class AddPlannedMealFragment extends Fragment {
 
     private IAccountManager mAccount;
     private INavigationController mNavigation;
-    private AppCompatActivity mActivity;
+    private MainNavigationActivity mActivity;
     private TextView mMealDate, mMealTime;
     private Spinner mGroupMembers;
     private View mView;
@@ -66,7 +67,7 @@ public class AddPlannedMealFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mActivity = (AppCompatActivity) this.getActivity();
+        mActivity = (MainNavigationActivity) this.getActivity();
         mAccount = (IAccountManager) mActivity;
         mNavigation = (INavigationController) mActivity;
         mFragmentManager = this.getFragmentManager();
@@ -122,7 +123,8 @@ public class AddPlannedMealFragment extends Fragment {
         String toolbarName = mIsEditMode ?
                 getText(R.string.edit_meal).toString() :
                 getText(R.string.add_meal).toString();
-        mNavigation.setMainToolbarWithNavigation(toolbarName);
+
+        mActivity.setMainToolbarWithNavigation(toolbarName);
     }
 
     private void setupRecipePicker() {

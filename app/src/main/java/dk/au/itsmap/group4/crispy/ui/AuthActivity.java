@@ -37,6 +37,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     private AuthViewModel mAuth;
     private FirebaseUser mUser;
     private LiveData<List<IUserGroup>> mUserGroup;
+    private boolean mIsInteractingWithAccount = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +51,10 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
             mUser = user;
             if (user == null) {
                 stopObservingUserGroup();
+                mIsInteractingWithAccount = true;
                 signIn();
             } else {
+                mIsInteractingWithAccount = false;
                 observeUserGroup();
             }
             updateMenu();
@@ -62,7 +65,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        mIsInteractingWithAccount = false;
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
@@ -74,7 +77,9 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                 }
                 getNavController().navigateUp();
             } else {
-                if (response == null) {
+                if (response == null)
+                {
+                    mIsInteractingWithAccount = true;
                     signIn();
                 } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     // TODO: Notify user about no internet connection
@@ -113,6 +118,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     /* Adapted from https://stackoverflow.com/a/37116931 */
     private void updateMenu() {
         if(mMenu == null) return;
+        if(mIsInteractingWithAccount) return;
         GlideApp.with(this)
                 .asDrawable()
                 .load(getUserPhotoUrl())
@@ -140,6 +146,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
 
     @Override
     public void signOut() {
+        mIsInteractingWithAccount = true;
         AuthUI.getInstance()
                 .signOut(this);
     }
@@ -166,7 +173,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
 
     @Override
     public void deleteUser() {
-        stopObservingUserGroup();
+        mIsInteractingWithAccount = true;
         mAuth.deleteUser(this);
     }
 
