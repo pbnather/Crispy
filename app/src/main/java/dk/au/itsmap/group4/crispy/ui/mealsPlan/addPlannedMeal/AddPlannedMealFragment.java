@@ -1,6 +1,5 @@
 package dk.au.itsmap.group4.crispy.ui.mealsPlan.addPlannedMeal;
 
-import android.app.MediaRouteActionProvider;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -26,7 +25,6 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -60,6 +58,7 @@ public class AddPlannedMealFragment extends Fragment {
 
     private AutoCompleteRecipeAdapter mRecipesAdapter;
     private AutoCompleteTextView mRecipeName;
+    private IRecipe mSelectedRecipe;
 
     private boolean mIsEditMode = false;
     private Map<String, String>  mSelectedUser;
@@ -69,8 +68,8 @@ public class AddPlannedMealFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mActivity = (MainNavigationActivity) this.getActivity();
-        mAccount = (IAccountManager) mActivity;
-        mNavigation = (INavigationController) mActivity;
+        mAccount = mActivity;
+        mNavigation = mActivity;
         mFragmentManager = this.getFragmentManager();
 
     }
@@ -90,9 +89,10 @@ public class AddPlannedMealFragment extends Fragment {
         mMealTime = mView.findViewById(R.id.mealTime);
 
         // observe selected meal for changes
-        mModel.getSelectedMeal().observe(mActivity, meal -> {
+        mModel.getSelectedMeal().observe(this, meal -> {
+            IMeal lastMeal = mMeal;
             mMeal = meal;
-            updateView();
+            updateView(lastMeal);
         });
 
         setupToolbar();
@@ -131,16 +131,13 @@ public class AddPlannedMealFragment extends Fragment {
     private void setupRecipePicker() {
         // observe all recipes
         mRecipesAdapter = new AutoCompleteRecipeAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
-        mModel.getAllRecipes().observe(mActivity, recipes -> mRecipesAdapter.setData(recipes));
+        mModel.getAllRecipes().observe(this, recipes -> mRecipesAdapter.setData(recipes));
 
         mRecipeName.setAdapter(mRecipesAdapter);
 
         // update selected meal on uer click
         mRecipeName.setOnItemClickListener((parent, view, position, id) -> {
-            IRecipe selectedRecipe = (IRecipe) parent.getItemAtPosition(position);
-            mMeal.setImage_url(selectedRecipe.getImage_url());
-            mMeal.setTitle(selectedRecipe.getTitle());
-            mMeal.setRecipeId(selectedRecipe.getId());
+            mSelectedRecipe = (IRecipe) parent.getItemAtPosition(position);
         });
     }
 
@@ -153,7 +150,7 @@ public class AddPlannedMealFragment extends Fragment {
             {
                 String userId = parent.getItemAtPosition(position).toString();
                 for(Map<String, String> user: mUserGroup.getAllUsers()) {
-                    if(user.get("id").equals(userId)) {
+                    if(Objects.requireNonNull(user.get("id")).equals(userId)) {
                         mSelectedUser = user;
                         break;
                     }
@@ -163,13 +160,13 @@ public class AddPlannedMealFragment extends Fragment {
         });
 
         // observe group members for changes
-        mAccount.getUserGroup().observe(mActivity, group -> {
+        mAccount.getUserGroup().observe(this, group -> {
             mUserGroup = group;
             usersSpinnerAdapter.setData(group.getAllUsers());
             if(mMeal != null && mMeal.getCookName() != null) {
                 String name = mMeal.getCookName();
                 for(Map<String, String> user: group.getAllUsers()) {
-                    if(getFirstWord(user.get("name")).equals(name)) {
+                    if(getFirstWord(Objects.requireNonNull(user.get("name"))).equals(name)) {
                         mSelectedUser = user;
                         break;
                     }
@@ -191,8 +188,23 @@ public class AddPlannedMealFragment extends Fragment {
         if (mMeal.getDate().compareTo(new Date()) < 0) {
             Toast.makeText(getActivity(), R.string.add_meal_is_in_past_error, Toast.LENGTH_LONG).show();
         } else {
+            if (mSelectedRecipe == null) {
+                mMeal.setTitle(mRecipeName.getText().toString());
+                mMeal.setImage_url(null);
+                mMeal.setRecipeId(null);
+            } else {
+                if(mSelectedRecipe.getTitle().equals(mRecipeName.getText().toString())) {
+                    mMeal.setTitle(mSelectedRecipe.getTitle());
+                    mMeal.setImage_url(mSelectedRecipe.getImage_url());
+                    mMeal.setRecipeId(mSelectedRecipe.getId());
+                } else {
+                    mMeal.setTitle(mRecipeName.getText().toString());
+                    mMeal.setImage_url(null);
+                    mMeal.setRecipeId(null);
+                }
+            }
             if(mSelectedUser != null) {
-                mMeal.setCookName(getFirstWord(mSelectedUser.get("name")));
+                mMeal.setCookName(getFirstWord(Objects.requireNonNull(mSelectedUser.get("name"))));
                 mMeal.setCookImage(mSelectedUser.get("photo_url"));
             }
             mModel.selectMeal(mMeal);
@@ -213,11 +225,14 @@ public class AddPlannedMealFragment extends Fragment {
         newFragment.show(mFragmentManager, DATE_PICKER_TAG);
     }
 
-    private void updateView() {
-
+    private void updateView(IMeal lastMeal) {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("EEEE, d. MMM", Locale.US);
 
-        mRecipeName.setText(mMeal.getTitle());
+        if(lastMeal == null) {
+            mRecipeName.setText(mMeal.getTitle());
+        } else if(lastMeal.getTitle() != null && !lastMeal.getTitle().equals(mMeal.getTitle())) {
+            mRecipeName.setText(mMeal.getTitle());
+        }
         mMealDate.setText(sdf.format(mMeal.getDate()));
         mMealTime.setText(DateUtils.formatDateTime(mActivity, mMeal.getDate().getTime(), DateUtils.FORMAT_SHOW_TIME));
     }

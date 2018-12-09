@@ -87,10 +87,14 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
 
     @Override
     public void onItemClicked(IMeal meal) {
-        mModel.switchToEditMode(meal);
-        mRecipeModel.setMode(RecipeViewModel.Mode.VIEW);
-        mRecipeModel.selectRecipeById(meal.getRecipeId());
-        Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
+        if(meal.getRecipeId() != null) {
+            mModel.switchToEditMode(meal);
+            mRecipeModel.setMode(RecipeViewModel.Mode.VIEW);
+            mRecipeModel.selectRecipeById(meal.getRecipeId());
+            Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
+        } else {
+            // TODO: Snackbar or Toast
+        }
     }
 
     @Override
