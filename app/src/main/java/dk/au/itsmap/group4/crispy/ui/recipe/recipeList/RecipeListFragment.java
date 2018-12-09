@@ -134,7 +134,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
     private void addFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
-            setGuidelinePosition(0.45f);
+            setGuidelinePosition(0.5f);
             mActivity.getSupportFragmentManager().beginTransaction()
                     .add(R.id.right_column, fragment)
                     .commit();
@@ -142,7 +142,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     }
     private void hideFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
-            setGuidelinePosition(0.45f);
+            setGuidelinePosition(0.5f);
             mActivity.getSupportFragmentManager().beginTransaction()
                     .hide(fragment)
                     .commit();
@@ -151,7 +151,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
     private void showFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
-            setGuidelinePosition(0.45f);
+            setGuidelinePosition(0.5f);
             mActivity.getSupportFragmentManager().beginTransaction()
                     .show(fragment)
                     .commit();
