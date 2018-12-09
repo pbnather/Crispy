@@ -31,7 +31,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
     private final OnRecipeClickListener mOnRecipeClickListener;
     private List<IRecipe> mValues;
 
-
     RecipesRecyclerViewAdapter(
             Context parent,
             OnRecipeClickListener onRecipeClickListener
@@ -45,7 +44,6 @@ public class RecipesRecyclerViewAdapter extends RecyclerView.Adapter<RecipesRecy
         this.mValues = newData;
         notifyDataSetChanged();
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

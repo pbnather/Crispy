@@ -137,6 +137,7 @@ public class AddPlannedMealFragment extends Fragment {
             IRecipe selectedRecipe = (IRecipe) parent.getItemAtPosition(position);
             mMeal.setImage_url(selectedRecipe.getImage_url());
             mMeal.setTitle(selectedRecipe.getTitle());
+            mMeal.setRecipeId(selectedRecipe.getId());
         });
     }
 

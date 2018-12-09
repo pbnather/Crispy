@@ -95,7 +95,6 @@ public class MealsPlanViewModel extends ViewModel {
 
     public void createMeal() {
         mRepository.saveMeal(mSelectedMeal.getValue());
-        mSelectedMeal.setValue(new Meal());
     }
 
     public void deleteSelectedMeal() {

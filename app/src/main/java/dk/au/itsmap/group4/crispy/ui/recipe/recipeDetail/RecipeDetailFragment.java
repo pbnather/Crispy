@@ -5,6 +5,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -39,7 +40,6 @@ public class RecipeDetailFragment extends Fragment {
     private FloatingActionButton btnEditRecipe;
     private ImageView mRecipeToolbarImage;
 
-    private Observer<List<IIngredient>> mSelectedRecipeIngrediensObserver;
     private IRecipe mRecipe;
 
     @Override
@@ -52,14 +52,14 @@ public class RecipeDetailFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem account =menu.findItem(R.id.btnAccount);
+        MenuItem account = menu.findItem(R.id.btnAccount);
         MenuItem list = menu.findItem(R.id.btnGroceryList);
         account.setVisible(false);
         list.setVisible(false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mActivity = (MainNavigationActivity) this.getActivity();
 
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
@@ -76,7 +76,7 @@ public class RecipeDetailFragment extends Fragment {
         btnEditRecipe = mView.findViewById(R.id.btnEditRecipe);
         btnEditRecipe.setOnClickListener(v -> {
             mModel.setMode(RecipeViewModel.Mode.EDIT);
-            mModel.selectRecipe(mRecipe);
+//            mModel.selectRecipe(mRecipe);
             if(mModel.isSinglePage()) {
 //                Navigation.findNavController(mView).popBackStack();
 //                mActivity.getNavController().navigate(R.id.recipeListFragment);
@@ -87,25 +87,19 @@ public class RecipeDetailFragment extends Fragment {
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
 
-        mSelectedRecipeIngrediensObserver = iIngredients -> {
-            ingredientsTable.removeAllViews();
-            if(iIngredients == null) {
-                return;
-            }
-            for(IIngredient ingredient : iIngredients) {
-                // add array of views
-                addIngredientRow(inflater, container, ingredient);
-            }
-        };
-
         mModel.getSelectedRecipe().observe(this, (recipe) -> {
             mRecipe = recipe;
             updateView(mRecipe);
-            // subscribe to ingredients of this recipe
-            if(mRecipe != null) {
-                mModel.getIngredientsForRecipeById(recipe.getId()).observe(this, mSelectedRecipeIngrediensObserver);
-            } else {
-                mSelectedRecipeIngrediensObserver.onChanged(null);
+        });
+
+        mModel.getIngredientsForSelectedRecipe().observe(mActivity, ingredients -> {
+            ingredientsTable.removeAllViews();
+            if(ingredients == null) {
+                return;
+            }
+            for(IIngredient ingredient : ingredients) {
+                // add array of views
+                addIngredientRow(inflater, container, ingredient);
             }
         });
 

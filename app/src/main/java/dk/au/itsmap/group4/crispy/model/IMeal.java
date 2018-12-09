@@ -37,4 +37,6 @@ public interface IMeal {
 
     void setCookImage(String image_url);
 
+    void setRecipeId(String recipeId);
+
 }

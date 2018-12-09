@@ -57,7 +57,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         // change right column based on ViewModel modes
         if(mModel.isSinglePage()) {
             mGuideLine = mView.findViewById(R.id.recipe_list_separator);
-            setGuidlinePosition(1f);
+            setGuidelinePosition(1f);
             if(mRecipeEditFragment == null) {
                 mRecipeEditFragment = new RecipeEditFragment();
             }
@@ -83,7 +83,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
                         hideFragment(mRecipeDetailFragment);
                         hideFragment(mRecipeEditFragment);
                         // show list in full page width
-                        setGuidlinePosition(1f);
+                        setGuidelinePosition(1f);
                 }
             });
         }
@@ -136,7 +136,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
     private void addFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
-            setGuidlinePosition(0.45f);
+            setGuidelinePosition(0.45f);
             mActivity.getSupportFragmentManager().beginTransaction()
                     .add(R.id.right_column, fragment)
                     .commit();
@@ -144,7 +144,7 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     }
     private void hideFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
-            setGuidlinePosition(0.45f);
+            setGuidelinePosition(0.45f);
             mActivity.getSupportFragmentManager().beginTransaction()
                     .hide(fragment)
                     .commit();
@@ -153,14 +153,14 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
 
     private void showFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
-            setGuidlinePosition(0.45f);
+            setGuidelinePosition(0.45f);
             mActivity.getSupportFragmentManager().beginTransaction()
                     .show(fragment)
                     .commit();
         }
     }
 
-    private void setGuidlinePosition(float percentage) {
+    private void setGuidelinePosition(float percentage) {
         if(mGuideLine == null || percentage < 0 || percentage > 1) {
             return;
         }

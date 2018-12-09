@@ -18,7 +18,7 @@ public class Meal extends Entity implements IMeal {
     private String image_url;
     private String cookImage;
     private String cookName;
-    private DocumentReference recipe;
+    private String recipeId;
     private Timestamp date;
 
     public Meal() {
@@ -29,7 +29,7 @@ public class Meal extends Entity implements IMeal {
         this.title = title;
         this.image_url = image_url;
         this.cookName = cookName;
-        this.recipe = recipeId == null ? null : FirebaseFirestore.getInstance().collection("recipes").document(recipeId);
+        this.recipeId = recipeId;
         this.date = new Timestamp(date);
     }
 
@@ -37,12 +37,13 @@ public class Meal extends Entity implements IMeal {
         this.title = recipe.getTitle();
         this.image_url = recipe.getImage_url();
         this.cookName = cookName;
-        this.recipe =  recipe.getId() == null ? null : FirebaseFirestore.getInstance().collection("recipes").document(recipe.getId());
+        this.recipeId = recipe.getId();
         this.date = new Timestamp(date);
     }
 
-    public DocumentReference getRecipe() {
-        return recipe;
+    @Override
+    public String getRecipeId() {
+        return recipeId;
     }
 
     @Override
@@ -68,12 +69,6 @@ public class Meal extends Entity implements IMeal {
 
     @Override
     public String getCookImage(){ return  cookImage;}
-
-    @Override
-    @Exclude
-    public String getRecipeId() {
-        return recipe.getId();
-    }
 
     @Override
     public Date getDate() {
@@ -125,6 +120,11 @@ public class Meal extends Entity implements IMeal {
     @Override
     public void setCookImage(String image_url) {
         cookImage = image_url;
+    }
+
+    @Override
+    public void setRecipeId(String recipeId) {
+        this.recipeId = recipeId;
     }
 
 }

@@ -58,6 +58,10 @@ public class RecipeViewModel extends AndroidViewModel {
             return recipeId != null ? mRepository.getRecipeById(recipeId) : new MutableLiveData<>();
         });
 
+        mSelectedRecipeIngredients = Transformations.switchMap(mSelectedRecipeId, recipeId -> {
+            return recipeId != null ? mRepository.getIngredientsForRecipeById(recipeId) : new LiveData<List<IIngredient>>() {};
+        });
+
         mMode = new MutableLiveData<>();
 
     }
@@ -89,8 +93,8 @@ public class RecipeViewModel extends AndroidViewModel {
             mSelectedRecipeId.setValue(recipe.getId());
 
             // update selected meal only if current selected is different
-            if(mSelectedRecipe != null && (mSelectedRecipe.getValue() == null || (mSelectedRecipe.getValue() != null && !recipe.getId().equals(mSelectedRecipe.getValue().getId())))) {
-            }
+//            if(mSelectedRecipe != null && (mSelectedRecipe.getValue() == null || (mSelectedRecipe.getValue() != null && !recipe.getId().equals(mSelectedRecipe.getValue().getId())))) {
+//            }
 
         } else {
             mSelectedRecipeId.setValue(null);
@@ -113,9 +117,9 @@ public class RecipeViewModel extends AndroidViewModel {
             ingredientsQuery.append(ingredient.getName());
             ingredientsQuery.append(",");
         }
-        int end = ingredientsQuery.length();
+        int end = ingredientsQuery.length() - 1;
         if(end > 0) {
-            ingredientsQuery.deleteCharAt(end - 1);
+            ingredientsQuery.deleteCharAt(end);
             String query = ingredientsQuery.toString();
 
             Retrofit retrofit = new Retrofit.Builder()
