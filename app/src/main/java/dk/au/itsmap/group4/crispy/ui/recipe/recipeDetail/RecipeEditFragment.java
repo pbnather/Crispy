@@ -62,7 +62,7 @@ public class RecipeEditFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        mActivity = (MainNavigationActivity) getActivity();
         setHasOptionsMenu(true);
     }
 
@@ -77,12 +77,10 @@ public class RecipeEditFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mActivity = (MainNavigationActivity) getActivity();
-
-
         // inflate inner layout to scroll view
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
-        mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit, mView.findViewById(R.id.recipe_detail_container), true);
+        mInsideView = inflater.inflate(R.layout.recipe_detail_inner_edit,
+                mView.findViewById(R.id.recipe_detail_container), true);
 
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
@@ -122,33 +120,32 @@ public class RecipeEditFragment extends Fragment {
 
         mAutoAdapter = new AutoCompleteIngredientAdapter(getActivity(), android.R.layout.simple_dropdown_item_1line);
 
-        mModel.getMode().observe(this, mode -> {
+        mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
+        mModel.getMode().observe(mActivity, mode -> {
             if(mode == RecipeViewModel.Mode.ADD) {
                 mRecipe = new Recipe();
+                mModel.selectRecipe(mRecipe);
                 updateView(mRecipe);
             }
             if(mode == RecipeViewModel.Mode.EDIT) {
-                mModel.getSelectedRecipe().observe(this, recipe -> {
+                mModel.getSelectedRecipe().observe(mActivity, recipe -> {
                     mRecipe = recipe;
                     updateView(mRecipe);
+                    mModel.getIngredientsForSelectedRecipe().observe(mActivity, iIngredients -> {
+                        mIngredients = iIngredients;
+                        ingredientsTable.removeAllViews();
+                        if(iIngredients == null) {
+                            return;
+                        }
+                        for(IIngredient ingredient : iIngredients) {
+                            // add array of views
+                            addIngredientRow(inflater, container, ingredient);
+                        }
+                    });
                 });
             }
         });
 
-
-
-        mModel.getIngredientsForSelectedRecipe().observe(this, iIngredients -> {
-
-            mIngredients = iIngredients;
-            ingredientsTable.removeAllViews();
-            if(iIngredients == null) {
-                return;
-            }
-            for(IIngredient ingredient : iIngredients) {
-                // add array of views
-                addIngredientRow(inflater, container, ingredient);
-            }
-        });
 
         mTitleEdit = mView.findViewById(R.id.recipe_title);
         setDescription();
@@ -198,7 +195,7 @@ public class RecipeEditFragment extends Fragment {
     private void updateView(IRecipe recipe) {
         CollapsingToolbarLayout appBarLayout = mView.findViewById(R.id.toolbar_layout);
         if(appBarLayout != null) {
-            appBarLayout.setTitle(getText(R.string.edit_recipe));
+//            appBarLayout.setTitle(getText(R.string.edit_recipe));
         }
         if(recipe == null) {
             ((EditText) mView.findViewById(R.id.recipe_title)).setText("");

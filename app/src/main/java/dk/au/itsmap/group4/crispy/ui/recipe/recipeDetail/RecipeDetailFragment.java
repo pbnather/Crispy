@@ -45,8 +45,7 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        mActivity = (MainNavigationActivity) this.getActivity();
         setHasOptionsMenu(true);
     }
 
@@ -60,8 +59,7 @@ public class RecipeDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mActivity = (MainNavigationActivity) this.getActivity();
-
+        mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
@@ -87,7 +85,7 @@ public class RecipeDetailFragment extends Fragment {
 
         ingredientsTable = mView.findViewById(R.id.ingredientsTable);
 
-        mModel.getSelectedRecipe().observe(this, (recipe) -> {
+        mModel.getSelectedRecipe().observe(mActivity, (recipe) -> {
             mRecipe = recipe;
             updateView(mRecipe);
         });

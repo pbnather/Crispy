@@ -161,6 +161,7 @@ public class AddPlannedMealFragment extends Fragment {
                 if(theUser != null) {
                     mMeal.setCookName(getFirstWord(theUser.get("name")));
                     mMeal.setCookImage(theUser.get("photo_url"));
+//                    mMeal.setUserId(theUser.get("id"));
                 }
             }
             public void onNothingSelected(AdapterView<?> parent) {}
