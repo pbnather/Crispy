@@ -343,4 +343,11 @@ public class FSRepository implements IRepository {
                 .addOnFailureListener(e -> Log.w(TAG, "Error deleting ingredients", e));
     }
 
+    public void deleteUser(@NonNull String userId, IUserGroup group) {
+        if(group != null) {
+            DocumentReference groupRef = mGroups.document(group.getId());
+            group.deleteUser(userId);
+            groupRef.set(group);
+        }
+    }
 }

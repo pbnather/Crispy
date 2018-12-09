@@ -12,4 +12,6 @@ public interface IUserGroup {
     String getOwnerId();
 
     List<Map<String, String>> getAllUsers();
+
+    void deleteUser(String userId);
 }

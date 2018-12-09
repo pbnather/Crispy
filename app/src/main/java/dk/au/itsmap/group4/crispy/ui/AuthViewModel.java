@@ -1,7 +1,12 @@
 package dk.au.itsmap.group4.crispy.ui;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -38,6 +43,22 @@ public class AuthViewModel extends AndroidViewModel {
             String userName = mUser.getValue().getDisplayName();
             mRepository.createUserAndAssignDefaultGroup(userId, userName == null ? "" : userName, user.getPhotoUrl() == null ? "" : user.getPhotoUrl().toString());
         }
+    }
+
+    public void deleteUser(Context context) {
+        String userId = mUser.getValue().getUid();
+        if(userId == null) return;
+        mRepository.getUserGroup(userId).observe((AuthActivity)context, group -> {
+            AuthUI.getInstance().delete(context).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Deletion succeeded
+                    mRepository.deleteUser(userId, group.get(0));
+                } else {
+                    // Deletion failed
+                    Log.w("TAG", "Deleting user failed :c");
+                }
+            });
+        });
     }
 
     /* Adapted from https://stackoverflow.com/q/50035915 */

@@ -72,6 +72,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                 if (response != null && response.isNewUser()) {
                     mAuth.registerUser();
                 }
+                getNavController().navigateUp();
             } else {
                 if (response == null) {
                     signIn();
@@ -145,7 +146,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
 
     @Override
     public LiveData<IUserGroup> getUserGroup() {
-        return Transformations.map(mUserGroup, userGroup -> userGroup == null ? null : userGroup.get(0));
+        return Transformations.map(mUserGroup, userGroup -> userGroup == null || userGroup.isEmpty() ? null : userGroup.get(0));
     }
 
     @Override
@@ -161,6 +162,12 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     @Override
     public String getUserId() {
         return mUser != null ? mUser.getUid() : null;
+    }
+
+    @Override
+    public void deleteUser() {
+        stopObservingUserGroup();
+        mAuth.deleteUser(this);
     }
 
     private void observeUserGroup() {

@@ -12,7 +12,7 @@ import dk.au.itsmap.group4.crispy.model.IUserGroup;
 public class UserGroup extends Entity implements IUserGroup {
 
     private String name;
-    private String owner;
+    private String ownerId;
     private List<String> userIds;
     private Map<String, Map<String, String>> users;
 
@@ -31,10 +31,11 @@ public class UserGroup extends Entity implements IUserGroup {
 
     @Override
     public String getOwnerId() {
-        return owner;
+        return ownerId;
     }
 
     @Override
+    @Exclude
     public List<Map<String, String>> getAllUsers() {
         List<Map<String, String>> userNames = new ArrayList<>();
         for (String key : users.keySet()) {
@@ -45,6 +46,12 @@ public class UserGroup extends Entity implements IUserGroup {
             userNames.add(userInfo);
         }
         return userNames;
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        users.remove(userId);
+        userIds.remove(userId);
     }
 
     public Map<String, Map<String, String>> getUsers() {

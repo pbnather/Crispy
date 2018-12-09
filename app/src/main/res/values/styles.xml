@@ -17,6 +17,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/crispyLightAccent</item>
+        <item name="colorAccent">@color/crispyAccent</item>
+    </style>
+
     <style name="Crispy" parent="AppTheme" >
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>

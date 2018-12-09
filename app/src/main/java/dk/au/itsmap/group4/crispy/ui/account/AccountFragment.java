@@ -1,9 +1,11 @@
 package dk.au.itsmap.group4.crispy.ui.account;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,7 +18,6 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import dk.au.itsmap.group4.crispy.R;
-import dk.au.itsmap.group4.crispy.model.IIngredient;
 import dk.au.itsmap.group4.crispy.model.IUserGroup;
 import dk.au.itsmap.group4.crispy.utils.GlideApp;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
@@ -28,12 +29,22 @@ public class AccountFragment extends Fragment {
     private MainNavigationActivity mActivity;
     private TableLayout groupTable;
     private View rootView;
+    private Dialog mDeleteAccountDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mActivity = (MainNavigationActivity) this.getActivity();
+        mActivity.setMainToolbarWithNavigation(getText(R.string.account).toString());
         mAccount = (IAccountManager) getActivity();
+        mDeleteAccountDialog = new AlertDialog.Builder(mActivity, R.style.Dialog)
+                .setMessage(getString(R.string.delete_account_message))
+                .setTitle(getString(R.string.delete_account_dialog_title))
+                .setCancelable(true)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.delete, (dialog, which) -> mAccount.deleteUser())
+                .create();
     }
 
     @Override
@@ -52,12 +63,7 @@ public class AccountFragment extends Fragment {
 
         // Set sign out button action
         rootView.findViewById(R.id.signOutBtn).setOnClickListener(button -> mAccount.signOut());
-
-        // Set toolbar
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(true);
-        mActivity = (MainNavigationActivity) this.getActivity();
-        mActivity.setMainToolbarWithNavigation(getText(R.string.account).toString());
+        rootView.findViewById(R.id.deleteAccountBtn).setOnClickListener(button -> mDeleteAccountDialog.show());
 
         // Set profile image
         ImageView profilePicture = rootView.findViewById(R.id.profilePicture);
@@ -92,29 +98,30 @@ public class AccountFragment extends Fragment {
 
     private void displayGroupMembers(IUserGroup group, LayoutInflater inflater, ViewGroup container) {
         groupTable.removeAllViews();
+        if(group != null) {
+            TextView groupName = rootView.findViewById(R.id.groupName);
+            groupName.setText(group.getName() + ":");
 
-        TextView groupName = rootView.findViewById(R.id.groupName);
-        groupName.setText(group.getName()+":");
+            for (int i = 0; i < group.getAllUsers().size(); i++) {
+                // add array of views
 
-        for(int i=0; i<group.getAllUsers().size(); i++) {
-            // add array of views
+                View userRowLayout = inflater.inflate(R.layout.group_member_item, container, false);
 
-            View userRowLayout = inflater.inflate(R.layout.group_member_item, container, false);
+                TextView nameView = userRowLayout.findViewById(R.id.userName);
+                ImageView pictureView = userRowLayout.findViewById(R.id.userPhoto);
 
-            TextView nameView = userRowLayout.findViewById(R.id.userName);
-            ImageView pictureView = userRowLayout.findViewById(R.id.userPhoto);
+                String userName = group.getAllUsers().get(i).get("name");
+                String pictureUrl = group.getAllUsers().get(i).get("photo_url");
 
-            String userName = group.getAllUsers().get(i).get("name");
-            String pictureUrl = group.getAllUsers().get(i).get("photo_url");
+                GlideApp.with(userRowLayout)
+                        .load(pictureUrl)
+                        .placeholder(R.drawable.default_profile_picture_hd)
+                        .circleCrop()
+                        .into(pictureView);
 
-            GlideApp.with(userRowLayout)
-                    .load(pictureUrl)
-                    .placeholder(R.drawable.default_profile_picture_hd)
-                    .circleCrop()
-                    .into(pictureView);
-
-            nameView.setText(userName);
-            groupTable.addView(userRowLayout);
+                nameView.setText(userName);
+                groupTable.addView(userRowLayout);
+            }
         }
     }
 }

@@ -16,4 +16,6 @@ public interface IAccountManager {
     String getUserName();
 
     String getUserId();
+
+    void deleteUser();
 }
