@@ -57,4 +57,11 @@
     <string name="account">Twoje konto</string>
     <string name="delete_account">Usuń konto</string>
     <string name="hi">Witaj</string>
+    <string name="more">więcej</string>
+    <string name="at">w</string>
+    <string name="delete_account_message">Twoje konto zostanie trwale usunięte, a Ty się wylogujesz.</string>
+    <string name="delete_account_dialog_title">Usuń konto?</string>
+    <string name="notification_text" translatable="false">Nie przegap dzisiejszego obiadu!</string>
+    <string name="notification_title" translatable="false">Sprawdź swój plan na dziś!</string>
+    <string name="crispy_planner" translatable="false">Crispy Planner</string>
 </resources>
