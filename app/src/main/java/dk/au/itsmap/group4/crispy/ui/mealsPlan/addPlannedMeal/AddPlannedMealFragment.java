@@ -62,6 +62,7 @@ public class AddPlannedMealFragment extends Fragment {
     private AutoCompleteTextView mRecipeName;
 
     private boolean mIsEditMode = false;
+    private Map<String, String>  mSelectedUser;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,16 +152,11 @@ public class AddPlannedMealFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 String userId = parent.getItemAtPosition(position).toString();
-                Map<String, String> theUser = null;
                 for(Map<String, String> user: mUserGroup.getAllUsers()) {
                     if(user.get("id").equals(userId)) {
-                        theUser = user;
+                        mSelectedUser = user;
                         break;
                     }
-                }
-                if(theUser != null) {
-                    mMeal.setCookName(getFirstWord(theUser.get("name")));
-                    mMeal.setCookImage(theUser.get("photo_url"));
                 }
             }
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -170,7 +166,16 @@ public class AddPlannedMealFragment extends Fragment {
         mAccount.getUserGroup().observe(mActivity, group -> {
             mUserGroup = group;
             usersSpinnerAdapter.setData(group.getAllUsers());
-            if(mMeal != null && mMeal.getCookName() != null) mGroupMembers.setSelection(usersSpinnerAdapter.getPosition(getFirstWord(mMeal.getCookName())));
+            if(mMeal != null && mMeal.getCookName() != null) {
+                String name = mMeal.getCookName();
+                for(Map<String, String> user: group.getAllUsers()) {
+                    if(getFirstWord(user.get("name")).equals(name)) {
+                        mSelectedUser = user;
+                        break;
+                    }
+                }
+                mGroupMembers.setSelection(usersSpinnerAdapter.getPosition(mSelectedUser.get("id")));
+            }
         });
     }
 
@@ -186,6 +191,10 @@ public class AddPlannedMealFragment extends Fragment {
         if (mMeal.getDate().compareTo(new Date()) < 0) {
             Toast.makeText(getActivity(), R.string.add_meal_is_in_past_error, Toast.LENGTH_LONG).show();
         } else {
+            if(mSelectedUser != null) {
+                mMeal.setCookName(getFirstWord(mSelectedUser.get("name")));
+                mMeal.setCookImage(mSelectedUser.get("photo_url"));
+            }
             mModel.selectMeal(mMeal);
             mModel.createMeal();
             Toast.makeText(getActivity(), mIsEditMode ? R.string.add_meal_update_success : R.string.add_meal_save_success, Toast.LENGTH_LONG).show();
