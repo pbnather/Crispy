@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_mealsPlanFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_mealsPlanFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPlannedMealFragment"
