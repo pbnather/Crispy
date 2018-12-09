@@ -32,8 +32,6 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     private Guideline mGuideLine;
     private FloatingActionButton addRecipeButton;
 
-    private RecipeDetailFragment mRecipeDetailFragment;
-    private RecipeEditFragment mRecipeEditFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,30 +56,17 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         if(mModel.isSinglePage()) {
             mGuideLine = mView.findViewById(R.id.recipe_list_separator);
             setGuidelinePosition(1f);
-            if(mRecipeEditFragment == null) {
-                mRecipeEditFragment = new RecipeEditFragment();
-            }
-            if(mRecipeDetailFragment == null) {
-                mRecipeDetailFragment = new RecipeDetailFragment();
-            }
-            addFragment(mRecipeDetailFragment);
-            addFragment(mRecipeEditFragment);
-            hideFragment(mRecipeDetailFragment);
-            hideFragment(mRecipeEditFragment);
+
             mModel.getMode().observe(this, mode -> {
                 switch (mode) {
                     case VIEW:
-                        hideFragment(mRecipeEditFragment);
-                        showFragment(mRecipeDetailFragment);
+                        showFragment(new RecipeDetailFragment());
                         break;
                     case EDIT:
                     case ADD:
-                        hideFragment(mRecipeDetailFragment);
-                        showFragment(mRecipeEditFragment);
+                        showFragment(new RecipeEditFragment());
                         break;
                     case LIST:
-                        hideFragment(mRecipeDetailFragment);
-                        hideFragment(mRecipeEditFragment);
                         // show list in full page width
                         setGuidelinePosition(1f);
                         break;
@@ -132,28 +117,11 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
     }
 
 
-    private void addFragment(Fragment fragment) {
-        if(mView.findViewById(R.id.right_column) != null) {
-            setGuidelinePosition(0.5f);
-            mActivity.getSupportFragmentManager().beginTransaction()
-                    .add(R.id.right_column, fragment)
-                    .commit();
-        }
-    }
-    private void hideFragment(Fragment fragment) {
-        if(mView.findViewById(R.id.right_column) != null) {
-            setGuidelinePosition(0.5f);
-            mActivity.getSupportFragmentManager().beginTransaction()
-                    .hide(fragment)
-                    .commit();
-        }
-    }
-
     private void showFragment(Fragment fragment) {
         if(mView.findViewById(R.id.right_column) != null) {
             setGuidelinePosition(0.5f);
             mActivity.getSupportFragmentManager().beginTransaction()
-                    .show(fragment)
+                    .replace(R.id.right_column, fragment)
                     .commit();
         }
     }
