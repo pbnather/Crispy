@@ -20,6 +20,7 @@ import com.google.firebase.firestore.Transaction;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,6 +176,12 @@ public class FSRepository implements IRepository {
     @Override
     public LiveData<List<IMeal>> getAllMeals() {
         return new FSCollectionLiveData<>(mMeals.whereGreaterThan("date", Timestamp.now()), Meal.class);
+    }
+
+    @Override
+    public void getMealsInRangeOnce(Date from, Date to, OnCompleteListener<QuerySnapshot> listener) {
+        Query query = mMeals.whereGreaterThan("date", new Timestamp(from)).whereLessThan("date", new Timestamp(to));
+        query.get().addOnCompleteListener(listener);
     }
 
     @Override

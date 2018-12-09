@@ -2,16 +2,27 @@ package dk.au.itsmap.group4.crispy.service.notification;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.concurrent.CountDownLatch;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import dk.au.itsmap.group4.crispy.database.FSRepository;
+import dk.au.itsmap.group4.crispy.database.entity.Entity;
+import dk.au.itsmap.group4.crispy.database.entity.Meal;
+import dk.au.itsmap.group4.crispy.model.IMeal;
+import dk.au.itsmap.group4.crispy.model.IRepository;
 
 public class NotificationIntentService extends IntentService {
 
-    private CountDownLatch doneSignal = new CountDownLatch(1);
-
     NotificationFactory mNotificationHelper;
+    private IRepository mRepository;
 
     public NotificationIntentService() {
         super("NotificationIntentService");
@@ -22,44 +33,38 @@ public class NotificationIntentService extends IntentService {
 
         mNotificationHelper = new NotificationFactory(this);
 
-        (new NotifyTodaysMealAsyncTask()).execute(mNotificationHelper);
+        mRepository = FSRepository.getInstance();
 
-        try {
-            doneSignal.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Log.d("NOTIFICATION", "Alarm clock fired");
 
-    }
+        // prepare listener for Firebase result
+        OnCompleteListener<QuerySnapshot> listener = task -> {
+            if(task.isSuccessful()) {
+                QuerySnapshot snapshot = task.getResult();
+                if(snapshot != null) {
+                    List<IMeal> iMeals = new ArrayList<>();
+                    for (QueryDocumentSnapshot doc : snapshot) {
+                        IMeal fetchedDocument = doc.toObject(Meal.class);
+                        if(Entity.class.isAssignableFrom(Meal.class))
+                            ((Entity) fetchedDocument).setId(doc.getId());
+                        iMeals.add(fetchedDocument);
+                    }
+                    if(iMeals.size() > 0) {
+                        mNotificationHelper.notifyAboutTodayMeals(iMeals);
+                    }
+                }
+            }
+        };
 
-    public static class NotifyTodaysMealAsyncTask extends AsyncTask<NotificationFactory, Void, Void> {
-        @Override
-        protected Void doInBackground(NotificationFactory... helpers) {
-            // todo
-            Log.d("NOTIFICATION", "Alarm clock fired");
+        // prepare tomorrow date
+        Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.DATE, 1);
 
-            helpers[0].notifyAboutTodayMeals();
+        //
+        mRepository.getMealsInRangeOnce(new Date(), c.getTime(), listener);
 
-            return null;
-            // todo: check why there are no values in the repository
-
-//            IRepository repository = FSRepository.getInstance();
-//            List<IMeal> meals = repository.getAllMeals().getValue();
-//
-//            if(meals == null) {
-//                return null;
-//            }
-//
-//            if(meals.size() == 0) {
-//                // no upcoming meals
-//                // TODO: send notification
-//            } else {
-//                IMeal nextMeal = meals.get(0);
-//                // TODO: send notification
-//            }
-//
-//            return null;
-        }
     }
 
 }

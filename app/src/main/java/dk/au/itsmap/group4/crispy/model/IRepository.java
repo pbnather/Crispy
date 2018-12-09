@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,9 @@ public interface IRepository {
     LiveData<IRecipe> getRecipeForMeal(IMeal meal);
 
     LiveData<List<IMeal>> getAllMeals();
+
+    void getMealsInRangeOnce(Date from, Date to, OnCompleteListener<QuerySnapshot> listener);
+
     LiveData<List<IRecipe>> getAllRecipes();
     LiveData<List<IIngredient>> getIngredientsForRecipe(IRecipe recipe);
     LiveData<List<IIngredient>> getIngredientsForRecipeById(String recipeId);

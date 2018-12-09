@@ -7,14 +7,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.text.format.DateUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import dk.au.itsmap.group4.crispy.R;
+import dk.au.itsmap.group4.crispy.model.IMeal;
 import dk.au.itsmap.group4.crispy.ui.MainNavigationActivity;
 
 /**
@@ -49,15 +52,23 @@ class NotificationFactory
     /**
      * Creates notification about today's meal
      */
-    void notifyAboutTodayMeals() {
+    void notifyAboutTodayMeals(List<IMeal> meals) {
         Intent intent = new Intent(mContext, MainNavigationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this.mContext, 0, intent, 0);
 
+        String text = "";
+        if(meals.size() > 0) {
+            text += meals.get(0).getTitle() + " " + mContext.getString(R.string.at) + " " + DateUtils.formatDateTime(mContext, meals.get(0).getDate().getTime(), DateUtils.FORMAT_SHOW_TIME);
+        }
+        if(meals.size() > 1) {
+            text += " + " + (meals.size()-1) + " " + mContext.getString(R.string.more);
+        }
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext, CHANNEL_ID_STR)
                 .setSmallIcon(R.drawable.ic_pot)
                 .setContentTitle(mContext.getString(R.string.notification_title))
-                .setContentText(mContext.getString(R.string.notification_text)) // TODO: change text based on today's meal
+                .setContentText(text)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
