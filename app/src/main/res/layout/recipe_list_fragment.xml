@@ -27,15 +27,16 @@
         android:layout_gravity="bottom|right"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@mipmap/plus_white"
         app:backgroundTint="@color/crispyAccent"
-        app:fabCustomSize="@android:dimen/app_icon_size"
+        app:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.976"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:useCompatPadding="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
