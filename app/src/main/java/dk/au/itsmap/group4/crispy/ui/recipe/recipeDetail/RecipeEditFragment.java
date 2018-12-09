@@ -296,7 +296,7 @@ public class RecipeEditFragment extends Fragment {
             deleted.clear();
             Toast.makeText(getActivity(), R.string.recipe_saved_msg, Toast.LENGTH_LONG).show();
             if(mModel.isSinglePage()) {
-                mModel.selectRecipe(updatedRecipe);
+                // mModel.selectRecipe(updatedRecipe);
                 mModel.setMode(RecipeViewModel.Mode.VIEW);
 //                Navigation.findNavController(mView).popBackStack();
 //                mActivity.getNavController().navigate(R.id.recipeListFragment);
