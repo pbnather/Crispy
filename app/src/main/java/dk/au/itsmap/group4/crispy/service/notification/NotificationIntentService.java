@@ -56,10 +56,14 @@ public class NotificationIntentService extends IntentService {
             }
         };
 
-        // prepare tomorrow date
-        Date dt = new Date();
+        // prepare tomorrow's midnight
+        Date date = new Date();
         Calendar c = Calendar.getInstance();
-        c.setTime(dt);
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
         c.add(Calendar.DATE, 1);
 
         //
