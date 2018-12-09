@@ -73,8 +73,4 @@ public class MainNavigationActivity extends AuthActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
 
-    @Override
-    public boolean isOrientationLandscape() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-    }
 }
