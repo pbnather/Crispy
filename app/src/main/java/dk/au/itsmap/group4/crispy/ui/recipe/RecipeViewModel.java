@@ -55,7 +55,7 @@ public class RecipeViewModel extends AndroidViewModel {
         mRepository = FSRepository.getInstance();
         mSelectedRecipeId = new MutableLiveData<>();
         mSelectedRecipe = Transformations.switchMap(mSelectedRecipeId, recipeId -> {
-            return recipeId != null ? mRepository.getRecipeById(recipeId) : new MutableLiveData<>();
+            return recipeId != null ? mRepository.getRecipeById(recipeId) : new LiveData<IRecipe>(){};
         });
 
         mSelectedRecipeIngredients = Transformations.switchMap(mSelectedRecipeId, recipeId -> {

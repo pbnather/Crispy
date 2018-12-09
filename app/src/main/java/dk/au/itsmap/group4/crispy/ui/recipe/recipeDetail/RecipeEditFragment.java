@@ -129,12 +129,15 @@ public class RecipeEditFragment extends Fragment {
                 mRecipe = new Recipe();
                 updateView(mRecipe);
             }
+            if(mode == RecipeViewModel.Mode.EDIT) {
+                mModel.getSelectedRecipe().observe(this, recipe -> {
+                    mRecipe = recipe;
+                    updateView(mRecipe);
+                });
+            }
         });
 
-        mModel.getSelectedRecipe().observe(this, recipe -> {
-            mRecipe = recipe;
-            updateView(mRecipe);
-        });
+
 
         mModel.getIngredientsForSelectedRecipe().observe(this, iIngredients -> {
 
@@ -153,6 +156,12 @@ public class RecipeEditFragment extends Fragment {
         setDescription();
 
         return mView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mModel.getSelectedRecipe().removeObservers(this);
     }
 
     private void addIngredientRow(LayoutInflater inflater, ViewGroup container, IIngredient ingredient){
