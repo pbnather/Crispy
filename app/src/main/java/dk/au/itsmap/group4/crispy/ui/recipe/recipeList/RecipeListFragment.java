@@ -100,8 +100,11 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         addRecipeButton = mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {
             mModel.selectRecipe(null);
-            mModel.setMode(RecipeViewModel.Mode.ADD);
-            Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
+            if(mModel.isSinglePage()) {
+                mModel.setMode(RecipeViewModel.Mode.ADD);
+            } else {
+                Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
+            }
         });
     }
 

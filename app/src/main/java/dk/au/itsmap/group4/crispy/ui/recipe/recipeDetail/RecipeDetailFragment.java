@@ -46,11 +46,11 @@ public class RecipeDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mActivity = (MainNavigationActivity) this.getActivity();
         mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
         if (!mModel.isSinglePage())
             setHasOptionsMenu(true);
         mActivity = (MainNavigationActivity) this.getActivity();
-        setHasOptionsMenu(true);
     }
 
     @Override
@@ -63,7 +63,6 @@ public class RecipeDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mActivity = (MainNavigationActivity) this.getActivity();
 
         mView = inflater.inflate(R.layout.recipe_detail_fragment, container, false);
 

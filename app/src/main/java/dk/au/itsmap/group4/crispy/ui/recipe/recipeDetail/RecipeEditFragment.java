@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -62,9 +63,10 @@ public class RecipeEditFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mActivity = (MainNavigationActivity) getActivity();
-        setHasOptionsMenu(true);
-    }
+        mActivity = (MainNavigationActivity) this.getActivity();
+        mModel = ViewModelProviders.of(getActivity()).get(RecipeViewModel.class);
+        if (!mModel.isSinglePage())
+            setHasOptionsMenu(true);    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -201,6 +203,8 @@ public class RecipeEditFragment extends Fragment {
             ((EditText) mView.findViewById(R.id.recipe_title)).setText("");
             ((EditText) mView.findViewById(R.id.recipe_description)).setText("");
             btnDeleteRecipe.setVisibility(View.GONE);
+            ingredientsTable.removeAllViews();
+            mIngredients = null;
             return;
         }
         if(mView != null) {
@@ -215,6 +219,10 @@ public class RecipeEditFragment extends Fragment {
             btnDeleteRecipe.setVisibility(View.VISIBLE);
         }
 
+        TextView txtTitle = mView.findViewById(R.id.txtRecipeTitle);
+        if(txtTitle != null) {
+            txtTitle.setText(R.string.edit_recipe);
+        }
 
         ((EditText) mView.findViewById(R.id.recipe_title)).setText(recipe.getTitle());
         ((EditText) mView.findViewById(R.id.recipe_description)).setText(recipe.getDescription());

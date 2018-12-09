@@ -51,10 +51,15 @@ public class RecipeViewModel extends AndroidViewModel {
 
         mRepository = FSRepository.getInstance();
         mSelectedRecipeId = new MutableLiveData<>();
-//        mSelectedRecipe = Transformations.switchMap(mSelectedRecipeId,
-//                recipeId -> recipeId != null ?
-//                mRepository.getRecipeById(recipeId) :
-//                new LiveData<IRecipe>(){});
+        mSelectedRecipe = Transformations.switchMap(mSelectedRecipeId,
+                recipeId -> recipeId != null ?
+                mRepository.getRecipeById(recipeId) :
+                new LiveData<IRecipe>(){});
+
+        mSelectedRecipeIngredients = Transformations.switchMap(mSelectedRecipeId,
+                recipeId -> recipeId != null ?
+                mRepository.getIngredientsForRecipeById(recipeId) :
+                new LiveData<List<IIngredient>>(){});
 
         mMode = new MutableLiveData<>();
 
@@ -68,17 +73,13 @@ public class RecipeViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<IIngredient>> getIngredientsForSelectedRecipe() {
-        if (mSelectedRecipeIngredients == null) {
-            mSelectedRecipeIngredients = Transformations.switchMap(mSelectedRecipeId, recipeId -> recipeId != null ?
-                    mRepository.getIngredientsForRecipeById(recipeId) :
-                            new LiveData<List<IIngredient>>(){});
-        }
         return mSelectedRecipeIngredients;
     }
 
     public LiveData<IRecipe> getSelectedRecipe() {
-        String userId = mSelectedRecipeId.getValue();
-        return userId != null ? mRepository.getRecipeById(userId) : new LiveData<IRecipe>() {};
+        return mSelectedRecipe;
+//        String userId = mSelectedRecipeId.getValue();
+//        return userId != null ? mRepository.getRecipeById(userId) : new LiveData<IRecipe>() {};
     }
 
     public void selectRecipeById(String recipeId) {
