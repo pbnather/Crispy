@@ -86,13 +86,11 @@ public class RecipeEditFragment extends Fragment {
 
         Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
         mRecipeToolbarImage = mView.findViewById(R.id.recipeImageToolbar);
+
         if(superToolbar != null) {
             superToolbar.setTitle(getText(R.string.edit_recipe));
             mActivity.setToolbar(superToolbar);
         }
-
-       // mActivity.setMainToolbarWithNavigation(getText(R.string.edit_recipe).toString());
-
 
         added = new ArrayList<>();
         deleted = new ArrayList<>();

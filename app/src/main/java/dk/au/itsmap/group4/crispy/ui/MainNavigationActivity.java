@@ -62,12 +62,15 @@ public class MainNavigationActivity extends AuthActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+
     @Override
     public void setMainToolbar(String title){
         mToolbar = findViewById(R.id.mainToolbar);
         mToolbar.setVisibility(View.VISIBLE);
         mToolbar.setTitle(title);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
 
     @Override
