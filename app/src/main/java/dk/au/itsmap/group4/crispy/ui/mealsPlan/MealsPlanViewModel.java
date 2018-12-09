@@ -50,7 +50,7 @@ public class MealsPlanViewModel extends ViewModel {
                 if(prevMeal == null) {
                     day = new Day(meal.getDate());
                     day.meals.add(meal);
-                } else if (!(sdf.format(meal.getDate()).equals(sdf.format(prevMeal.getDate())))) {
+                } else if (!(meal.getDate() != null && sdf.format(meal.getDate()).equals(sdf.format(prevMeal.getDate())))) {
                     days.add(day);
                     // first meal in a day
                     day = new Day(meal.getDate());
@@ -59,10 +59,14 @@ public class MealsPlanViewModel extends ViewModel {
                     // next meal in a day
                     day.meals.add(meal);
                 }
-//                TODO: if(day.meals.size() == 4);
-                prevMeal = meal;
+                if(day.meals.size() == 4) {
+                    days.add(day);
+                    prevMeal = null;
+                } else {
+                    prevMeal = meal;
+                }
             }
-            days.add(day);
+            if(day != null && prevMeal != null) days.add(day);
             return days;
         });
     }

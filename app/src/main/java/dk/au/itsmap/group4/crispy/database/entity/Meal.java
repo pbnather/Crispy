@@ -81,10 +81,12 @@ public class Meal extends Entity implements IMeal {
     }
 
     @Override
+    @Exclude
     public int getDateMinutes() {
         return date == null ? 0 : time(Calendar.MINUTE);
     }
 
+    @Exclude
     public Calendar getCalendarInstance() {
         Calendar c = Calendar.getInstance();
         c.setTime(date.toDate());
