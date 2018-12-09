@@ -16,9 +16,10 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAllRecipies"
-        tools:listitem="@layout/meals_plan_meal_content" />
+        tools:listitem="@layout/meals_plan_day_item" />
 
     <Button
         android:id="@+id/btnAllRecipies"
@@ -40,6 +41,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
+        android:focusable="true"
         android:src="@mipmap/plus_white"
         app:backgroundTint="@color/crispyAccent"
         app:fabCustomSize="@android:dimen/app_icon_size"

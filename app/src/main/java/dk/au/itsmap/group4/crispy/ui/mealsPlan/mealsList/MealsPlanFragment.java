@@ -78,8 +78,10 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         mAdapter = new MealsPlanRecyclerViewAdapter(mActivity, this);
 
-        // observe for model changes
-        mModel.getAllMeals().observe(mActivity, (meal) -> mAdapter.setData(meal));
+        // observe model for changes
+        mModel.getDays().observe(mActivity, days -> {
+            mAdapter.setData(days);
+        });
 
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
