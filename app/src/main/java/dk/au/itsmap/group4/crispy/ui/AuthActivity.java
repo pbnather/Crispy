@@ -54,6 +54,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                 mIsInteractingWithAccount = true;
                 signIn();
             } else {
+                mIsInteractingWithAccount = false;
                 observeUserGroup();
             }
             updateMenu();
