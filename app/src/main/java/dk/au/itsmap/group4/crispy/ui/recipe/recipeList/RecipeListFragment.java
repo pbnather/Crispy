@@ -47,10 +47,10 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         super.onCreateView(inflater, container, savedInstanceState);
 
         mView = inflater.inflate(R.layout.recipe_list_fragment, container, false);
-
-        mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
+        mActivity.setMainToolbarWithNavigation(getText(R.string.recipies).toString());
 
         // right column is visible only on some resolutions
+        mModel = ViewModelProviders.of(mActivity).get(RecipeViewModel.class);
         mModel.setIsSinglePage(mView.findViewById(R.id.right_column) != null);
         mModel.setMode(RecipeViewModel.Mode.LIST);
 
@@ -84,13 +84,13 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
                         hideFragment(mRecipeEditFragment);
                         // show list in full page width
                         setGuidelinePosition(1f);
+                        break;
                 }
             });
         }
 
         setupFloatingButton();
         setupRecyclerView();
-        mActivity.setMainToolbarWithNavigation(getText(R.string.recipies).toString());
 
         return mView;
 
@@ -100,11 +100,8 @@ public class RecipeListFragment extends Fragment implements RecipesRecyclerViewA
         addRecipeButton = mView.findViewById(R.id.addRecipeButton);
         addRecipeButton.setOnClickListener(view -> {
             mModel.selectRecipe(null);
-            if(mModel.isSinglePage()) {
-                mModel.setMode(RecipeViewModel.Mode.ADD);
-            } else {
-                Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
-            }
+            mModel.setMode(RecipeViewModel.Mode.ADD);
+            Navigation.findNavController(mView).navigate(R.id.recipeEditFragment);
         });
     }
 

@@ -43,8 +43,7 @@ public class RecipeViewModel extends AndroidViewModel {
     private final IRepository mRepository;
     private LiveData<List<IRecipe>> mRecipes;
     private LiveData<IRecipe> mSelectedRecipe;
-    private MutableLiveData<String> mSelectedRecipeId;
-
+    private final MutableLiveData<String> mSelectedRecipeId;
     private LiveData<List<IIngredient>> mSelectedRecipeIngredients;
 
     public RecipeViewModel(@NonNull Application application) {
@@ -52,13 +51,10 @@ public class RecipeViewModel extends AndroidViewModel {
 
         mRepository = FSRepository.getInstance();
         mSelectedRecipeId = new MutableLiveData<>();
-        mSelectedRecipe = Transformations.switchMap(mSelectedRecipeId, recipeId -> {
-            return recipeId != null ? mRepository.getRecipeById(recipeId) : new LiveData<IRecipe>(){};
-        });
-
-        mSelectedRecipeIngredients = Transformations.switchMap(mSelectedRecipeId, recipeId -> {
-            return recipeId != null ? mRepository.getIngredientsForRecipeById(recipeId) : new LiveData<List<IIngredient>>() {};
-        });
+//        mSelectedRecipe = Transformations.switchMap(mSelectedRecipeId,
+//                recipeId -> recipeId != null ?
+//                mRepository.getRecipeById(recipeId) :
+//                new LiveData<IRecipe>(){});
 
         mMode = new MutableLiveData<>();
 
@@ -73,28 +69,24 @@ public class RecipeViewModel extends AndroidViewModel {
 
     public LiveData<List<IIngredient>> getIngredientsForSelectedRecipe() {
         if (mSelectedRecipeIngredients == null) {
-            mSelectedRecipeIngredients = new LiveData<List<IIngredient>>() {};
+            mSelectedRecipeIngredients = Transformations.switchMap(mSelectedRecipeId, recipeId -> recipeId != null ?
+                    mRepository.getIngredientsForRecipeById(recipeId) :
+                            new LiveData<List<IIngredient>>(){});
         }
         return mSelectedRecipeIngredients;
     }
 
-    public LiveData<List<IIngredient>> getIngredientsForRecipeById(String id) {
-        return mRepository.getIngredientsForRecipeById(id);
-    }
-
     public LiveData<IRecipe> getSelectedRecipe() {
-        return mSelectedRecipe;
+        String userId = mSelectedRecipeId.getValue();
+        return userId != null ? mRepository.getRecipeById(userId) : new LiveData<IRecipe>() {};
     }
 
     public void selectRecipeById(String recipeId) {
         mSelectedRecipeId.setValue(recipeId);
     }
+
     public void selectRecipe(IRecipe recipe) {
-        if(recipe != null) {
-            selectRecipeById(recipe.getId());
-        } else {
-            selectRecipeById(null);
-        }
+            selectRecipeById(recipe != null ? recipe.getId() : null);
     }
 
     public void saveRecipe(IRecipe recipe, List<IIngredient> added, List<IIngredient> deleted){
