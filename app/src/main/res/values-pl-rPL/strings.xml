@@ -64,4 +64,5 @@
     <string name="notification_text" translatable="false">Nie przegap dzisiejszego obiadu!</string>
     <string name="notification_title" translatable="false">Sprawdź swój plan na dziś!</string>
     <string name="crispy_planner" translatable="false">Crispy Planner</string>
+    <string name="no_recipe_error">Ten posiłek nie ma przepisu.</string>
 </resources>

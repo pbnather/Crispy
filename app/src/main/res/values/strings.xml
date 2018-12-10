@@ -44,8 +44,6 @@
     <string name="add_description">Add your description</string>
     <string name="delete">Delete</string>
     <string name="delete_meal_message">Meal was deleted!</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="channel_name" translatable="false">Channel Name</string>
     <string name="channel_description" translatable="false">Channel Description</string>
     <string name="notification_title" translatable="false">Check your plan for today!</string>
@@ -74,4 +72,5 @@
     <string name="at">at</string>
     <string name="delete_account_message">Your account will be permanently deleted and you will get signed out.</string>
     <string name="delete_account_dialog_title">Delete account?</string>
+    <string name="no_recipe_error">This meal has no recipe.</string>
 </resources>

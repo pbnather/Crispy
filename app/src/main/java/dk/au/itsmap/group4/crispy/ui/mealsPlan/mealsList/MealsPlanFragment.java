@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -93,7 +94,7 @@ public class MealsPlanFragment extends Fragment implements MealsPlanRecyclerView
             mRecipeModel.selectRecipeById(meal.getRecipeId());
             Navigation.findNavController(mView).navigate(R.id.recipeDetailFragment);
         } else {
-            // TODO: Snackbar or Toast
+            Toast.makeText(mActivity, R.string.no_recipe_error, Toast.LENGTH_LONG).show();
         }
     }
 
