@@ -73,7 +73,7 @@ public class RecipeDetailFragment extends Fragment {
 
         if(!mModel.isSinglePage()) {
             Toolbar superToolbar = mView.findViewById(R.id.detail_toolbar);
-            mActivity.setToolbar(superToolbar); // TODO: fix toolbar in landscape
+            mActivity.setToolbar(superToolbar);
         }
 
         // inflate inner layout to scroll view
