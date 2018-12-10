@@ -136,9 +136,7 @@ public class AddPlannedMealFragment extends Fragment {
         mRecipeName.setAdapter(mRecipesAdapter);
 
         // update selected meal on uer click
-        mRecipeName.setOnItemClickListener((parent, view, position, id) -> {
-            mSelectedRecipe = (IRecipe) parent.getItemAtPosition(position);
-        });
+        mRecipeName.setOnItemClickListener((parent, view, position, id) -> mSelectedRecipe = (IRecipe) parent.getItemAtPosition(position));
     }
 
     private void setupGroupMemberPicker() {

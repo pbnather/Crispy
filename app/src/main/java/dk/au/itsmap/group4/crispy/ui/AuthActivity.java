@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -82,9 +83,9 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                 {
                     signIn();
                 } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    // TODO: Notify user about no internet connection
+                    Toast.makeText(this, getString(R.string.no_internet_connection), Toast.LENGTH_SHORT).show();
                 } else {
-                    // TODO: Notify user about unknown error
+                    Toast.makeText(this, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "Sign-in error: ", response.getError());
                 }
             }
@@ -104,7 +105,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.btnGroceryList:
-                // TODO: go to grocery store
+                // go to grocery store
                 return true;
             case R.id.btnAccount:
                 getNavController().navigate(R.id.accountFragment);

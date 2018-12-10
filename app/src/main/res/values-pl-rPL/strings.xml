@@ -57,11 +57,13 @@
     <string name="account">Twoje konto</string>
     <string name="delete_account">Usuń konto</string>
     <string name="hi">Witaj</string>
-    <string name="more">więcej</string>
-    <string name="at">w</string>
-    <string name="delete_account_message">Twoje konto zostanie trwale usunięte, a Ty się wylogujesz.</string>
-    <string name="delete_account_dialog_title">Usuń konto?</string>
     <string name="notification_text" translatable="false">Nie przegap dzisiejszego obiadu!</string>
     <string name="notification_title" translatable="false">Sprawdź swój plan na dziś!</string>
     <string name="crispy_planner" translatable="false">Crispy Planner</string>
+    <string name="unknown_error">Nieznany błąd.</string>
+    <string name="no_internet_connection">Brak połączenia z internetem.</string>
+    <string name="delete_account_dialog_title">usunąć konto?</string>
+    <string name="delete_account_message">Twoje konto zostanie trwale usunięte.</string>
+    <string name="more">więcej</string>
+    <string name="at">o</string>
 </resources>

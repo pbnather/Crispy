@@ -1,5 +1,7 @@
 package dk.au.itsmap.group4.crispy.database;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -12,6 +14,8 @@ import dk.au.itsmap.group4.crispy.database.entity.Entity;
 
 /* Inspired by https://stackoverflow.com/a/50109176 */
 public class FSDocumentLiveData<T extends U, U> extends LiveData<U> {
+
+    private static final String TAG = "FSDocumentLiveData";
 
     private ListenerRegistration mListenerRegistration;
     private final DocumentSnapshotListener mListener = new DocumentSnapshotListener();
@@ -42,7 +46,7 @@ public class FSDocumentLiveData<T extends U, U> extends LiveData<U> {
         @Override
         public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
             if (e != null) {
-                // TODO: Do something on error
+                Log.e(TAG, "Error querying snapshots", e);
                 return;
             }
             if (documentSnapshot != null && documentSnapshot.exists()) {

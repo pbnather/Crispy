@@ -266,7 +266,6 @@ public class FSRepository implements IRepository {
 
     @Override
     public String saveRecipeWithIngredients(@NonNull IRecipe recipe, List<IIngredient> ingredients) {
-        // TODO: Test if ingredients can be null, if so change saveRecipe()
         // Initialize batch
         WriteBatch batch = mFirestore.batch();
         // Get recipe reference and add it to the batch
@@ -296,7 +295,6 @@ public class FSRepository implements IRepository {
 
     @Override
     public void deleteRecipe(@NonNull String recipeId) {
-        // TODO: Delete also all the documents in the `ingredients` subcollection
         DocumentReference recipeRef = mRecipes.document(recipeId);
         recipeRef
                 .delete()
