@@ -38,26 +38,26 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     private FirebaseUser mUser;
     private LiveData<List<IUserGroup>> mUserGroup;
     private boolean mIsInteractingWithAccount = false;
+    private boolean mIsSigningIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mAuth = ViewModelProviders.of(this).get(AuthViewModel.class);
-
+        mIsSigningIn = false;
         mUserGroup = new LiveData<List<IUserGroup>>() {};
         LiveData<FirebaseUser> firebaseUser = mAuth.getCurrentUser();
         firebaseUser.observeForever(user -> {
             mUser = user;
-            if (user == null) {
-                stopObservingUserGroup();
-                mIsInteractingWithAccount = true;
-                signIn();
-            } else {
-                mIsInteractingWithAccount = false;
-                observeUserGroup();
-            }
-            updateMenu();
+                if (user == null) {
+                    stopObservingUserGroup();
+                    if(!mIsSigningIn) signIn();
+                } else {
+                    observeUserGroup();
+                    mIsInteractingWithAccount = false;
+                }
+                updateMenu();
         });
 
     }
@@ -66,6 +66,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mIsInteractingWithAccount = false;
+        mIsSigningIn = false;
         if (requestCode == RC_SIGN_IN) {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
@@ -79,7 +80,6 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
             } else {
                 if (response == null)
                 {
-                    mIsInteractingWithAccount = true;
                     signIn();
                 } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
                     // TODO: Notify user about no internet connection
@@ -118,7 +118,7 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
     /* Adapted from https://stackoverflow.com/a/37116931 */
     private void updateMenu() {
         if(mMenu == null) return;
-        if(mIsInteractingWithAccount) return;
+        if(mIsInteractingWithAccount || mIsSigningIn) return;
         GlideApp.with(this)
                 .asDrawable()
                 .load(getUserPhotoUrl())
@@ -130,18 +130,22 @@ public abstract class AuthActivity extends AppCompatActivity implements INavigat
                     }});
     }
 
-    private void signIn() {
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
+    public void signIn() {
+        if (!mIsSigningIn) {
+            mIsSigningIn = true;
+            mIsInteractingWithAccount = true;
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder().build(),
+                    new AuthUI.IdpConfig.GoogleBuilder().build());
 
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .setTheme(R.style.Crispy)
-                        .setLogo(R.drawable.crispy_icon)
-                        .build(), RC_SIGN_IN);
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .setTheme(R.style.Crispy)
+                            .setLogo(R.drawable.crispy_icon)
+                            .build(), RC_SIGN_IN);
+        }
     }
 
     @Override
