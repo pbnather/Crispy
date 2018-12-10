@@ -20,6 +20,8 @@ import dk.au.itsmap.group4.crispy.model.IUserGroup;
 
 public class AuthViewModel extends AndroidViewModel {
 
+    private final static String TAG = "AuthActivity";
+
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();;
     private final FirebaseAuthLiveData mUser = new FirebaseAuthLiveData();
     private final FSRepository mRepository = FSRepository.getInstance();
@@ -49,15 +51,19 @@ public class AuthViewModel extends AndroidViewModel {
         String userId = mUser.getValue().getUid();
         if(userId == null) return;
         mRepository.getUserGroup(userId).observe((AuthActivity)context, group -> {
-            AuthUI.getInstance().delete(context).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // Deletion succeeded
-                    mRepository.deleteUser(userId, group.get(0));
-                } else {
-                    // Deletion failed
-                    Log.w("TAG", "Deleting user failed :c");
-                }
-            });
+            if(group != null) {
+                AuthUI.getInstance().delete(context).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Deletion succeeded
+                        if(!group.isEmpty()) mRepository.deleteUser(userId, group.get(0));
+                        ((AuthActivity) context).signIn();
+                    } else {
+                        // Deletion failed
+                        Log.w(TAG, "Deleting user failed :c");
+                        AuthUI.getInstance().signOut(context);
+                    }
+                });
+            }
         });
     }
 
