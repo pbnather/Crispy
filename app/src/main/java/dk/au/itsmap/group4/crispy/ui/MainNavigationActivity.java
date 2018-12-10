@@ -1,6 +1,5 @@
 package dk.au.itsmap.group4.crispy.ui;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 

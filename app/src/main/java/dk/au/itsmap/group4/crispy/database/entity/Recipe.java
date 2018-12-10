@@ -3,7 +3,6 @@ package dk.au.itsmap.group4.crispy.database.entity;
 import com.google.firebase.firestore.Exclude;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import dk.au.itsmap.group4.crispy.model.IRecipe;
 
 public class Recipe extends Entity implements IRecipe {

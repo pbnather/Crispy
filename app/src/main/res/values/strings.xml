@@ -73,4 +73,6 @@
     <string name="delete_account_message">Your account will be permanently deleted and you will get signed out.</string>
     <string name="delete_account_dialog_title">Delete account?</string>
     <string name="no_recipe_error">This meal has no recipe.</string>
+    <string name="no_internet_connection">No internet connection.</string>
+    <string name="unknown_error">Unknown error.</string>
 </resources>

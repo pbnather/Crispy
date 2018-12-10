@@ -97,14 +97,13 @@ public class AccountFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO: Use the ViewModel
     }
 
     private void displayGroupMembers(IUserGroup group, LayoutInflater inflater, ViewGroup container) {
         groupTable.removeAllViews();
         if(group != null) {
             TextView groupName = rootView.findViewById(R.id.groupName);
-            groupName.setText(group.getName() + ":");
+            groupName.setText(String.format("%s:", group.getName()));
 
             for (int i = 0; i < group.getAllUsers().size(); i++) {
                 // add array of views

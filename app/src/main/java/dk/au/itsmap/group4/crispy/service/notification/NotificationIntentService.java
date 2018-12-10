@@ -22,7 +22,6 @@ import dk.au.itsmap.group4.crispy.model.IRepository;
 public class NotificationIntentService extends IntentService {
 
     NotificationFactory mNotificationHelper;
-    private IRepository mRepository;
 
     public NotificationIntentService() {
         super("NotificationIntentService");
@@ -33,7 +32,7 @@ public class NotificationIntentService extends IntentService {
 
         mNotificationHelper = new NotificationFactory(this);
 
-        mRepository = FSRepository.getInstance();
+        IRepository mRepository = FSRepository.getInstance();
 
         Log.d("NOTIFICATION", "Alarm clock fired");
 

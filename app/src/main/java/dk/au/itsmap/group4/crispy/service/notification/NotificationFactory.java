@@ -9,10 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.format.DateUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
