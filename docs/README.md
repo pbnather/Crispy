@@ -3,7 +3,7 @@
 Crispy is an Android application created during ITSMAP course at Aarhus University, Denmark.  
 It won Community Award in the ITSMAP E2018 student contest (December 2018).
 
-As one can read in project's [report](https://github.com/pbnather/Crispy/blob/master/docs/Crispy_Project_Report.pdf):
+As one can read in the [project's report](https://github.com/pbnather/Crispy/blob/master/docs/Crispy_Project_Report.pdf):
 
 > The mission of our app is to make storing recipes,  planning meals and doing
 groceries, for the whole family, as easy as possible.  An intuitive UI will allow
