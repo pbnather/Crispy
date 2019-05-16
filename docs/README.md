@@ -3,7 +3,7 @@
 Crispy is an Android application created during ITSMAP course at Aarhus University, Denmark.  
 It won Community Award in the ITSMAP E2018 student contest (December 2018).
 
-As one can read in project's report:
+As one can read in project's [report](https://github.com/pbnather/Crispy/blob/master/docs/Crispy_Project_Report.pdf):
 
 > The mission of our app is to make storing recipes,  planning meals and doing
 groceries, for the whole family, as easy as possible.  An intuitive UI will allow
@@ -26,7 +26,8 @@ Crispy was developed by:
 
 Crispy was developed using Android SDK (Java) and Architecture Components.  
 There are only two activities, one of which is FirebaseUI activity for user authentication.  
-All other views are made with fragments. The app also relies on some third-party libraries. 
+All other views are made with fragments. The app also relies on some third-party libraries.  
+One can read more in the [project's report](https://github.com/pbnather/Crispy/blob/master/docs/Crispy_Project_Report.pdf).
 
 ## Android 
 
