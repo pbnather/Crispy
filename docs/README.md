@@ -40,3 +40,5 @@ All other views are made with fragments. The app also relies on some third-party
 * Glide
 * Retrofit
 * FoodAPI
+* FirebaseUI
+* Firebase SDK
